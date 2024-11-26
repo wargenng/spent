@@ -1,5 +1,5 @@
 {
-  "name": "simplespending",
+  "name": "",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,9 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/db": "^0.14.3",
     "astro": "^4.16.15",
+    "@astrojs/check": "^0.9.4",
     "typescript": "^5.7.2"
   }
 }
