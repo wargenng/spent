@@ -33,10 +33,10 @@ const comments = await db.select().from(Comment);
 
 <Layout title="Home">
     <form method="POST" class="grid lg:w-1/2">
-        <Label for="author">Author</Label>
+        <Label htmlFor="author">Author</Label>
         <Input id="author" name="author" />
 
-        <Label for="body">Body</Label>
+        <Label htmlFor="body">Body</Label>
         <Textarea id="body" name="body" />
 
         <Button type="submit">Submit</Button>
