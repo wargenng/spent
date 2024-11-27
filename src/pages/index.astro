@@ -6,9 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import Layout from "../layouts/Layout.astro";
 
 if (Astro.request.method === "POST") {
+    const user = Astro.locals.auth();
+
     // Parse form data
     const formData = await Astro.request.formData();
     const author = formData.get("author");
@@ -32,14 +42,35 @@ const comments = await db.select().from(Comment);
 ---
 
 <Layout title="Home">
-    <form method="POST" class="grid lg:w-1/2">
-        <Label htmlFor="author">Author</Label>
-        <Input id="author" name="author" />
+    <form method="POST" class="grid p-6">
+        <Card>
+            <CardHeader>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>Card Description</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Label htmlFor="author">Date</Label>
+                <Input id="author" name="author" />
 
-        <Label htmlFor="body">Body</Label>
-        <Textarea id="body" name="body" />
+                <Label htmlFor="body">Amount</Label>
+                <Input id="body" name="body" />
 
-        <Button type="submit">Submit</Button>
+                <Label htmlFor="body">Card Used</Label>
+                <Input id="body" name="body" />
+
+                <Label htmlFor="body">Purchase Type</Label>
+                <Input id="body" name="body" />
+
+                <Label htmlFor="body">Description</Label>
+                <Input id="body" name="body" />
+
+                <Label htmlFor="body">Notes</Label>
+                <Input id="body" name="body" />
+            </CardContent>
+            <CardFooter>
+                <Button type="submit">Submit</Button>
+            </CardFooter>
+        </Card>
     </form>
 
     <h2>Comments</h2>
