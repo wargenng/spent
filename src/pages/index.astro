@@ -16,6 +16,9 @@ if (Astro.request.method === "POST") {
         console.log(newauthor);
         await db.insert(Comment).values({ authorId: newauthor[0].id, body });
     }
+
+    // Redirect to avoid resubmitting the form on refresh
+    return Astro.redirect(Astro.url.pathname);
 }
 
 // Render the new list of comments on each request
