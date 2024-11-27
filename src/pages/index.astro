@@ -1,6 +1,11 @@
 ---
 import { Author } from "astro:db";
 import { db, Comment } from "astro:db";
+import "@/styles/globals.css";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 if (Astro.request.method === "POST") {
     // Parse form data
@@ -25,14 +30,14 @@ if (Astro.request.method === "POST") {
 const comments = await db.select().from(Comment);
 ---
 
-<form method="POST" style="display: grid">
-    <label for="author">Author</label>
-    <input id="author" name="author" />
+<form method="POST" class="grid w-1/2">
+    <Label for="author">Author</Label>
+    <Input id="author" name="author" />
 
-    <label for="body">Body</label>
-    <textarea id="body" name="body"></textarea>
+    <Label for="body">Body</Label>
+    <Textarea id="body" name="body" />
 
-    <button type="submit">Submit</button>
+    <Button type="submit">Submit</Button>
 </form>
 
 <h2>Comments</h2>
