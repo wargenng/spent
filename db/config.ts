@@ -17,6 +17,7 @@ const Comment = defineTable({
 const Payment = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
+        userId: column.number(),
         date: column.date(),
         amount: column.number(),
         cardId: column.number({ references: () => Card.columns.id }),
@@ -33,6 +34,7 @@ const Payment = defineTable({
 const Card = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
+        userId: column.number(),
         name: column.text(),
         company: column.text(),
         lastFour: column.text(),
@@ -44,6 +46,7 @@ const Card = defineTable({
 const PurchaseType = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
+        userId: column.number(),
         name: column.text(),
         creationDate: column.date({ default: new Date() }),
         updatedDate: column.date({ default: new Date() }),
