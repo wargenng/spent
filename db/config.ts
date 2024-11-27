@@ -25,6 +25,8 @@ const Payment = defineTable({
         }),
         description: column.text(),
         notes: column.text(),
+        creationDate: column.date({ default: new Date() }),
+        updatedDate: column.date({ default: new Date() }),
     },
 });
 
@@ -32,7 +34,10 @@ const Card = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         name: column.text(),
+        company: column.text(),
         lastFour: column.text(),
+        creationDate: column.date({ default: new Date() }),
+        updatedDate: column.date({ default: new Date() }),
     },
 });
 
@@ -40,6 +45,8 @@ const PurchaseType = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         name: column.text(),
+        creationDate: column.date({ default: new Date() }),
+        updatedDate: column.date({ default: new Date() }),
     },
 });
 
