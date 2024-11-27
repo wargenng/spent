@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Layout from "../layouts/Layout.astro";
 
 if (Astro.request.method === "POST") {
     // Parse form data
@@ -30,23 +31,25 @@ if (Astro.request.method === "POST") {
 const comments = await db.select().from(Comment);
 ---
 
-<form method="POST" class="grid w-1/2">
-    <Label for="author">Author</Label>
-    <Input id="author" name="author" />
+<Layout title="Home">
+    <form method="POST" class="grid lg:w-1/2">
+        <Label for="author">Author</Label>
+        <Input id="author" name="author" />
 
-    <Label for="body">Body</Label>
-    <Textarea id="body" name="body" />
+        <Label for="body">Body</Label>
+        <Textarea id="body" name="body" />
 
-    <Button type="submit">Submit</Button>
-</form>
+        <Button type="submit">Submit</Button>
+    </form>
 
-<h2>Comments</h2>
+    <h2>Comments</h2>
 
-{
-    comments.map(({ authorId, body }) => (
-        <article>
-            <p>Author: {authorId}</p>
-            <p>{body}</p>
-        </article>
-    ))
-}
+    {
+        comments.map(({ authorId, body }) => (
+            <article>
+                <p>Author: {authorId}</p>
+                <p>{body}</p>
+            </article>
+        ))
+    }
+</Layout>
