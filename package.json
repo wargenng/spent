@@ -1,18 +1,18 @@
 {
-  "name": "",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/db": "^0.14.3",
-    "astro": "^4.16.15",
-    "typescript": "^5.7.2"
-  }
+    "name": "",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev --remote",
+        "start": "astro dev ",
+        "build": "astro check && astro build --remote",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/check": "^0.9.4",
+        "@astrojs/db": "^0.14.3",
+        "astro": "^4.16.15",
+        "typescript": "^5.7.2"
+    }
 }
