@@ -1,78 +1,14 @@
 ---
-import { Author } from "astro:db";
-import { db, Comment } from "astro:db";
+import PaymentEntry from "@/components/paymententry.astro";
 import "@/styles/globals.css";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Comment, db } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 
-if (Astro.request.method === "POST") {
-    const user = Astro.locals.auth();
-
-    // Parse form data
-    const formData = await Astro.request.formData();
-    const author = formData.get("author");
-    const body = formData.get("body");
-    if (typeof author === "string" && typeof body === "string") {
-        // Insert form data into the Comment table
-        const newauthor = await db
-            .insert(Author)
-            .values({ name: author })
-            .returning();
-        console.log(newauthor);
-        await db.insert(Comment).values({ authorId: newauthor[0].id, body });
-    }
-
-    // Redirect to avoid resubmitting the form on refresh
-    return Astro.redirect(Astro.url.pathname);
-}
-
-// Render the new list of comments on each request
 const comments = await db.select().from(Comment);
 ---
 
 <Layout title="Home">
-    <form method="POST" class="grid p-6">
-        <Card>
-            <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Label htmlFor="author">Date</Label>
-                <Input id="author" name="author" />
-
-                <Label htmlFor="body">Amount</Label>
-                <Input id="body" name="body" />
-
-                <Label htmlFor="body">Card Used</Label>
-                <Input id="body" name="body" />
-
-                <Label htmlFor="body">Purchase Type</Label>
-                <Input id="body" name="body" />
-
-                <Label htmlFor="body">Description</Label>
-                <Input id="body" name="body" />
-
-                <Label htmlFor="body">Notes</Label>
-                <Input id="body" name="body" />
-            </CardContent>
-            <CardFooter>
-                <Button type="submit">Submit</Button>
-            </CardFooter>
-        </Card>
-    </form>
-
+    <PaymentEntry />
     <h2>Comments</h2>
 
     {

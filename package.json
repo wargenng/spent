@@ -1,10 +1,11 @@
 {
-    "name": "spend-check",
+    "name": "spent",
     "type": "module",
     "version": "0.0.1",
     "scripts": {
         "dev": "astro dev --remote",
         "start": "astro dev ",
+        "local": "astro dev --remote --host",
         "build": "astro check && astro build --remote",
         "preview": "astro preview",
         "astro": "astro"
