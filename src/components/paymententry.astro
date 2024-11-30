@@ -13,6 +13,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { PaymentEntry } from "@/components/paymententry";
 
 if (Astro.request.method === "POST") {
     const user = Astro.locals.auth();
@@ -37,6 +38,7 @@ if (Astro.request.method === "POST") {
 ---
 
 <div>
+    <PaymentEntry client:load />
     <form method="POST" class="grid p-6">
         <Card>
             <CardHeader>
