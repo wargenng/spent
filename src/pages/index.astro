@@ -1,14 +1,14 @@
 ---
-import PaymentEntry from "@/components/paymententry.astro";
 import "@/styles/globals.css";
 import { Comment, db } from "astro:db";
 import Layout from "../layouts/Layout.astro";
+import { PaymentEntry } from "@/components/paymententry";
 
 const comments = await db.select().from(Comment);
 ---
 
 <Layout title="Home">
-    <PaymentEntry />
+    <PaymentEntry client:load />
     <h2>Comments</h2>
 
     {
