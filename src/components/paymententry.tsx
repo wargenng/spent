@@ -27,7 +27,6 @@ export const PaymentEntry = ({ children }: PaymentEntryProps) => {
                 </DrawerHeader>
                 {children}
                 <DrawerFooter>
-                    <Button>Submit</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DrawerClose>

@@ -1,10 +1,6 @@
 ---
-import { Author } from "astro:db";
-import { db, Comment } from "astro:db";
-import "@/styles/globals.css";
+import { PaymentEntry } from "@/components/paymententry";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Card,
     CardContent,
@@ -13,24 +9,38 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { PaymentEntry } from "@/components/paymententry";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import "@/styles/globals.css";
+import { db, Payment } from "astro:db";
 
 if (Astro.request.method === "POST") {
-    const user = Astro.locals.auth();
+    const userId = String(Astro.locals.auth().userId);
+    console.log(Astro.locals.auth());
+
+    if (!userId) {
+        return;
+    }
 
     // Parse form data
     const formData = await Astro.request.formData();
-    const author = formData.get("author");
-    const body = formData.get("body");
-    if (typeof author === "string" && typeof body === "string") {
-        // Insert form data into the Comment table
-        const newauthor = await db
-            .insert(Author)
-            .values({ name: author })
-            .returning();
-        console.log(newauthor);
-        await db.insert(Comment).values({ authorId: newauthor[0].id, body });
-    }
+    const date = formData.get("date");
+    const amount = formData.get("amount");
+    const card = formData.get("card");
+    const purchaseType = formData.get("purchaseType");
+    const desc = formData.get("desc");
+    const notes = formData.get("notes");
+
+    // Insert form data into the Comment table
+    await db.insert(Payment).values({
+        userId: "user_2pfuozDElbSSDeaLUkim0EwoUx1",
+        date: new Date(),
+        amount: 0,
+        cardId: 1,
+        purchaseTypeId: 1,
+        description: "asdfasdf",
+        notes: "sdfasdfas",
+    });
 
     // Redirect to avoid resubmitting the form on refresh
     return Astro.redirect(Astro.url.pathname);
