@@ -1,5 +1,5 @@
 ---
-import PaymentEntry from "@/components/paymententry.astro";
+import { Button } from "@/components/ui/button";
 import "@/styles/globals.css";
 import { db, Payment } from "astro:db";
 import Layout from "../layouts/Layout.astro";
@@ -8,9 +8,11 @@ const payments = await db.select().from(Payment);
 ---
 
 <Layout title="Home">
-    <PaymentEntry />
-    <h2>Payments</h2>
+    <a href="/paymentform">
+        <Button>Payment Entry</Button>
+    </a>
 
+    <h2>Payments</h2>
     {
         payments.map(({ date, amount }) => (
             <article>

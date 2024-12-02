@@ -1,0 +1,81 @@
+---
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Layout from "@/layouts/Layout.astro";
+import "@/styles/globals.css";
+import { db, Payment } from "astro:db";
+
+if (Astro.request.method === "POST") {
+    const userId = String(Astro.locals.auth().userId);
+    console.log(Astro.locals.auth());
+
+    if (!userId) {
+        return;
+    }
+
+    // Parse form data
+    const formData = await Astro.request.formData();
+    const date = formData.get("date");
+    const amount = formData.get("amount");
+    const card = formData.get("card");
+    const purchaseType = formData.get("purchaseType");
+    const desc = formData.get("desc");
+    const notes = formData.get("notes");
+
+    // Insert form data into the Comment table
+    await db.insert(Payment).values({
+        userId: "user_2pfuozDElbSSDeaLUkim0EwoUx1",
+        date: new Date(),
+        amount: 0,
+        cardId: 1,
+        purchaseTypeId: 1,
+        description: "asdfasdf",
+        notes: "sdfasdfas",
+    });
+
+    // Redirect to avoid resubmitting the form on refresh
+    return Astro.redirect("/");
+}
+---
+
+<Layout title="PaymentForm">
+    <form method="POST" class="grid p-6">
+        <Card>
+            <CardHeader>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>Card Description</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Label htmlFor="date">Date</Label>
+                <Input id="date" name="date" type="date" />
+
+                <Label htmlFor="amount">Amount</Label>
+                <Input id="amount" name="amount" type="number" />
+
+                <Label htmlFor="card">Card Used</Label>
+                <Input id="card" name="card" />
+
+                <Label htmlFor="purchaseType">Purchase Type</Label>
+                <Input id="purchaseType" name="purchaseType" />
+
+                <Label htmlFor="desc">Description</Label>
+                <Input id="desc" name="desc" />
+
+                <Label htmlFor="notes">Notes</Label>
+                <Input id="notes" name="notes" />
+            </CardContent>
+            <CardFooter>
+                <Button type="submit">Submit</Button>
+            </CardFooter>
+        </Card>
+    </form>
+</Layout>
