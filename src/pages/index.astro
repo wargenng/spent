@@ -1,21 +1,20 @@
 ---
-import "@/styles/globals.css";
-import { Comment, db } from "astro:db";
-import Layout from "../layouts/Layout.astro";
 import { PaymentEntry } from "@/components/paymententry";
+import "@/styles/globals.css";
+import { db, Payment } from "astro:db";
+import Layout from "../layouts/Layout.astro";
 
-const comments = await db.select().from(Comment);
+const payment = await db.select().from(Payment);
 ---
 
 <Layout title="Home">
     <PaymentEntry client:load />
-    <h2>Comments</h2>
-
+    <h2>Payments</h2>
     {
-        comments.map(({ authorId, body }) => (
+        payment.map(({ date, amount }) => (
             <article>
-                <p>Author: {authorId}</p>
-                <p>{body}</p>
+                <p>{date}</p>
+                <p>{amount}</p>
             </article>
         ))
     }
