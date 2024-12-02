@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import "@/styles/globals.css";
 import { db, Payment } from "astro:db";
 import Layout from "../layouts/Layout.astro";
+import { Card } from "@/components/ui/card";
 
 const payments = await db.select().from(Payment);
 ---
@@ -12,13 +13,18 @@ const payments = await db.select().from(Payment);
         <Button>Payment Entry</Button>
     </a>
 
-    <h2>Payments</h2>
+    <h2>Purchases</h2>
     {
         payments.map(({ date, amount }) => (
-            <article>
-                <p>{date}</p>
-                <p>{amount}</p>
-            </article>
+            <Card>
+                <p>{new Date(date).toLocaleDateString("en-US")}</p>
+                <p>
+                    {amount.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                    })}
+                </p>
+            </Card>
         ))
     }
 </Layout>
