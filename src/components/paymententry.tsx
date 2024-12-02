@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
 
-export const PaymentEntry = () => {
+interface PaymentEntryProps {
+    children: React.ReactNode;
+}
+
+export const PaymentEntry = ({ children }: PaymentEntryProps) => {
     return (
         <Drawer>
             <DrawerTrigger>Open</DrawerTrigger>
@@ -21,6 +25,7 @@ export const PaymentEntry = () => {
                         This action cannot be undone.
                     </DrawerDescription>
                 </DrawerHeader>
+                {children}
                 <DrawerFooter>
                     <Button>Submit</Button>
                     <DrawerClose asChild>

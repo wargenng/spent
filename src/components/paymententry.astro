@@ -38,35 +38,36 @@ if (Astro.request.method === "POST") {
 ---
 
 <div>
-    <PaymentEntry client:load />
-    <form method="POST" class="grid p-6">
-        <Card>
-            <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Label htmlFor="author">Date</Label>
-                <Input id="author" name="author" type="date" />
+    <PaymentEntry client:load>
+        <form method="POST" class="grid p-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Card Title</CardTitle>
+                    <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Label htmlFor="date">Date</Label>
+                    <Input id="date" name="date" type="date" />
 
-                <Label htmlFor="body">Amount</Label>
-                <Input id="body" name="body" type="number" />
+                    <Label htmlFor="amount">Amount</Label>
+                    <Input id="amount" name="amount" type="number" />
 
-                <Label htmlFor="body">Card Used</Label>
-                <Input id="body" name="body" />
+                    <Label htmlFor="card">Card Used</Label>
+                    <Input id="card" name="card" />
 
-                <Label htmlFor="body">Purchase Type</Label>
-                <Input id="body" name="body" />
+                    <Label htmlFor="purchaseType">Purchase Type</Label>
+                    <Input id="purchaseType" name="purchaseType" />
 
-                <Label htmlFor="body">Description</Label>
-                <Input id="body" name="body" />
+                    <Label htmlFor="desc">Description</Label>
+                    <Input id="desc" name="desc" />
 
-                <Label htmlFor="body">Notes</Label>
-                <Input id="body" name="body" />
-            </CardContent>
-            <CardFooter>
-                <Button type="submit">Submit</Button>
-            </CardFooter>
-        </Card>
-    </form>
+                    <Label htmlFor="notes">Notes</Label>
+                    <Input id="notes" name="notes" />
+                </CardContent>
+                <CardFooter>
+                    <Button type="submit">Submit</Button>
+                </CardFooter>
+            </Card>
+        </form>
+    </PaymentEntry>
 </div>
