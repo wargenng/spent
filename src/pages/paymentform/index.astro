@@ -16,8 +16,6 @@ import { db, Payment } from "astro:db";
 
 if (Astro.request.method === "POST") {
     const userId = String(Astro.locals.auth().userId);
-    console.log(Astro.locals.auth());
-
     if (!userId) {
         return;
     }

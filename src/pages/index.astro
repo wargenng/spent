@@ -1,11 +1,20 @@
 ---
 import { Button } from "@/components/ui/button";
 import "@/styles/globals.css";
-import { db, Payment } from "astro:db";
+import { db, desc, Payment } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 import { Card } from "@/components/ui/card";
+import { eq } from "astro:db";
 
-const payments = await db.select().from(Payment);
+const userId = String(Astro.locals.auth().userId);
+if (!userId) {
+    return;
+}
+const payments = await db
+    .select()
+    .from(Payment)
+    .where(eq(Payment.userId, userId))
+    .orderBy(desc(Payment.date));
 ---
 
 <Layout title="Home">
