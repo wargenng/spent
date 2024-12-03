@@ -1,10 +1,10 @@
 ---
+import PaymentCard from "@/components/paymentcard.astro";
 import { Button } from "@/components/ui/button";
 import "@/styles/globals.css";
-import { db, desc, Payment } from "astro:db";
+import type { Payment as PaymentType } from "@/types/db";
+import { db, desc, eq, Payment } from "astro:db";
 import Layout from "../layouts/Layout.astro";
-import { Card } from "@/components/ui/card";
-import { eq } from "astro:db";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
@@ -18,22 +18,15 @@ const payments = await db
 ---
 
 <Layout title="Home">
-    <a href="/paymentform">
-        <Button>Payment Entry</Button>
-    </a>
-
-    <h2>Purchases</h2>
-    {
-        payments.map(({ date, amount }) => (
-            <Card>
-                <p>{new Date(date).toLocaleDateString("en-US")}</p>
-                <p>
-                    {amount.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                    })}
-                </p>
-            </Card>
-        ))
-    }
+    <div class="space-y-4 p-4">
+        <a href="/paymentform">
+            <Button>Payment Entry</Button>
+        </a>
+        <h2>Purchases</h2>
+        {
+            payments.map((payment: PaymentType) => (
+                <PaymentCard payment={payment} />
+            ))
+        }
+    </div>
 </Layout>

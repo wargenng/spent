@@ -1,0 +1,39 @@
+---
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import "@/styles/globals.css";
+import type { Payment } from "@/types/db";
+import { Button } from "./ui/button";
+
+interface Props {
+    payment: Payment;
+}
+
+const { payment } = Astro.props;
+---
+
+<Card>
+    <CardHeader>
+        <CardTitle>{payment.description}</CardTitle>
+    </CardHeader>
+    <CardContent>
+        <p>{new Date(payment.date).toLocaleDateString("en-US")}</p>
+        <p>
+            {
+                payment.amount.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                })
+            }
+        </p>
+    </CardContent>
+    <CardFooter className="space-x-2">
+        <Button> Edit </Button>
+        <Button> Delete </Button>
+    </CardFooter>
+</Card>
