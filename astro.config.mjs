@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 import node from "@astrojs/node";
 import clerk from "@clerk/astro";
 
+import vercel from "@astrojs/vercel/serverless";
+
 // https://astro.build/config
 export default defineConfig({
     integrations: [
@@ -17,6 +19,6 @@ export default defineConfig({
         clerk(),
         react(),
     ],
-    adapter: node({ mode: "standalone" }),
+    adapter: vercel(),
     output: "server",
 });
