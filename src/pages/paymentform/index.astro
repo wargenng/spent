@@ -24,22 +24,26 @@ if (Astro.request.method === "POST") {
 
     // Parse form data
     const formData = await Astro.request.formData();
-    const date = formData.get("date");
-    const amount = formData.get("amount");
-    const card = formData.get("card");
-    const purchaseType = formData.get("purchaseType");
-    const desc = formData.get("desc");
-    const notes = formData.get("notes");
+    const date = formData.get("date") as string;
+    const amount = formData.get("amount") as string;
+    const card = formData.get("card") as string;
+    const purchaseType = formData.get("purchaseType") as string;
+    const desc = formData.get("desc") as string;
+    const notes = formData.get("notes") as string;
+    if (!date || !amount || !card || !purchaseType) {
+        console.log("Missing form data");
+        return;
+    }
 
     // Insert form data into the Comment table
     await db.insert(Payment).values({
-        userId: "user_2pfuozDElbSSDeaLUkim0EwoUx1",
-        date: new Date(),
-        amount: 0,
-        cardId: 1,
-        purchaseTypeId: 1,
-        description: "asdfasdf",
-        notes: "sdfasdfas",
+        userId: userId,
+        date: new Date(date),
+        amount: parseFloat(amount),
+        cardId: parseInt(card),
+        purchaseTypeId: parseInt(purchaseType),
+        description: desc,
+        notes: notes,
     });
 
     // Redirect to avoid resubmitting the form on refresh
@@ -54,18 +58,31 @@ if (Astro.request.method === "POST") {
                 <CardTitle>Card Title</CardTitle>
                 <CardDescription>Card Description</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-2">
                 <Label htmlFor="date">Date</Label>
-                <Input id="date" name="date" type="date" />
+                <Input
+                    id="date"
+                    name="date"
+                    type="date"
+                    value={new Date().toISOString().split("T")[0]}
+                />
 
                 <Label htmlFor="amount">Amount</Label>
-                <Input id="amount" name="amount" type="number" />
+                <Input id="amount" name="amount" type="number" step="0.01" />
 
                 <Label htmlFor="card">Card Used</Label>
-                <Input id="card" name="card" />
+                <select id="card" name="card" class="input">
+                    <option value="1">Card 1</option>
+                    <option value="2">Card 2</option>
+                    <option value="3">Card 3</option>
+                </select>
 
                 <Label htmlFor="purchaseType">Purchase Type</Label>
-                <Input id="purchaseType" name="purchaseType" />
+                <select id="purchaseType" name="purchaseType" class="input">
+                    <option value="1">Type 1</option>
+                    <option value="2">Type 2</option>
+                    <option value="3">Type 3</option>
+                </select>
 
                 <Label htmlFor="desc">Description</Label>
                 <Input id="desc" name="desc" />
