@@ -62,7 +62,7 @@ if (Astro.request.method === "POST") {
                     id="date"
                     name="date"
                     type="date"
-                    value={new Date().toISOString().split("T")[0]}
+                    defaultValue={new Date().toISOString().split("T")[0]}
                 />
 
                 <Label htmlFor="amount">Amount</Label>
