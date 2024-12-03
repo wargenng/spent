@@ -4,7 +4,6 @@ import { defineConfig } from "astro/config";
 import db from "@astrojs/db";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
-import node from "@astrojs/node";
 import clerk from "@clerk/astro";
 
 import vercel from "@astrojs/vercel/serverless";
