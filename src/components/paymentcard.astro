@@ -7,11 +7,12 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import "@/styles/globals.css";
-import type { Payment } from "@/types/db";
+import type { Payment as PaymentType } from "@/types/db";
+import { db, eq, Payments } from "astro:db";
 import { Button } from "./ui/button";
 
 interface Props {
-    payment: Payment;
+    payment: PaymentType;
 }
 
 const { payment } = Astro.props;
@@ -34,6 +35,16 @@ const { payment } = Astro.props;
     </CardContent>
     <CardFooter className="space-x-2">
         <Button> Edit </Button>
-        <Button> Delete </Button>
+        <Button
+            onClick={async (e) => {
+                console.log("IN HERE");
+
+                e.preventDefault();
+                console.log("IN HERE");
+                await db.delete(Payments).where(eq(Payments.id, payment.id));
+            }}
+        >
+            Delete
+        </Button>
     </CardFooter>
 </Card>

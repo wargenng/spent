@@ -3,7 +3,7 @@ import PaymentCard from "@/components/paymentcard.astro";
 import { Button } from "@/components/ui/button";
 import "@/styles/globals.css";
 import type { Payment as PaymentType } from "@/types/db";
-import { db, desc, eq, Payment } from "astro:db";
+import { db, desc, eq, Payments } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 import { Card } from "@/components/ui/card";
 
@@ -13,9 +13,9 @@ if (!userId) {
 }
 const payments = await db
     .select()
-    .from(Payment)
-    .where(eq(Payment.userId, userId))
-    .orderBy(desc(Payment.date));
+    .from(Payments)
+    .where(eq(Payments.userId, userId))
+    .orderBy(desc(Payments.date));
 ---
 
 <Layout title="Home">

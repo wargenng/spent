@@ -1,14 +1,14 @@
 import { column, defineDb, defineTable } from "astro:db";
 
-const Payment = defineTable({
+const Payments = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
         date: column.date(),
         amount: column.number(),
-        cardId: column.number({ references: () => Card.columns.id }),
+        cardId: column.number({ references: () => Cards.columns.id }),
         purchaseTypeId: column.number({
-            references: () => PurchaseType.columns.id,
+            references: () => PurchaseTypes.columns.id,
         }),
         description: column.text(),
         notes: column.text(),
@@ -17,7 +17,7 @@ const Payment = defineTable({
     },
 });
 
-const Card = defineTable({
+const Cards = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
@@ -30,7 +30,7 @@ const Card = defineTable({
     },
 });
 
-const PurchaseType = defineTable({
+const PurchaseTypes = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
@@ -41,5 +41,5 @@ const PurchaseType = defineTable({
 });
 
 export default defineDb({
-    tables: { Payment, Card, PurchaseType },
+    tables: { Payments, Cards, PurchaseTypes },
 });
