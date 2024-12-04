@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import type { Payment as PaymentType } from "@/types/db";
 import { db, desc, eq, Payment } from "astro:db";
 import Layout from "../layouts/Layout.astro";
+import { Card } from "@/components/ui/card";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
@@ -22,6 +23,19 @@ const payments = await db
         <a href="/paymentform">
             <Button>Payment Entry</Button>
         </a>
+        <Card className="p-6 flex items-center justify-center">
+            <h1 class="text-6xl">
+                {
+                    payments
+                        .reduce((total, payment) => total + payment.amount, 0)
+                        .toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                        })
+                }
+            </h1>
+        </Card>
+
         <h2>Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
