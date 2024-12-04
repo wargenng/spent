@@ -1,5 +1,5 @@
 import type { Payment as PaymentType } from "@/types/db";
-import { db, Payment } from "astro:db";
+import { db, Payments } from "astro:db";
 import { useStore } from "@nanostores/react";
 import { $authStore } from "@clerk/astro/client";
 
@@ -15,7 +15,7 @@ export const addPurchase = async (payment: PaymentType) => {
     const { date, amount, cardId, purchaseTypeId, description, notes } =
         payment;
 
-    await db.insert(Payment).values({
+    await db.insert(Payments).values({
         userId,
         date,
         amount,

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Layout from "@/layouts/Layout.astro";
 import "@/styles/globals.css";
-import { db, Payment } from "astro:db";
+import { db, Payments } from "astro:db";
 
 if (Astro.request.method === "POST") {
     const userId = String(Astro.locals.auth().userId);
@@ -34,7 +34,7 @@ if (Astro.request.method === "POST") {
     }
 
     // Insert form data into the Comment table
-    await db.insert(Payment).values({
+    await db.insert(Payments).values({
         userId: userId,
         date: new Date(date),
         amount: parseFloat(amount),
