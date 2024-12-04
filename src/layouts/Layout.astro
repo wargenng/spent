@@ -5,6 +5,7 @@ import {
     UserButton,
     SignInButton,
 } from "@clerk/astro/components";
+import "@fontsource-variable/inter";
 
 interface Props {
     title: string;
@@ -33,3 +34,8 @@ const { title } = Astro.props;
         </SignedIn>
     </body>
 </html>
+<style is:global>
+    body {
+        font-family: "Inter Variable", sans-serif;
+    }
+</style>
