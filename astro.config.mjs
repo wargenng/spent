@@ -2,7 +2,6 @@
 import { defineConfig } from "astro/config";
 import db from "@astrojs/db";
 import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
 import clerk from "@clerk/astro";
 import vercel from "@astrojs/vercel/serverless";
 import solidJs from "@astrojs/solid-js";
@@ -11,7 +10,7 @@ import solidJs from "@astrojs/solid-js";
 export default defineConfig({
     integrations: [db(), tailwind({
         applyBaseStyles: false,
-    }), clerk(), react(), solidJs()],
+    }), clerk(), solidJs()],
     adapter: vercel(),
     output: "server",
 });
