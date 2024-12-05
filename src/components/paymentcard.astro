@@ -9,7 +9,10 @@ interface Props {
 const { payment } = Astro.props;
 ---
 
-<div>
+<a
+    href="#"
+    class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+>
     <div>
         <div>{payment.description}</div>
     </div>
@@ -28,4 +31,4 @@ const { payment } = Astro.props;
         <button> Edit </button>
         <button> Delete </button>
     </div>
-</div>
+</a>
