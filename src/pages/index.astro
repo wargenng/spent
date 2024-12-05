@@ -43,7 +43,7 @@ const payments = await db
         <h2>Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
-                <PaymentCard payment={payment} client:only/>
+                <PaymentCard payment={payment} client:only />
             ))
         }
     </article>

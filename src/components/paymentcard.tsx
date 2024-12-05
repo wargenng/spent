@@ -28,6 +28,7 @@ export default function PaymentCard({ payment }: PaymentCardProps) {
                             await fetch(`/api/payments/${payment.id}`, {
                                 method: "DELETE",
                             });
+                            window.location.reload();
                         }}
                     >
                         Delete
