@@ -45,7 +45,7 @@ const payments = await db
         <h2 class="w-full">Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
-                <PaymentCard payment={payment} client:only />
+                <PaymentCard payment={payment} client:only="solid-js" />
             ))
         }
     </article>
