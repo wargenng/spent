@@ -19,9 +19,10 @@ const payments = await db
 <Layout title="Home">
     <article class="space-y-4 p-4 format">
         <div
-            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            class="flex flex-col gap-2 items-center justify-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
         >
-            <h1>
+            <h5 class="m-0">Welcome back!</h5>
+            <h1 class="m-0">
                 {
                     payments
                         .reduce((total, payment) => total + payment.amount, 0)
@@ -31,8 +32,14 @@ const payments = await db
                         })
                 }
             </h1>
+            <a href="/paymentform" class="pt-2">
+                <button
+                    type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    >Add Purchase</button
+                >
+            </a>
         </div>
-
         <h2>Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
