@@ -1,5 +1,5 @@
 ---
-import PaymentCard from "@/components/paymentcard.astro";
+import PaymentCard from "@/components/paymentcard";
 import "@/styles/globals.css";
 import type { Payment as PaymentType } from "@/types/db";
 import { db, desc, eq, Payments } from "astro:db";
@@ -43,7 +43,7 @@ const payments = await db
         <h2>Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
-                <PaymentCard payment={payment} />
+                <PaymentCard payment={payment} client:only/>
             ))
         }
     </article>
