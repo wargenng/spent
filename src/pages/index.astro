@@ -17,9 +17,11 @@ const payments = await db
 ---
 
 <Layout title="Home">
-    <article class="space-y-4 p-4 format">
+    <article
+        class="space-y-4 p-4 format w-full flex items-center justify-center flex-col"
+    >
         <div
-            class="flex flex-col gap-2 items-center justify-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            class="w-full flex flex-col gap-2 items-center justify-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
         >
             <h5 class="m-0">Welcome back!</h5>
             <h1 class="m-0">
@@ -40,7 +42,7 @@ const payments = await db
                 >
             </a>
         </div>
-        <h2>Purchases</h2>
+        <h2 class="w-full">Purchases</h2>
         {
             payments.map((payment: PaymentType) => (
                 <PaymentCard payment={payment} client:only />
