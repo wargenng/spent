@@ -8,7 +8,7 @@ const Payments = defineTable({
         amount: column.number(),
         cardId: column.number({ references: () => Cards.columns.id }),
         purchaseTypeId: column.number({
-            references: () => PurchaseTypes.columns.id,
+            references: () => Categories.columns.id,
         }),
         description: column.text(),
         notes: column.text(),
@@ -30,7 +30,7 @@ const Cards = defineTable({
     },
 });
 
-const PurchaseTypes = defineTable({
+const Categories = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
@@ -41,5 +41,5 @@ const PurchaseTypes = defineTable({
 });
 
 export default defineDb({
-    tables: { Payments, Cards, PurchaseTypes },
+    tables: { Payments, Cards, Categories },
 });

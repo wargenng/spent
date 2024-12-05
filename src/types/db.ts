@@ -22,7 +22,7 @@ export type Card = {
     updatedDate: Date;
 };
 
-export type PurchaseType = {
+export type Category = {
     id: number;
     userId: string;
     name: string;
