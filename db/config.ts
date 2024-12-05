@@ -7,7 +7,7 @@ const Payments = defineTable({
         date: column.date(),
         amount: column.number(),
         cardId: column.number({ references: () => Cards.columns.id }),
-        purchaseTypeId: column.number({
+        categoryId: column.number({
             references: () => Categories.columns.id,
         }),
         description: column.text(),

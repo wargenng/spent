@@ -4,7 +4,7 @@ export type Payment = {
     date: Date;
     amount: number;
     cardId: number;
-    purchaseTypeId: number;
+    categoryId: number;
     description: string;
     notes: string;
     creationDate: Date;
