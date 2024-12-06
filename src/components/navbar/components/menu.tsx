@@ -2,13 +2,10 @@ import {
     Drawer,
     DrawerClose,
     DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
     DrawerHeader,
-    DrawerLabel,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import PaymentEntry from "./paymententry/paymententry";
+import PaymentEntry from "../../paymententry/paymententry";
 
 export default function Menu({ userId }: { userId: string }) {
     return (

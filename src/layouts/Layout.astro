@@ -1,9 +1,9 @@
 ---
 import {
-SignedIn,
-SignedOut,
-SignInButton,
-SignUpButton
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    SignUpButton,
 } from "@clerk/astro/components";
 import "@fontsource-variable/inter";
 
@@ -13,9 +13,8 @@ interface Props {
 
 const { title } = Astro.props;
 
-import '@/styles/globals.css';
-import Navbar from "@/components/navbar.astro";
-
+import "@/styles/globals.css";
+import Navbar from "@/components/navbar/navbar.astro";
 ---
 
 <!doctype html>
