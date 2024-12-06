@@ -1,11 +1,10 @@
 ---
 import PaymentCard from "@/components/paymentcard";
+import Welcome from "@/components/welcome.astro";
 import "@/styles/globals.css";
 import type { Payment as PaymentType } from "@/types/db";
-import { db, desc, eq, Payments } from "astro:db";
+import { Categories, db, desc, eq, Payments } from "astro:db";
 import Layout from "../layouts/Layout.astro";
-import PaymentEntry from "@/components/paymententry/paymententry";
-import { Categories } from "astro:db";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
@@ -21,39 +20,15 @@ const categories = await db.select().from(Categories).all();
 ---
 
 <Layout title="Home">
-    <div class="space-y-4 p-4 w-full flex items-center justify-center flex-col">
-        <div
-            class="w-full flex flex-col gap-2 items-center justify-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-        >
-            <h5 class="m-0">Welcome back!</h5>
-            <h1 class="m-0 text-5xl font-bold">
-                {
-                    payments
-                        .reduce((total, payment) => total + payment.amount, 0)
-                        .toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                        })
-                }
-            </h1>
-
-            <PaymentEntry
-                userId={userId}
-                categories={categories}
-                client:only="solid-js"
-            >
-                <div
-                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                    Add purchase
-                </div>
-            </PaymentEntry>
+    <div class="space-y-4 w-full flex items-center justify-center flex-col">
+        <Welcome userId={userId} payments={payments} categories={categories} />
+        <div class="w-full">
+            <h2 class="w-full font-semibold text-lg">Latest Purchases</h2>
+            {
+                payments.map((payment: PaymentType) => (
+                    <PaymentCard payment={payment} client:only="solid-js" />
+                ))
+            }
         </div>
-        <h2 class="w-full">Purchases</h2>
-        {
-            payments.map((payment: PaymentType) => (
-                <PaymentCard payment={payment} client:only="solid-js" />
-            ))
-        }
     </div>
 </Layout>

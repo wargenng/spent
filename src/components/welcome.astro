@@ -1,0 +1,37 @@
+---
+import PaymentEntry from "@/components/paymententry/paymententry";
+import "@/styles/globals.css";
+import type { Payment } from "@/types/db";
+
+const { userId, payments, categories } = Astro.props;
+---
+
+<div
+    class="w-full flex flex-col gap-2 items-center justify-center max-w-sm py-4"
+>
+    <h5 class="m-0">Welcome back!</h5>
+    <h1 class="m-0 text-5xl font-bold">
+        {
+            payments
+                .reduce(
+                    (total: number, payment: Payment) => total + payment.amount,
+                    0
+                )
+                .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                })
+        }
+    </h1>
+    <PaymentEntry
+        userId={userId}
+        categories={categories}
+        client:only="solid-js"
+    >
+        <div
+            class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+            Add purchase
+        </div>
+    </PaymentEntry>
+</div>
