@@ -6,7 +6,7 @@ interface PaymentCardProps {
 
 export default function PaymentCard({ payment }: PaymentCardProps) {
     return (
-        <div class="w-full max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-2">
+        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-2">
             <div class="flex justify-between w-full items-center">
                 <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {payment.amount.toLocaleString("en-US", {
