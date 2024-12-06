@@ -9,6 +9,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTrigger,
+} from "../ui/drawer";
 
 interface PaymentEntryProps {
     userId: string;
@@ -33,14 +40,11 @@ export default function PaymentEntry({
 
     return (
         <div>
-            <Dialog>
-                <DialogTrigger>{children}</DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Add New Purchase</DialogTitle>
-                        <DialogDescription></DialogDescription>
-                    </DialogHeader>
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <Drawer side="right">
+                <DrawerTrigger>{children}</DrawerTrigger>
+                <DrawerContent class="h-full">
+                    <DrawerHeader>Add New Purchase</DrawerHeader>
+                    <div class="grid gap-4">
                         <form class="p-4 md:p-5">
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 <div class="col-span-2">
@@ -233,8 +237,8 @@ export default function PaymentEntry({
                             </button>
                         </form>
                     </div>
-                </DialogContent>
-            </Dialog>
+                </DrawerContent>
+            </Drawer>
         </div>
     );
 }
