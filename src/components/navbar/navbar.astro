@@ -1,8 +1,10 @@
 ---
 import { UserButton } from "@clerk/astro/components";
 import Menu from "./components/menu";
+import { getCatagories } from "@/service/queries";
 
 const userId = String(Astro.locals.auth().userId);
+const categories = await getCatagories();
 ---
 
 <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -16,6 +18,6 @@ const userId = String(Astro.locals.auth().userId);
                 >spent</span
             >
         </a>
-        <Menu userId={userId} client:only="solid-js" />
+        <Menu userId={userId} categories={categories} client:only="solid-js" />
     </div>
 </nav>
