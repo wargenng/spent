@@ -38,6 +38,18 @@ export default function PaymentEntry({
         notes: "",
     } as Payment);
 
+    async function handleSubmit(e: Event) {
+        e.preventDefault();
+        await fetch("/api/payments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payment()),
+        });
+        window.location.reload();
+    }
+
     return (
         <div>
             <Drawer side="right">
@@ -45,7 +57,7 @@ export default function PaymentEntry({
                 <DrawerContent class="h-full">
                     <DrawerHeader>Add New Purchase</DrawerHeader>
                     <div class="grid gap-4 p-4">
-                        <div class="grid gap-4 mb-4 grid-cols-2">
+                        <div class="grid gap-4">
                             <div class="col-span-2">
                                 <label
                                     for="amount"
@@ -204,17 +216,7 @@ export default function PaymentEntry({
                         <form>
                             <button
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                onclick={async (e) => {
-                                    e.preventDefault();
-                                    await fetch("/api/payments", {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify(payment()),
-                                    });
-                                    window.location.reload();
-                                }}
+                                onclick={handleSubmit}
                             >
                                 <svg
                                     class="me-1 -ms-1 w-5 h-5"
