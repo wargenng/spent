@@ -2,20 +2,12 @@ import type { Category, Payment } from "@/types/db";
 import { createSignal } from "solid-js";
 
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {
     Drawer,
     DrawerContent,
-    DrawerDescription,
     DrawerHeader,
     DrawerTrigger,
 } from "../ui/drawer";
+import Amount from "../common/amount";
 
 interface PaymentEntryProps {
     userId: string;
@@ -37,6 +29,12 @@ export default function PaymentEntry({
         description: "",
         notes: "",
     } as Payment);
+    const [amount, setAmount] = createSignal(0);
+    const [date, setDate] = createSignal(new Date());
+    const [cardId, setCardId] = createSignal(1);
+    const [category, setCategory] = createSignal(1);
+    const [description, setDescription] = createSignal("");
+    const [notes, setNotes] = createSignal("");
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -45,7 +43,7 @@ export default function PaymentEntry({
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(payment()),
+            body: JSON.stringify({ ...payment(), amount: amount() }),
         });
         window.location.reload();
     }
@@ -67,21 +65,9 @@ export default function PaymentEntry({
                                 </label>
                                 <div class="flex items-center gap-2">
                                     $
-                                    <input
-                                        type="number"
-                                        name="amount"
-                                        id="amount"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        onchange={(e) =>
-                                            setPayment({
-                                                ...payment(),
-                                                amount: Number(
-                                                    e.currentTarget.value
-                                                ),
-                                            })
-                                        }
-                                        value={payment().amount}
-                                        required
+                                    <Amount
+                                        amount={amount}
+                                        setAmount={setAmount}
                                     />
                                 </div>
                             </div>
