@@ -19,7 +19,7 @@ export default function Menu({ userId, categories }: MenuProps) {
                 <DrawerTrigger class="md:hidden md:w-full block w-auto">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 text-gray-900 dark:text-white"
+                        class="h-6 w-6 text-gray-500 dark:text-gray-400"
                         viewBox="0 0 24 24"
                     >
                         <g fill="currentColor">
