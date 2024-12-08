@@ -17,7 +17,7 @@ export type Card = {
     name: string;
     company: string;
     lastFour: string;
-    type: "credit" | "debit" | "savings";
+    type: string;
     creationDate: Date;
     updatedDate: Date;
 };

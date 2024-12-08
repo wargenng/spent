@@ -3,7 +3,7 @@ import PaymentEntry from "@/components/paymententry/paymententry";
 import "@/styles/globals.css";
 import type { Payment } from "@/types/db";
 
-const { userId, payments, categories } = Astro.props;
+const { userId, payments, categories, cards } = Astro.props;
 ---
 
 <div class="w-full flex flex-col gap-4 items-start py-4">
@@ -24,6 +24,7 @@ const { userId, payments, categories } = Astro.props;
     <PaymentEntry
         userId={userId}
         categories={categories}
+        cards={cards}
         client:only="solid-js"
     >
         <div

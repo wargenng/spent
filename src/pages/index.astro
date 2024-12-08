@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import type { Payment as PaymentType } from "@/types/db";
 import { Categories, db, desc, eq, Payments } from "astro:db";
 import Layout from "../layouts/Layout.astro";
+import { Cards } from "astro:db";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
@@ -17,11 +18,17 @@ const payments = await db
     .orderBy(desc(Payments.date));
 
 const categories = await db.select().from(Categories).all();
+const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
 ---
 
 <Layout title="Home">
     <div class="space-y-4 w-full flex items-center justify-center flex-col">
-        <Welcome userId={userId} payments={payments} categories={categories} />
+        <Welcome
+            userId={userId}
+            payments={payments}
+            categories={categories}
+            cards={cards}
+        />
         <div class="w-full">
             <h2 class="w-full font-semibold text-lg">Latest Purchases</h2>
             {

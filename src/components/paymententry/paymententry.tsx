@@ -1,4 +1,4 @@
-import type { Category, Payment } from "@/types/db";
+import type { Card, Category, Payment } from "@/types/db";
 import { createSignal } from "solid-js";
 
 import {
@@ -12,12 +12,14 @@ import Amount from "../common/amount";
 interface PaymentEntryProps {
     userId: string;
     categories: Category[];
+    cards: Card[];
     children: any;
 }
 
 export default function PaymentEntry({
     userId,
     categories,
+    cards,
     children,
 }: PaymentEntryProps) {
     const [payment, setPayment] = createSignal({
@@ -120,10 +122,11 @@ export default function PaymentEntry({
                                     }
                                 >
                                     <option selected={true}>Select card</option>
-                                    <option value="1">Visa</option>
-                                    <option value="2">Mastercard</option>
-                                    <option value="3">Discover</option>
-                                    <option value="4">American Express</option>
+                                    {cards.map((card) => (
+                                        <option value={card.id}>
+                                            {card.company} {card.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div class="col-span-2">
