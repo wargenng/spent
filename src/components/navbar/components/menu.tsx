@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/drawer";
 import type { Category } from "@/types/db";
 import PaymentEntry from "../../paymententry/paymententry";
+import CardEntry from "@/components/cardentry/cardentry";
 
 interface MenuProps {
     userId: string;
@@ -40,6 +41,7 @@ export default function Menu({ userId, categories }: MenuProps) {
                         <PaymentEntry userId={userId} categories={categories}>
                             Add Purchase
                         </PaymentEntry>
+                        <CardEntry userId={userId}>Add Card</CardEntry>
                     </div>
                 </DrawerContent>
             </Drawer>
