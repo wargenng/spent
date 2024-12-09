@@ -10,6 +10,21 @@ const Payments = defineTable({
         categoryId: column.number({
             references: () => Categories.columns.id,
         }),
+        paycheckId: column.number({ references: () => Paychecks.columns.id }),
+        description: column.text(),
+        notes: column.text(),
+        isIncome: column.boolean({ default: false }),
+        creationDate: column.date({ default: new Date() }),
+        updatedDate: column.date({ default: new Date() }),
+    },
+});
+
+const Paychecks = defineTable({
+    columns: {
+        id: column.number({ primaryKey: true }),
+        userId: column.text(),
+        startDate: column.date(),
+        endDate: column.date(),
         description: column.text(),
         notes: column.text(),
         creationDate: column.date({ default: new Date() }),
@@ -25,6 +40,9 @@ const Cards = defineTable({
         company: column.text(),
         lastFour: column.text(),
         type: column.text({ default: "credit" }),
+        limit: column.number(),
+        balance: column.number(),
+        isPrimaryChecking: column.boolean({ default: false }),
         creationDate: column.date({ default: new Date() }),
         updatedDate: column.date({ default: new Date() }),
     },
@@ -41,5 +59,5 @@ const Categories = defineTable({
 });
 
 export default defineDb({
-    tables: { Payments, Cards, Categories },
+    tables: { Payments, Cards, Categories, Paychecks },
 });
