@@ -1,13 +1,12 @@
-import type { Card, Category } from "@/types/db";
 import { createSignal } from "solid-js";
 
+import InputField from "../common/inputfield";
 import {
     Drawer,
     DrawerContent,
     DrawerHeader,
     DrawerTrigger,
 } from "../ui/drawer";
-import InputField from "../common/inputfield";
 
 interface CardEntryProps {
     userId: string;
