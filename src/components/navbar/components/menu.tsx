@@ -5,7 +5,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import type { Card, Category } from "@/types/db";
-import PaymentEntry from "../../paymententry/paymententry";
+import PaymentEntry from "../../paymententry/paymententryhandler";
 import CardEntry from "@/components/cardentry/cardentry";
 import PaycheckEntry from "@/components/paycheckentry/paycheckentry";
 
