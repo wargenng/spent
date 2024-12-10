@@ -1,4 +1,4 @@
-import type { Card, Category } from "@/types/db";
+import type { Card, Category, Paycheck } from "@/types/db";
 import PaymentEntryForm from "./paymententry";
 
 import {
@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 
 interface PaymentEntryProps {
     userId: string;
+    paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
     children: any;
@@ -22,6 +23,7 @@ interface PaymentEntryProps {
 
 export default function PaymentEntry({
     userId,
+    paychecks,
     categories,
     cards,
     children,
@@ -56,6 +58,7 @@ export default function PaymentEntry({
             ) : (
                 <PaymentEntryForm
                     userId={userId}
+                    paychecks={paychecks}
                     categories={categories}
                     cards={cards}
                 >

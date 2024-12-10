@@ -4,18 +4,24 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import type { Card, Category } from "@/types/db";
+import type { Card, Category, Paycheck } from "@/types/db";
 import PaymentEntry from "../../paymententry/paymententryhandler";
 import CardEntry from "@/components/cardentry/cardentry";
 import PaycheckEntry from "@/components/paycheckentry/paycheckentry";
 
 interface MenuProps {
     userId: string;
+    paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
 }
 
-export default function Menu({ userId, categories, cards }: MenuProps) {
+export default function Menu({
+    userId,
+    paychecks,
+    categories,
+    cards,
+}: MenuProps) {
     return (
         <div>
             <Drawer side="right">
@@ -41,6 +47,7 @@ export default function Menu({ userId, categories, cards }: MenuProps) {
                         <a href="/">Home</a>
                         <PaymentEntry
                             userId={userId}
+                            paychecks={paychecks}
                             categories={categories}
                             cards={cards}
                         >
@@ -68,6 +75,7 @@ export default function Menu({ userId, categories, cards }: MenuProps) {
                     <li>
                         <PaymentEntry
                             userId={userId}
+                            paychecks={paychecks}
                             categories={categories}
                             cards={cards}
                         >

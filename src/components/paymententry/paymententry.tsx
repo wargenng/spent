@@ -1,4 +1,4 @@
-import type { Card, Category, Payment } from "@/types/db";
+import type { Card, Category, Paycheck, Payment } from "@/types/db";
 import { createSignal } from "solid-js";
 
 import {
@@ -14,6 +14,7 @@ import InputField from "../common/inputfield";
 
 interface PaymentEntryProps {
     userId: string;
+    paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
     children: any;
@@ -21,6 +22,7 @@ interface PaymentEntryProps {
 
 export default function PaymentEntry({
     userId,
+    paychecks,
     categories,
     cards,
     children,
