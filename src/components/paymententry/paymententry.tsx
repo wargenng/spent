@@ -11,6 +11,7 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "../ui/drawer";
+import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
 
 interface PaymentEntryProps {
     userId: string;
@@ -34,6 +35,7 @@ export default function PaymentEntry({
     const [paycheckId, setPaycheckId] = createSignal(1);
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
+    const [isIncome, setIsIncome] = createSignal(false);
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -43,13 +45,15 @@ export default function PaymentEntry({
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                userId: userId,
                 title: title(),
-                amount: amount(),
+                amount: amount() * (isIncome() ? 1 : -1),
                 date: date(),
                 paycheckId: paycheckId(),
                 categoryId: categoryId(),
                 cardId: cardId(),
                 notes: notes(),
+                isIncome: isIncome(),
             }),
         });
         window.location.reload();
@@ -115,6 +119,13 @@ export default function PaymentEntry({
                                 }))}
                                 inputtype="Paycheck"
                             />
+                            <Checkbox
+                                class="flex items-center space-x-2"
+                                onChange={(checked) => setIsIncome(checked)}
+                            >
+                                <CheckboxControl />
+                                <span class="text-sm font-medium">Income</span>
+                            </Checkbox>
                             <InputField
                                 inputfield={notes}
                                 setInputField={setNotes}
