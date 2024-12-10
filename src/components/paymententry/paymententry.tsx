@@ -9,6 +9,8 @@ import {
 } from "../ui/drawer";
 import Amount from "../common/amount";
 import DateField from "../common/datefield";
+import CommandEntry from "../common/commandentry";
+import InputField from "../common/inputfield";
 
 interface PaymentEntryProps {
     userId: string;
@@ -27,14 +29,15 @@ export default function PaymentEntry({
         userId: userId,
         cardId: 1,
         categoryId: 1,
-        description: "",
+        title: "",
         notes: "",
     } as Payment);
     const [amount, setAmount] = createSignal(0);
     const [date, setDate] = createSignal(new Date());
     const [cardId, setCardId] = createSignal(1);
     const [categoryId, setCategoryId] = createSignal(1);
-    const [description, setDescription] = createSignal("");
+    const [paycheckId, setPaycheckId] = createSignal(1);
+    const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
 
     async function handleSubmit(e: Event) {
@@ -46,6 +49,7 @@ export default function PaymentEntry({
             },
             body: JSON.stringify({
                 ...payment(),
+                title: title(),
                 amount: amount(),
                 date: date(),
             }),
@@ -61,6 +65,11 @@ export default function PaymentEntry({
                     <DrawerHeader>Add New Purchase</DrawerHeader>
                     <div class="grid gap-4 p-4">
                         <div class="grid gap-4">
+                            <InputField
+                                inputfield={title}
+                                setInputField={setTitle}
+                                inputtype="Title"
+                            />
                             <div class="col-span-2">
                                 <label
                                     for="amount"
@@ -76,13 +85,11 @@ export default function PaymentEntry({
                                     />
                                 </div>
                             </div>
-                            <div class="col-span-2">
-                                <DateField
-                                    datefield={date}
-                                    setDateField={setDate}
-                                    inputtype="Date"
-                                />
-                            </div>
+                            <DateField
+                                datefield={date}
+                                setDateField={setDate}
+                                inputtype="Date"
+                            />
                             <div class="col-span-2">
                                 <label
                                     for="card"
@@ -141,28 +148,12 @@ export default function PaymentEntry({
                                     ))}
                                 </select>
                             </div>
-                            <div class="col-span-2">
-                                <label
-                                    for="description"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Description
-                                </label>
-                                <input
-                                    type="text"
-                                    name="description"
-                                    id="description"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    onchange={(e) =>
-                                        setPayment({
-                                            ...payment(),
-                                            description: e.currentTarget.value,
-                                        })
-                                    }
-                                    value={payment().description}
-                                    required
-                                />
-                            </div>
+                            <CommandEntry
+                                commandentry={paycheckId}
+                                setCommandEntry={setPaycheckId}
+                                commands={[]}
+                                inputtype="Paycheck"
+                            />
                             <div class="col-span-2">
                                 <label
                                     for="notes"

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/drawer";
 import type { Accessor, Setter } from "solid-js";
 import { Button } from "../ui/button";
-import { TextField, TextFieldLabel, TextFieldRoot } from "../ui/textfield";
+import { TextField, TextFieldRoot } from "../ui/textfield";
 
 interface InputFieldProps {
     inputfield: Accessor<string>;

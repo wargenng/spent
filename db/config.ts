@@ -1,9 +1,10 @@
-import { column, defineDb, defineTable } from "astro:db";
+import { column, defineDb, defineTable, desc } from "astro:db";
 
 const Payments = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
+        title: column.text(),
         date: column.date(),
         amount: column.number(),
         cardId: column.number({ references: () => Cards.columns.id }),
@@ -11,7 +12,6 @@ const Payments = defineTable({
             references: () => Categories.columns.id,
         }),
         paycheckId: column.number({ references: () => Paychecks.columns.id }),
-        description: column.text(),
         notes: column.text(),
         isIncome: column.boolean({ default: false }),
         creationDate: column.date({ default: new Date() }),
