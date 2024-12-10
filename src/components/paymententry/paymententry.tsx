@@ -8,6 +8,7 @@ import {
     DrawerTrigger,
 } from "../ui/drawer";
 import Amount from "../common/amount";
+import DateField from "../common/datefield";
 
 interface PaymentEntryProps {
     userId: string;
@@ -24,8 +25,6 @@ export default function PaymentEntry({
 }: PaymentEntryProps) {
     const [payment, setPayment] = createSignal({
         userId: userId,
-        amount: 0,
-        date: new Date(),
         cardId: 1,
         categoryId: 1,
         description: "",
@@ -34,7 +33,7 @@ export default function PaymentEntry({
     const [amount, setAmount] = createSignal(0);
     const [date, setDate] = createSignal(new Date());
     const [cardId, setCardId] = createSignal(1);
-    const [category, setCategory] = createSignal(1);
+    const [categoryId, setCategoryId] = createSignal(1);
     const [description, setDescription] = createSignal("");
     const [notes, setNotes] = createSignal("");
 
@@ -45,7 +44,11 @@ export default function PaymentEntry({
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...payment(), amount: amount() }),
+            body: JSON.stringify({
+                ...payment(),
+                amount: amount(),
+                date: date(),
+            }),
         });
         window.location.reload();
     }
@@ -74,31 +77,10 @@ export default function PaymentEntry({
                                 </div>
                             </div>
                             <div class="col-span-2">
-                                <label
-                                    for="date"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Date
-                                </label>
-                                <input
-                                    type="date"
-                                    name="date"
-                                    id="date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    onchange={(e) =>
-                                        setPayment({
-                                            ...payment(),
-                                            date: new Date(
-                                                e.currentTarget.value
-                                            ),
-                                        })
-                                    }
-                                    value={
-                                        payment()
-                                            .date.toISOString()
-                                            .split("T")[0]
-                                    }
-                                    required
+                                <DateField
+                                    datefield={date}
+                                    setDateField={setDate}
+                                    inputtype="Date"
                                 />
                             </div>
                             <div class="col-span-2">
