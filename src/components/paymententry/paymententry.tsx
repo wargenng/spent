@@ -1,16 +1,16 @@
-import type { Card, Category, Paycheck, Payment } from "@/types/db";
+import type { Card, Category, Paycheck } from "@/types/db";
 import { createSignal } from "solid-js";
 
+import Amount from "../common/amount";
+import CommandEntry from "../common/commandentry";
+import DateField from "../common/datefield";
+import InputField from "../common/inputfield";
 import {
     Drawer,
     DrawerContent,
     DrawerHeader,
     DrawerTrigger,
 } from "../ui/drawer";
-import Amount from "../common/amount";
-import DateField from "../common/datefield";
-import CommandEntry from "../common/commandentry";
-import InputField from "../common/inputfield";
 
 interface PaymentEntryProps {
     userId: string;
