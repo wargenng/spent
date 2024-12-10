@@ -14,6 +14,7 @@ export type Payment = {
 export type Paycheck = {
     id: number;
     userId: string;
+    title: string;
     startDate: Date;
     endDate: Date;
     description: string;

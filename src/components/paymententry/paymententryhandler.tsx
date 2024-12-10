@@ -32,16 +32,17 @@ export default function PaymentEntry({
 
     return (
         <div>
-            {cards.length === 0 ? (
+            {cards.length === 0 || paychecks.length === 0 ? (
                 <Dialog open={open()} onOpenChange={setOpen}>
                     <DialogTrigger> {children}</DialogTrigger>
                     <DialogContent class="w-5/6">
                         <DialogHeader>
                             <DialogTitle>
-                                Payment Entry Requires Cards
+                                Payment Entry Requires Cards and Paychecks
                             </DialogTitle>
                             <DialogDescription>
-                                Please add a card before entering a payment.
+                                Please add a card and paycheck before entering a
+                                payment.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter class="flex gap-2">

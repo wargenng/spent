@@ -129,12 +129,15 @@ export default function PaymentEntry({
                                 }))}
                                 inputtype="Category"
                             />
-                            {/* <CommandEntry
+                            <CommandEntry
                                 commandentry={paycheckId}
                                 setCommandEntry={setPaycheckId}
-                                commands={[]}
+                                commands={paychecks.map((paycheck) => ({
+                                    id: paycheck.id,
+                                    name: paycheck.title,
+                                }))}
                                 inputtype="Paycheck"
-                            /> */}
+                            />
                             <div class="">
                                 <label
                                     for="notes"
