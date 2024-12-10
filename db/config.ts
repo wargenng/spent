@@ -39,7 +39,7 @@ const Cards = defineTable({
         name: column.text(),
         company: column.text(),
         lastFour: column.text(),
-        type: column.text({ default: "credit" }),
+        type: column.text({ default: "Credit" }),
         limit: column.number(),
         balance: column.number(),
         isPrimaryChecking: column.boolean({ default: false }),

@@ -9,6 +9,8 @@ export const POST: APIRoute = async (ctx) => {
         console.log(body);
         await db.insert(Paychecks).values({
             ...body,
+            startDate: new Date(body.startDate),
+            endDate: new Date(body.endDate),
         });
 
         return new Response(

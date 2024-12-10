@@ -7,6 +7,7 @@ export type Payment = {
     cardId: number;
     categoryId: number;
     notes: string;
+    isIncome: boolean;
     creationDate: Date;
     updatedDate: Date;
 };
@@ -29,6 +30,9 @@ export type Card = {
     company: string;
     lastFour: string;
     type: string;
+    limit: number;
+    balance: number;
+    isPrimaryChecking: boolean;
     creationDate: Date;
     updatedDate: Date;
 };

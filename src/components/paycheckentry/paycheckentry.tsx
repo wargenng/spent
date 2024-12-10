@@ -18,6 +18,11 @@ export default function PaycheckEntry({
     userId,
     children,
 }: PaycheckEntryProps) {
+    const [title, setTitle] = createSignal(
+        `${
+            new Date().getDate() < 15 ? "Early" : "Late"
+        } ${new Date().toLocaleString("default", { month: "long" })} Paycheck`
+    );
     const [startDate, setStartDate] = createSignal(new Date());
     const [endDate, setEndDate] = createSignal(new Date());
     const [notes, setNotes] = createSignal("");
@@ -31,6 +36,7 @@ export default function PaycheckEntry({
             },
             body: JSON.stringify({
                 userId,
+                title: title(),
                 startDate: startDate(),
                 endDate: endDate(),
                 notes: notes(),
@@ -46,6 +52,11 @@ export default function PaycheckEntry({
                 <DrawerContent class="h-full">
                     <DrawerHeader>Add New Paycheck</DrawerHeader>
                     <div class="p-4 grid gap-4">
+                        <InputField
+                            inputfield={title}
+                            setInputField={setTitle}
+                            inputtype="Title"
+                        />
                         <DateField
                             datefield={startDate}
                             setDateField={setStartDate}

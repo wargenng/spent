@@ -6,6 +6,7 @@ import type { Payment as PaymentType } from "@/types/db";
 import { Categories, db, desc, eq, Payments } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 import { Cards } from "astro:db";
+import { getUserPaychecks } from "@/service/queries";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
@@ -19,12 +20,14 @@ const payments = await db
 
 const categories = await db.select().from(Categories).all();
 const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
+const paychecks = await getUserPaychecks(userId);
 ---
 
 <Layout title="Home">
     <div class="space-y-4 w-full flex items-center justify-center flex-col">
         <Welcome
             userId={userId}
+            paychecks={paychecks}
             payments={payments}
             categories={categories}
             cards={cards}

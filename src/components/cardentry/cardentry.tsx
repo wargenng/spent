@@ -17,7 +17,7 @@ export default function CardEntry({ userId, children }: CardEntryProps) {
     const [name, setName] = createSignal("");
     const [company, setCompany] = createSignal("");
     const [lastFour, setLastFour] = createSignal("0000");
-    const [type, setType] = createSignal("credit");
+    const [type, setType] = createSignal("Credit");
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -31,6 +31,9 @@ export default function CardEntry({ userId, children }: CardEntryProps) {
                 name: name(),
                 company: company(),
                 lastFour: lastFour(),
+                limit: 0,
+                balance: 0,
+                isPrimaryChecking: false,
                 type: type(),
             }),
         });

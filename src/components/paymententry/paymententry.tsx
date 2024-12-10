@@ -54,6 +54,7 @@ export default function PaymentEntry({
                 title: title(),
                 amount: amount(),
                 date: date(),
+                paycheckId: paycheckId(),
             }),
         });
         window.location.reload();

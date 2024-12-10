@@ -32,7 +32,16 @@ export default function PaymentEntry({
 
     return (
         <div>
-            {cards.length === 0 || paychecks.length === 0 ? (
+            {cards.length > 0 || paychecks.length > 0 ? (
+                <PaymentEntryForm
+                    userId={userId}
+                    paychecks={paychecks}
+                    categories={categories}
+                    cards={cards}
+                >
+                    {children}
+                </PaymentEntryForm>
+            ) : (
                 <Dialog open={open()} onOpenChange={setOpen}>
                     <DialogTrigger> {children}</DialogTrigger>
                     <DialogContent class="w-5/6">
@@ -56,15 +65,6 @@ export default function PaymentEntry({
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
-            ) : (
-                <PaymentEntryForm
-                    userId={userId}
-                    paychecks={paychecks}
-                    categories={categories}
-                    cards={cards}
-                >
-                    {children}
-                </PaymentEntryForm>
             )}
         </div>
     );
