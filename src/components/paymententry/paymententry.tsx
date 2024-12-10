@@ -63,14 +63,14 @@ export default function PaymentEntry({
                 <DrawerTrigger>{children}</DrawerTrigger>
                 <DrawerContent class="h-full">
                     <DrawerHeader>Add New Purchase</DrawerHeader>
-                    <div class="grid gap-4 p-4">
-                        <div class="grid gap-4">
+                    <div class="grid gap-4 p-4 w-full">
+                        <div class="grid gap-4 w-full">
                             <InputField
                                 inputfield={title}
                                 setInputField={setTitle}
                                 inputtype="Title"
                             />
-                            <div class="col-span-2">
+                            <div class="">
                                 <label
                                     for="amount"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -90,7 +90,7 @@ export default function PaymentEntry({
                                 setDateField={setDate}
                                 inputtype="Date"
                             />
-                            <div class="col-span-2">
+                            <div class="">
                                 <label
                                     for="card"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -118,43 +118,22 @@ export default function PaymentEntry({
                                     ))}
                                 </select>
                             </div>
-                            <div class="col-span-2">
-                                <label
-                                    for="category"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Category
-                                </label>
-                                <select
-                                    id="category"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value={payment().categoryId}
-                                    onchange={(e) =>
-                                        setPayment({
-                                            ...payment(),
-                                            categoryId: Number(
-                                                e.currentTarget.value
-                                            ),
-                                        })
-                                    }
-                                >
-                                    <option selected={true}>
-                                        Select category
-                                    </option>
-                                    {categories.map((category) => (
-                                        <option value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
                             <CommandEntry
+                                commandentry={categoryId}
+                                setCommandEntry={setCategoryId}
+                                commands={categories.map((category) => ({
+                                    id: category.id,
+                                    name: category.name,
+                                }))}
+                                inputtype="Category"
+                            />
+                            {/* <CommandEntry
                                 commandentry={paycheckId}
                                 setCommandEntry={setPaycheckId}
                                 commands={[]}
                                 inputtype="Paycheck"
-                            />
-                            <div class="col-span-2">
+                            /> */}
+                            <div class="">
                                 <label
                                     for="notes"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

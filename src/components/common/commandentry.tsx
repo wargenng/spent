@@ -39,7 +39,11 @@ export default function CommandEntry({
                 <div class="flex flex-col justify-start gap-2 items-start">
                     <label class="text-sm font-medium">{inputtype}</label>
                     <Button variant="outline" class="w-full justify-start">
-                        {commandentry()}
+                        {
+                            commands.find(
+                                (command) => command.id === commandentry()
+                            )?.name
+                        }
                     </Button>
                 </div>
             </DrawerTrigger>
