@@ -17,7 +17,7 @@ export type Paycheck = {
     title: string;
     startDate: Date;
     endDate: Date;
-    description: string;
+    notes: string;
     creationDate: Date;
     updatedDate: Date;
 };

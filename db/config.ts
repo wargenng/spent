@@ -23,10 +23,10 @@ const Paychecks = defineTable({
     columns: {
         id: column.number({ primaryKey: true }),
         userId: column.text(),
-        title: column.text({ default: "Paycheck" }),
+        title: column.text(),
         startDate: column.date(),
         endDate: column.date(),
-        description: column.text(),
+        notes: column.text(),
         creationDate: column.date({ default: new Date() }),
         updatedDate: column.date({ default: new Date() }),
     },
