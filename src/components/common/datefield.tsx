@@ -1,19 +1,8 @@
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTrigger,
-} from "@/components/ui/drawer";
-import type { Accessor, Setter } from "solid-js";
-import { Button } from "../ui/button";
-import {
     DatePicker,
     DatePickerContent,
     DatePickerContext,
     DatePickerControl,
-    DatePickerInput,
     DatePickerRangeText,
     DatePickerTable,
     DatePickerTableBody,
@@ -22,12 +11,21 @@ import {
     DatePickerTableHead,
     DatePickerTableHeader,
     DatePickerTableRow,
-    DatePickerTrigger,
     DatePickerView,
     DatePickerViewControl,
     DatePickerViewTrigger,
 } from "@/components/ui/date-picker";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+import type { Accessor, Setter } from "solid-js";
 import { For } from "solid-js";
+import { Button } from "../ui/button";
 
 interface DateFieldProps {
     datefield: Accessor<Date>;

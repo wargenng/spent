@@ -19,7 +19,7 @@ export default function PaycheckEntry({
     children,
 }: PaycheckEntryProps) {
     const [startDate, setStartDate] = createSignal(new Date());
-    const [endDate, setEndDate] = createSignal("");
+    const [endDate, setEndDate] = createSignal(new Date());
     const [notes, setNotes] = createSignal("");
 
     async function handleSubmit(e: Event) {
@@ -50,6 +50,11 @@ export default function PaycheckEntry({
                             datefield={startDate}
                             setDateField={setStartDate}
                             inputtype="Start Date"
+                        />
+                        <DateField
+                            datefield={endDate}
+                            setDateField={setEndDate}
+                            inputtype="End Date"
                         />
                         <InputField
                             inputfield={notes}
