@@ -1,37 +1,67 @@
 ---
 import PaymentEntry from "@/components/paymententry/paymententryhandler";
 import "@/styles/globals.css";
-import type { Payment } from "@/types/db";
+import type { Paycheck, Payment } from "@/types/db";
+import PaycheckEntry from "./paycheckentry/paycheckentry";
+import { Button } from "./ui/button";
+import { P } from "node_modules/@kobalte/core/dist/index-f15c7ba5";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
+
+const currentPaycheck = paychecks.find(
+    (paycheck: Paycheck) =>
+        new Date(paycheck.startDate) <= new Date() &&
+        new Date(paycheck.endDate) >= new Date()
+);
+const total = payments
+    .filter((payment: Payment) => payment.paycheckId === currentPaycheck?.id)
+    .reduce((total: number, payment: Payment) => total + payment.amount, 0);
+const formatedTotal =
+    (total < 0 ? "" : "+") +
+    total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
 ---
 
 <div class="w-full flex flex-col gap-4 items-start py-4">
     <h5 class="m-0">Welcome back!</h5>
-    <h1 class="m-0 text-5xl font-bold">
-        {
-            payments
-                .reduce(
-                    (total: number, payment: Payment) => total + payment.amount,
-                    0
-                )
-                .toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                })
-        }
-    </h1>
-    <PaymentEntry
-        userId={userId}
-        paychecks={paychecks}
-        categories={categories}
-        cards={cards}
-        client:only="solid-js"
-    >
-        <div
-            class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-            Add purchase
-        </div>
-    </PaymentEntry>
+
+    {
+        currentPaycheck !== null ? (
+            <div class="flex flex-col gap-4">
+                <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
+                <div>
+                    <h1>{currentPaycheck.title}</h1>
+                    <h1>
+                        {new Date(
+                            currentPaycheck.startDate
+                        ).toLocaleDateString()}{" "}
+                        -{" "}
+                        {new Date(currentPaycheck.endDate).toLocaleDateString()}
+                    </h1>
+                </div>
+                <PaymentEntry
+                    userId={userId}
+                    paychecks={paychecks}
+                    categories={categories}
+                    cards={cards}
+                    client:only="solid-js"
+                >
+                    <div class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Add purchase
+                    </div>
+                </PaymentEntry>
+            </div>
+        ) : (
+            <div class="flex flex-col gap-4">
+                <h1 class="m-0 text-5xl font-bold ">
+                    No paycheck for this cycle
+                </h1>
+                <PaycheckEntry userId={userId} client:only="solid-js">
+                    <Button>Add paycheck</Button>
+                </PaycheckEntry>
+            </div>
+        )
+    }
 </div>

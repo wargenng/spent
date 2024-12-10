@@ -6,6 +6,7 @@ export type Payment = {
     amount: number;
     cardId: number;
     categoryId: number;
+    paycheckId: number;
     notes: string;
     isIncome: boolean;
     creationDate: Date;

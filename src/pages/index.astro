@@ -32,7 +32,7 @@ const paychecks = await getUserPaychecks(userId);
             categories={categories}
             cards={cards}
         />
-        <div class="w-full">
+        <div class="w-full flex flex-col gap-4">
             <h2 class="w-full font-semibold text-lg">Latest Purchases</h2>
             {
                 payments.map((payment: PaymentType) => (
