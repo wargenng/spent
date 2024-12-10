@@ -7,6 +7,7 @@ import {
 import type { Card, Category } from "@/types/db";
 import PaymentEntry from "../../paymententry/paymententry";
 import CardEntry from "@/components/cardentry/cardentry";
+import PaycheckEntry from "@/components/paycheckentry/paycheckentry";
 
 interface MenuProps {
     userId: string;
@@ -46,6 +47,9 @@ export default function Menu({ userId, categories, cards }: MenuProps) {
                             Add Purchase
                         </PaymentEntry>
                         <CardEntry userId={userId}>Add Card</CardEntry>
+                        <PaycheckEntry userId={userId}>
+                            Add Paycheck
+                        </PaycheckEntry>
                     </div>
                 </DrawerContent>
             </Drawer>

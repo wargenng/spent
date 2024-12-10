@@ -7,20 +7,24 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "../ui/drawer";
+import DateField from "../common/datefield";
 
-interface CardEntryProps {
+interface PaycheckEntryProps {
     userId: string;
     children: any;
 }
 
-export default function CardEntry({ userId, children }: CardEntryProps) {
-    const [startDate, setStartDate] = createSignal("");
+export default function PaycheckEntry({
+    userId,
+    children,
+}: PaycheckEntryProps) {
+    const [startDate, setStartDate] = createSignal(new Date());
     const [endDate, setEndDate] = createSignal("");
     const [notes, setNotes] = createSignal("");
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
-        await fetch("/api/cards", {
+        await fetch("/api/paychecks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,6 +46,11 @@ export default function CardEntry({ userId, children }: CardEntryProps) {
                 <DrawerContent class="h-full">
                     <DrawerHeader>Add New Paycheck</DrawerHeader>
                     <div class="p-4 grid gap-4">
+                        <DateField
+                            datefield={startDate}
+                            setDateField={setStartDate}
+                            inputtype="Start Date"
+                        />
                         <InputField
                             inputfield={notes}
                             setInputField={setNotes}
