@@ -6,6 +6,6 @@
 [ ] - add a bill splitter
 [ ] - add a way to edit a purchase
 [ ] - error checking purchase add
-[ ] - if no cards show error
-[ ] - if no paychecks show error
+[x] - if no cards show error
+[x] - if no paychecks show error
 [ ] - if no paychecks for current date show error

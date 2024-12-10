@@ -19,7 +19,7 @@ export default function PaymentCard({ payment }: PaymentCardProps) {
                 </p>
             </div>
             <p class="font-base text-gray-700 dark:text-gray-400 m-0">
-                {payment.description}
+                {payment.title}
             </p>
             <form>
                 <button
