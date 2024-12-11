@@ -27,18 +27,30 @@ const formatedTotal =
 <div class="w-full flex flex-col gap-4 items-start py-4">
     {
         currentPaycheck ? (
-            <div class="flex flex-col gap-4">
-                <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
-                <div>
+            <div class="flex flex-col gap-4 w-full">
+                <div class="flex justify-between w-full items-center">
                     <h1>{currentPaycheck.title}</h1>
                     <h1>
-                        {new Date(
-                            currentPaycheck.startDate
-                        ).toLocaleDateString()}{" "}
+                        {new Date(currentPaycheck.startDate).toLocaleDateString(
+                            "en-US",
+                            {
+                                month: "2-digit",
+                                day: "2-digit",
+                            }
+                        )}{" "}
                         -{" "}
-                        {new Date(currentPaycheck.endDate).toLocaleDateString()}
+                        {new Date(currentPaycheck.endDate).toLocaleDateString(
+                            "en-US",
+                            {
+                                month: "2-digit",
+                                day: "2-digit",
+                                year: "numeric",
+                            }
+                        )}
                     </h1>
                 </div>
+                <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
+
                 <PaymentEntry
                     userId={userId}
                     paychecks={paychecks}
