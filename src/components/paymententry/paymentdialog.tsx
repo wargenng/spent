@@ -27,7 +27,7 @@ interface PaymentEntryProps {
     children: any;
 }
 
-export default function PaymentEntry({
+export default function PaymentDialog({
     userId,
     paychecks,
     categories,
@@ -69,7 +69,7 @@ export default function PaymentEntry({
         <div>
             <Dialog>
                 <DialogTrigger>{children}</DialogTrigger>
-                <DialogContent class="h-full">
+                <DialogContent>
                     <DialogHeader>Add New Purchase</DialogHeader>
                     <div class="grid gap-4 p-4 w-full">
                         <div class="grid gap-4 w-full">

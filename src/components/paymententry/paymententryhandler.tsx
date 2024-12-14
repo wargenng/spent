@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { createSignal } from "solid-js";
 import { Button } from "../ui/button";
+import PaymentDialog from "./paymentdialog";
 
 interface PaymentEntryProps {
     userId: string;
@@ -45,14 +46,14 @@ export default function PaymentEntry({
                         </PaymentEntryForm>
                     </div>
                     <div class="hidden lg:block">
-                        <PaymentEntryForm
+                        <PaymentDialog
                             userId={userId}
                             paychecks={paychecks}
                             categories={categories}
                             cards={cards}
                         >
                             {children}
-                        </PaymentEntryForm>
+                        </PaymentDialog>
                     </div>
                 </div>
             ) : (
