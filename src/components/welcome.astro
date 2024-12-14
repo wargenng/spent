@@ -5,6 +5,7 @@ import type { Paycheck, Payment } from "@/types/db";
 import PaycheckEntry from "./paycheckentry/paycheckentry";
 import { Button } from "./ui/button";
 import { P } from "node_modules/@kobalte/core/dist/index-f15c7ba5";
+import PaymentButton from "./paymententry/paymentbutton";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
 
@@ -50,18 +51,13 @@ const formatedTotal =
                     </h1>
                 </div>
                 <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
-
-                <PaymentEntry
+                <PaymentButton
                     userId={userId}
-                    paychecks={paychecks}
-                    categories={categories}
                     cards={cards}
+                    categories={categories}
+                    paychecks={paychecks}
                     client:only="solid-js"
-                >
-                    <div class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Add purchase
-                    </div>
-                </PaymentEntry>
+                />
             </div>
         ) : (
             <div class="flex flex-col gap-4">

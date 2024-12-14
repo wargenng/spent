@@ -33,14 +33,28 @@ export default function PaymentEntry({
     return (
         <div>
             {cards.length > 0 || paychecks.length > 0 ? (
-                <PaymentEntryForm
-                    userId={userId}
-                    paychecks={paychecks}
-                    categories={categories}
-                    cards={cards}
-                >
-                    {children}
-                </PaymentEntryForm>
+                <div>
+                    <div class="block lg:hidden">
+                        <PaymentEntryForm
+                            userId={userId}
+                            paychecks={paychecks}
+                            categories={categories}
+                            cards={cards}
+                        >
+                            {children}
+                        </PaymentEntryForm>
+                    </div>
+                    <div class="hidden lg:block">
+                        <PaymentEntryForm
+                            userId={userId}
+                            paychecks={paychecks}
+                            categories={categories}
+                            cards={cards}
+                        >
+                            {children}
+                        </PaymentEntryForm>
+                    </div>
+                </div>
             ) : (
                 <Dialog open={open()} onOpenChange={setOpen}>
                     <DialogTrigger> {children}</DialogTrigger>
