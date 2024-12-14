@@ -66,11 +66,11 @@ export default function PaymentEntry({
     }
 
     return (
-        <div class="">
-            <Drawer side="right">
-                <DrawerTrigger>{children}</DrawerTrigger>
-                <DrawerContent class="h-full">
-                    <DrawerHeader>Add New Purchase</DrawerHeader>
+        <div>
+            <Dialog>
+                <DialogTrigger>{children}</DialogTrigger>
+                <DialogContent class="h-full">
+                    <DialogHeader>Add New Purchase</DialogHeader>
                     <div class="grid gap-4 p-4 w-full">
                         <div class="grid gap-4 w-full">
                             <InputField
@@ -159,8 +159,8 @@ export default function PaymentEntry({
                             </button>
                         </form>
                     </div>
-                </DrawerContent>
-            </Drawer>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
