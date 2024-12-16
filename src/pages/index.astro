@@ -16,7 +16,7 @@ const payments = await db
     .select()
     .from(Payments)
     .where(eq(Payments.userId, userId))
-    .orderBy(desc(Payments.date));
+    .orderBy(desc(Payments.date), desc(Payments.id));
 
 const categories = await db.select().from(Categories).all();
 const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
