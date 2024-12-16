@@ -36,9 +36,9 @@ export default function PaymentDialog({
 }: PaymentEntryProps) {
     const [amount, setAmount] = createSignal(0);
     const [date, setDate] = createSignal(new Date());
-    const [cardId, setCardId] = createSignal(1);
-    const [categoryId, setCategoryId] = createSignal(1);
-    const [paycheckId, setPaycheckId] = createSignal(1);
+    const [cardId, setCardId] = createSignal(cards[0].id);
+    const [categoryId, setCategoryId] = createSignal(categories[0].id);
+    const [paycheckId, setPaycheckId] = createSignal(paychecks[0].id);
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
     const [isIncome, setIsIncome] = createSignal(false);

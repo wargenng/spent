@@ -1,4 +1,4 @@
-import { Cards, Categories, db, eq, Paychecks } from "astro:db";
+import { Cards, Categories, db, desc, eq, Paychecks } from "astro:db";
 
 export const getCatagories = async () => {
     return await db.select().from(Categories).all();
@@ -9,5 +9,9 @@ export const getUserCards = async (userId: string) => {
 };
 
 export const getUserPaychecks = async (userId: string) => {
-    return db.select().from(Paychecks).where(eq(Paychecks.userId, userId));
+    return db
+        .select()
+        .from(Paychecks)
+        .where(eq(Paychecks.userId, userId))
+        .orderBy(desc(Paychecks.endDate));
 };
