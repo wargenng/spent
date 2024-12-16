@@ -24,14 +24,14 @@ export default function Amount({ amount, setAmount }: AmountProps) {
             <DrawerContent class="h-full">
                 <DrawerHeader>Enter amount</DrawerHeader>
                 <TextFieldRoot class="p-4">
-                    <TextField
+                    <input
                         type="number"
                         value={amount()}
                         onchange={(e) => {
                             setAmount(Number(e.target.value));
                         }}
-                        class="text-base"
-                    ></TextField>
+                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                    ></input>
                 </TextFieldRoot>
             </DrawerContent>
         </Drawer>
