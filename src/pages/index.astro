@@ -2,7 +2,7 @@
 import PaymentCard from "@/components/paymentcard";
 import Welcome from "@/components/welcome.astro";
 import "@/styles/globals.css";
-import type { Payment as PaymentType } from "@/types/db";
+import type { Card, Category, Payment as PaymentType } from "@/types/db";
 import { Categories, db, desc, eq, Payments } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 import { Cards } from "astro:db";
@@ -36,7 +36,20 @@ const paychecks = await getUserPaychecks(userId);
             <h2 class="w-full font-semibold text-lg">Latest Purchases</h2>
             {
                 payments.map((payment: PaymentType) => (
-                    <PaymentCard payment={payment} client:only="solid-js" />
+                    <PaymentCard
+                        payment={payment}
+                        card={
+                            cards.find(
+                                (card) => card.id === payment.cardId
+                            ) as Card
+                        }
+                        category={
+                            categories.find(
+                                (category) => category.id === payment.categoryId
+                            ) as Category
+                        }
+                        client:only="solid-js"
+                    />
                 ))
             }
         </div>
