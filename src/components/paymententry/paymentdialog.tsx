@@ -105,11 +105,26 @@ export default function PaymentDialog({
                                     />
                                 </div>
                             </div>
-                            <DateField
-                                datefield={date}
-                                setDateField={setDate}
-                                inputtype="Date"
-                            />
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Date
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="date"
+                                        value={
+                                            date().toISOString().split("T")[0]
+                                        }
+                                        onChange={(e) => {
+                                            setDate(
+                                                new Date(e.currentTarget.value)
+                                            );
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
                             <CommandEntry
                                 commandentry={cardId}
                                 setCommandEntry={setCardId}
