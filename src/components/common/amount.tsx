@@ -4,9 +4,14 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import type { Accessor, Setter } from "solid-js";
+import {
+    createSignal,
+    createEffect,
+    type Accessor,
+    type Setter,
+} from "solid-js";
 import { Button } from "../ui/button";
-import { TextField, TextFieldRoot } from "../ui/textfield";
+import { TextFieldLabel, TextFieldRoot } from "../ui/textfield";
 
 interface AmountProps {
     amount: Accessor<number>;
@@ -14,8 +19,21 @@ interface AmountProps {
 }
 
 export default function Amount({ amount, setAmount }: AmountProps) {
+    const [open, setOpen] = createSignal(false);
+    let inputRef: HTMLInputElement | undefined;
+
+    const handleOpenChange = (isOpen: boolean) => {
+        setOpen(isOpen);
+        if (open() && inputRef) {
+            setTimeout(() => {
+                inputRef?.focus();
+                inputRef?.select();
+            }, 300);
+        }
+    };
+
     return (
-        <Drawer side="right">
+        <Drawer side="right" open={open()} onOpenChange={handleOpenChange}>
             <DrawerTrigger class="w-full">
                 <Button variant="outline" class="w-full justify-start">
                     {amount().toFixed(2)}
@@ -24,14 +42,17 @@ export default function Amount({ amount, setAmount }: AmountProps) {
             <DrawerContent class="h-full">
                 <DrawerHeader>Enter amount</DrawerHeader>
                 <TextFieldRoot class="p-4">
+                    <TextFieldLabel>Transaction Amount</TextFieldLabel>
                     <input
+                        ref={inputRef}
                         type="number"
+                        inputMode="decimal"
                         value={amount()}
-                        onchange={(e) => {
-                            setAmount(Number(e.target.value));
+                        onChange={(e) => {
+                            setAmount(Number(e.currentTarget.value));
                         }}
                         class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                    ></input>
+                    />
                 </TextFieldRoot>
             </DrawerContent>
         </Drawer>
