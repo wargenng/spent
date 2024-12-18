@@ -11,6 +11,7 @@ import {
 import CommandEntry from "../common/commandentry";
 import DateField from "../common/datefield";
 import InputField from "../common/inputfield";
+import { ComboboxEntry } from "../common/comboboxentry";
 
 interface PaymentEntryProps {
     userId: string;
@@ -125,28 +126,28 @@ export default function PaymentDialog({
                                     />
                                 </div>
                             </div>
-                            <CommandEntry
-                                commandentry={cardId}
-                                setCommandEntry={setCardId}
-                                commands={cards.map((card) => ({
+                            <ComboboxEntry
+                                comboboxentry={cardId}
+                                setComboboxEntry={setCardId}
+                                combos={cards.map((card) => ({
                                     id: card.id,
                                     name: card.name,
                                 }))}
                                 inputtype="Card"
                             />
-                            <CommandEntry
-                                commandentry={categoryId}
-                                setCommandEntry={setCategoryId}
-                                commands={categories.map((category) => ({
+                            <ComboboxEntry
+                                comboboxentry={categoryId}
+                                setComboboxEntry={setCategoryId}
+                                combos={categories.map((category) => ({
                                     id: category.id,
                                     name: category.name,
                                 }))}
                                 inputtype="Category"
                             />
-                            <CommandEntry
-                                commandentry={paycheckId}
-                                setCommandEntry={setPaycheckId}
-                                commands={paychecks.map((paycheck) => ({
+                            <ComboboxEntry
+                                comboboxentry={paycheckId}
+                                setComboboxEntry={setPaycheckId}
+                                combos={paychecks.map((paycheck) => ({
                                     id: paycheck.id,
                                     name: paycheck.title,
                                 }))}

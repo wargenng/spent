@@ -2,12 +2,6 @@ import type { Card, Category, Paycheck } from "@/types/db";
 import { createSignal } from "solid-js";
 
 import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTrigger,
-} from "@/components/ui/dialog";
 import Amount from "../common/amount";
 import CommandEntry from "../common/commandentry";
 import DateField from "../common/datefield";
