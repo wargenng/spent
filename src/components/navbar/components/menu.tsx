@@ -7,7 +7,7 @@ import {
 import type { Card, Category, Paycheck } from "@/types/db";
 import PaymentEntry from "../../paymententry/paymententryhandler";
 import CardEntry from "@/components/cardentry/cardentry";
-import PaycheckEntry from "@/components/paycheckentry/paycheckentry";
+import PaycheckEntry from "@/components/paycheckentry/paycheckentryhandler";
 
 interface MenuProps {
     userId: string;
@@ -54,7 +54,10 @@ export default function Menu({
                                 Add Purchase
                             </PaymentEntry>
                             <CardEntry userId={userId}>Add Card</CardEntry>
-                            <PaycheckEntry userId={userId}>
+                            <PaycheckEntry
+                                userId={userId}
+                                hasCards={cards.length > 0}
+                            >
                                 Add Paycheck
                             </PaycheckEntry>
                         </div>
@@ -71,7 +74,9 @@ export default function Menu({
                     Add Purchase
                 </PaymentEntry>
                 <CardEntry userId={userId}>Add Card</CardEntry>
-                <PaycheckEntry userId={userId}>Add Paycheck</PaycheckEntry>
+                <PaycheckEntry userId={userId} hasCards={cards.length > 0}>
+                    Add Paycheck
+                </PaycheckEntry>
             </div>
         </div>
     );

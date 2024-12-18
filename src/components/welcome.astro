@@ -1,11 +1,10 @@
 ---
-import PaymentEntry from "@/components/paymententry/paymententryhandler";
 import "@/styles/globals.css";
 import type { Paycheck, Payment } from "@/types/db";
-import PaycheckEntry from "./paycheckentry/paycheckentry";
-import { Button } from "./ui/button";
-import { P } from "node_modules/@kobalte/core/dist/index-f15c7ba5";
+import PaycheckEntry from "./paycheckentry/paycheckentryhandler";
 import PaymentButton from "./paymententry/paymentbutton";
+import { Button } from "./ui/button";
+import CardEntry from "./cardentry/cardentry";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
 
@@ -27,7 +26,14 @@ const formatedTotal =
 
 <div class="w-full flex flex-col gap-4 items-start py-4">
     {
-        currentPaycheck ? (
+        cards.length === 0 ? (
+            <div class="flex flex-col gap-4 w-full">
+                <h1 class="m-0 text-5xl font-bold ">No cards added</h1>
+                <CardEntry userId={userId} client:only="solid-js">
+                    <Button>Add card</Button>
+                </CardEntry>
+            </div>
+        ) : currentPaycheck ? (
             <div class="flex flex-col gap-4 w-full">
                 <div class="flex justify-between w-full items-center">
                     <h1>{currentPaycheck.title}</h1>
@@ -64,7 +70,11 @@ const formatedTotal =
                 <h1 class="m-0 text-5xl font-bold ">
                     No paycheck for this cycle
                 </h1>
-                <PaycheckEntry userId={userId} client:only="solid-js">
+                <PaycheckEntry
+                    userId={userId}
+                    hasCards={cards.length > 0}
+                    client:only="solid-js"
+                >
                     <Button>Add paycheck</Button>
                 </PaycheckEntry>
             </div>

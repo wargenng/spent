@@ -33,7 +33,7 @@ export default function PaymentEntry({
 
     return (
         <div>
-            {cards.length > 0 || paychecks.length > 0 ? (
+            {cards.length > 0 && paychecks.length > 0 ? (
                 <div>
                     <div class="block lg:hidden">
                         <PaymentEntryForm
