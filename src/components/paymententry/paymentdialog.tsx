@@ -8,16 +8,9 @@ import {
     DialogHeader,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import Amount from "../common/amount";
 import CommandEntry from "../common/commandentry";
 import DateField from "../common/datefield";
 import InputField from "../common/inputfield";
-import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTrigger,
-} from "../ui/drawer";
 
 interface PaymentEntryProps {
     userId: string;
@@ -73,11 +66,22 @@ export default function PaymentDialog({
                     <DialogHeader>Add New Purchase</DialogHeader>
                     <div class="grid gap-4 p-4 w-full">
                         <div class="grid gap-4 w-full">
-                            <InputField
-                                inputfield={title}
-                                setInputField={setTitle}
-                                inputtype="Title"
-                            />
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Name of Transation
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={title()}
+                                        onChange={(e) => {
+                                            setTitle(e.currentTarget.value);
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
                             <div class="">
                                 <label
                                     for="amount"
@@ -87,9 +91,17 @@ export default function PaymentDialog({
                                 </label>
                                 <div class="flex items-center gap-2">
                                     $
-                                    <Amount
-                                        amount={amount}
-                                        setAmount={setAmount}
+                                    <input
+                                        type="number"
+                                        inputMode="decimal"
+                                        value={amount()}
+                                        onChange={(e) => {
+                                            setAmount(
+                                                Number(e.currentTarget.value)
+                                            );
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
                                     />
                                 </div>
                             </div>
