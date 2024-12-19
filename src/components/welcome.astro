@@ -57,13 +57,15 @@ const formatedTotal =
                     </h1>
                 </div>
                 <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
-                <PaymentButton
-                    userId={userId}
-                    cards={cards}
-                    categories={categories}
-                    paychecks={paychecks}
-                    client:only="solid-js"
-                />
+                <div class="flex gap-4 ">
+                    <PaymentButton
+                        userId={userId}
+                        cards={cards}
+                        categories={categories}
+                        paychecks={paychecks}
+                        client:only="solid-js"
+                    />
+                </div>
             </div>
         ) : (
             <div class="flex flex-col gap-4">

@@ -121,7 +121,9 @@ export default function PaymentEntry({
                             />
                             <Checkbox
                                 class="flex items-center space-x-2"
-                                onChange={(checked) => setIsIncome(checked)}
+                                onChange={(checked: boolean) =>
+                                    setIsIncome(checked)
+                                }
                             >
                                 <CheckboxControl />
                                 <span class="text-sm font-medium">Income</span>
