@@ -8,9 +8,6 @@ import {
     DialogHeader,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import CommandEntry from "../common/commandentry";
-import DateField from "../common/datefield";
-import InputField from "../common/inputfield";
 import { ComboboxEntry } from "../common/comboboxentry";
 
 interface PaymentEntryProps {
@@ -155,16 +152,29 @@ export default function PaymentDialog({
                             />
                             <Checkbox
                                 class="flex items-center space-x-2"
-                                onChange={(checked) => setIsIncome(checked)}
+                                onChange={(checked: boolean) =>
+                                    setIsIncome(checked)
+                                }
                             >
                                 <CheckboxControl />
                                 <span class="text-sm font-medium">Income</span>
                             </Checkbox>
-                            <InputField
-                                inputfield={notes}
-                                setInputField={setNotes}
-                                inputtype="Notes"
-                            />
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Notes
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={notes()}
+                                        onChange={(e) => {
+                                            setNotes(e.currentTarget.value);
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <form>
                             <button
