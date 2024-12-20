@@ -5,10 +5,9 @@ import {
     ComboboxItem,
     ComboboxTrigger,
 } from "@/components/ui/combobox";
-import { type Accessor, type Setter } from "solid-js";
+import { type Setter } from "solid-js";
 
 interface ComboboxEntryProps {
-    comboboxentry: Accessor<number>;
     setComboboxEntry: Setter<number>;
     combos: {
         id: number;
@@ -18,7 +17,6 @@ interface ComboboxEntryProps {
 }
 
 export const ComboboxEntry = ({
-    comboboxentry,
     setComboboxEntry,
     combos,
     inputtype,

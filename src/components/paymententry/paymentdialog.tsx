@@ -124,7 +124,6 @@ export default function PaymentDialog({
                                 </div>
                             </div>
                             <ComboboxEntry
-                                comboboxentry={cardId}
                                 setComboboxEntry={setCardId}
                                 combos={cards.map((card) => ({
                                     id: card.id,
@@ -133,7 +132,6 @@ export default function PaymentDialog({
                                 inputtype="Card"
                             />
                             <ComboboxEntry
-                                comboboxentry={categoryId}
                                 setComboboxEntry={setCategoryId}
                                 combos={categories.map((category) => ({
                                     id: category.id,
@@ -142,7 +140,6 @@ export default function PaymentDialog({
                                 inputtype="Category"
                             />
                             <ComboboxEntry
-                                comboboxentry={paycheckId}
                                 setComboboxEntry={setPaycheckId}
                                 combos={paychecks.map((paycheck) => ({
                                     id: paycheck.id,

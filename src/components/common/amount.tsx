@@ -4,12 +4,7 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-    createSignal,
-    createEffect,
-    type Accessor,
-    type Setter,
-} from "solid-js";
+import { createSignal, type Accessor, type Setter } from "solid-js";
 import { Button } from "../ui/button";
 import { TextFieldLabel, TextFieldRoot } from "../ui/textfield";
 

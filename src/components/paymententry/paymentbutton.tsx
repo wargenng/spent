@@ -1,5 +1,4 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import PaymentEntry from "./paymententryhandler";
 import { Button } from "../ui/button";
 
 import PaymentEntryForm from "./paymententry";
