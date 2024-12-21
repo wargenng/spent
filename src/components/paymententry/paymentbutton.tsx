@@ -33,7 +33,7 @@ export default function PaymentButton({
     return (
         <div>
             {cards.length > 0 && paychecks.length > 0 ? (
-                <div class="flex flex-col items-center justify-start gap-1">
+                <div class="flex flex-col items-center justify-start gap-2">
                     <div class="block lg:hidden">
                         <PaymentEntryForm
                             userId={userId}

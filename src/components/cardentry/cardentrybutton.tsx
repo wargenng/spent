@@ -41,7 +41,7 @@ export default function CardEntryButton({ userId }: { userId: string }) {
     }
 
     return (
-        <div class="flex flex-col items-center justify-center gap-1">
+        <div class="flex flex-col items-center justify-center gap-2">
             <div class="block lg:hidden">
                 <Drawer side="right">
                     <DrawerTrigger>
