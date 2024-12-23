@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-
+import type { JSX } from "solid-js";
 import DateField from "@/components/common/datefield";
 import InputField from "@/components/common/inputfield";
 import {
@@ -11,13 +11,11 @@ import {
 
 interface PaycheckEntryProps {
     userId: string;
-    children: any;
+    children: JSX.Element;
 }
 
-export default function PaycheckEntryDrawer({
-    userId,
-    children,
-}: PaycheckEntryProps) {
+export default function PaycheckEntryDrawer(props: PaycheckEntryProps) {
+    const { userId, children } = props;
     const [title, setTitle] = createSignal(
         `${
             new Date().getDate() < 15 ? "Early" : "Late"

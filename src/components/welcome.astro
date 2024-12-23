@@ -6,6 +6,7 @@ import PaymentButton from "./paymententry/paymentbutton";
 import { Button } from "./ui/button";
 import CardEntry from "./cardentry/cardentry";
 import CardEntryButton from "./cardentry/components/cardentrybutton";
+import PaycheckEntryButton from "./paycheckentry/components/paycheckentrybutton";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
 
@@ -67,6 +68,11 @@ const formatedTotal =
                         client:only="solid-js"
                     />
                     <CardEntryButton userId={userId} client:only="solid-js" />
+                    <PaycheckEntryButton
+                        userId={userId}
+                        hasCards={cards.length > 0}
+                        client:only="solid-js"
+                    />
                 </div>
             </div>
         ) : (

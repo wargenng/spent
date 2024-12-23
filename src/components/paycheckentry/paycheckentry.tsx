@@ -1,25 +1,25 @@
+import type { JSX } from "solid-js";
 import PaycheckEntryDialog from "./components/paycheckentrydialog";
 import PaycheckEntryDrawer from "./components/paycheckentrydrawer";
 
 interface PaycheckEntryProps {
     userId: string;
-    children: any;
+    children: JSX.Element;
 }
 
-export default function PaycheckEntry({
-    userId,
-    children,
-}: PaycheckEntryProps) {
+export default function PaycheckEntry(props: PaycheckEntryProps) {
+    const { userId } = props;
+
     return (
         <div>
             <div class="block lg:hidden">
                 <PaycheckEntryDrawer userId={userId}>
-                    {children}
+                    {props.children}
                 </PaycheckEntryDrawer>
             </div>
             <div class="hidden lg:block">
                 <PaycheckEntryDialog userId={userId}>
-                    {children}
+                    {props.children}
                 </PaycheckEntryDialog>
             </div>
         </div>

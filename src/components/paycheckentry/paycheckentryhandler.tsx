@@ -10,30 +10,28 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { createSignal } from "solid-js";
+import type { JSX } from "solid-js";
 import { Button } from "../ui/button";
 
 interface PaycheckEntryHandlerProps {
     userId: string;
     hasCards: boolean;
-    children: any;
+    children: JSX.Element;
 }
 
-export default function PaycheckEntry({
-    userId,
-    hasCards,
-    children,
-}: PaycheckEntryHandlerProps) {
+export default function PaycheckEntry(props: PaycheckEntryHandlerProps) {
+    const { userId, hasCards } = props;
     const [open, setOpen] = createSignal(false);
 
     return (
         <div>
             {hasCards ? (
                 <PaycheckEntryForm userId={userId}>
-                    {children}
+                    {props.children}
                 </PaycheckEntryForm>
             ) : (
                 <Dialog open={open()} onOpenChange={setOpen}>
-                    <DialogTrigger> {children}</DialogTrigger>
+                    <DialogTrigger>{props.children}</DialogTrigger>
                     <DialogContent class="w-5/6">
                         <DialogHeader>
                             <DialogTitle>
