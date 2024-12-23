@@ -109,26 +109,82 @@ export default function PaycheckEntry({
                     <DialogContent>
                         <DialogHeader>Add New Paycheck</DialogHeader>
                         <div class="p-4 grid gap-4">
-                            <InputField
-                                inputfield={title}
-                                setInputField={setTitle}
-                                inputtype="Title"
-                            />
-                            <DateField
-                                datefield={startDate}
-                                setDateField={setStartDate}
-                                inputtype="Start Date"
-                            />
-                            <DateField
-                                datefield={endDate}
-                                setDateField={setEndDate}
-                                inputtype="End Date"
-                            />
-                            <InputField
-                                inputfield={notes}
-                                setInputField={setNotes}
-                                inputtype="Notes"
-                            />
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Name of Paycheck
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={title()}
+                                        onChange={(e) => {
+                                            setTitle(e.currentTarget.value);
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Start Date
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="date"
+                                        value={
+                                            startDate()
+                                                .toISOString()
+                                                .split("T")[0]
+                                        }
+                                        onChange={(e) => {
+                                            setStartDate(
+                                                new Date(e.currentTarget.value)
+                                            );
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    End Date
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="date"
+                                        value={
+                                            endDate()
+                                                .toISOString()
+                                                .split("T")[0]
+                                        }
+                                        onChange={(e) => {
+                                            setEndDate(
+                                                new Date(e.currentTarget.value)
+                                            );
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
+                            <div class="">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Notes
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={notes()}
+                                        onChange={(e) => {
+                                            setNotes(e.currentTarget.value);
+                                        }}
+                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                </div>
+                            </div>
                             <form>
                                 <button
                                     class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
