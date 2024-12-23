@@ -1,19 +1,5 @@
-import { createSignal } from "solid-js";
-
-import InputField from "../common/inputfield";
-import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTrigger,
-} from "../ui/drawer";
-import DateField from "../common/datefield";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTrigger,
-} from "../ui/dialog";
+import PaycheckEntryDialog from "./components/paycheckentrydialog";
+import PaycheckEntryDrawer from "./components/paycheckentrydrawer";
 
 interface PaycheckEntryProps {
     userId: string;
@@ -24,190 +10,17 @@ export default function PaycheckEntry({
     userId,
     children,
 }: PaycheckEntryProps) {
-    const [title, setTitle] = createSignal(
-        `${
-            new Date().getDate() < 15 ? "Early" : "Late"
-        } ${new Date().toLocaleString("default", { month: "long" })} Paycheck`
-    );
-    const [startDate, setStartDate] = createSignal(new Date());
-    const [endDate, setEndDate] = createSignal(new Date());
-    const [notes, setNotes] = createSignal("");
-
-    async function handleSubmit(e: Event) {
-        e.preventDefault();
-        await fetch("/api/paychecks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userId,
-                title: title(),
-                startDate: startDate(),
-                endDate: endDate(),
-                notes: notes(),
-            }),
-        });
-        window.location.reload();
-    }
-
     return (
         <div>
             <div class="block lg:hidden">
-                <Drawer side="right">
-                    <DrawerTrigger>{children}</DrawerTrigger>
-                    <DrawerContent class="h-full">
-                        <DrawerHeader>Add New Paycheck</DrawerHeader>
-                        <div class="p-4 grid gap-4">
-                            <InputField
-                                inputfield={title}
-                                setInputField={setTitle}
-                                inputtype="Title"
-                            />
-                            <DateField
-                                datefield={startDate}
-                                setDateField={setStartDate}
-                                inputtype="Start Date"
-                            />
-                            <DateField
-                                datefield={endDate}
-                                setDateField={setEndDate}
-                                inputtype="End Date"
-                            />
-                            <InputField
-                                inputfield={notes}
-                                setInputField={setNotes}
-                                inputtype="Notes"
-                            />
-                            <form>
-                                <button
-                                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    onclick={handleSubmit}
-                                >
-                                    <svg
-                                        class="me-1 -ms-1 w-5 h-5"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                            clip-rule="evenodd"
-                                        ></path>
-                                    </svg>
-                                    Add new paycheck
-                                </button>
-                            </form>
-                        </div>
-                    </DrawerContent>
-                </Drawer>
+                <PaycheckEntryDrawer userId={userId}>
+                    {children}
+                </PaycheckEntryDrawer>
             </div>
             <div class="hidden lg:block">
-                <Dialog>
-                    <DialogTrigger>{children}</DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>Add New Paycheck</DialogHeader>
-                        <div class="p-4 grid gap-4">
-                            <div class="">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Name of Paycheck
-                                </label>
-                                <div class="flex items-center gap-2">
-                                    <input
-                                        type="text"
-                                        value={title()}
-                                        onChange={(e) => {
-                                            setTitle(e.currentTarget.value);
-                                        }}
-                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                                        onFocus={(e) => e.target.select()}
-                                    />
-                                </div>
-                            </div>
-                            <div class="">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Start Date
-                                </label>
-                                <div class="flex items-center gap-2">
-                                    <input
-                                        type="date"
-                                        value={
-                                            startDate()
-                                                .toISOString()
-                                                .split("T")[0]
-                                        }
-                                        onChange={(e) => {
-                                            setStartDate(
-                                                new Date(e.currentTarget.value)
-                                            );
-                                        }}
-                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                                        onFocus={(e) => e.target.select()}
-                                    />
-                                </div>
-                            </div>
-                            <div class="">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    End Date
-                                </label>
-                                <div class="flex items-center gap-2">
-                                    <input
-                                        type="date"
-                                        value={
-                                            endDate()
-                                                .toISOString()
-                                                .split("T")[0]
-                                        }
-                                        onChange={(e) => {
-                                            setEndDate(
-                                                new Date(e.currentTarget.value)
-                                            );
-                                        }}
-                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                                        onFocus={(e) => e.target.select()}
-                                    />
-                                </div>
-                            </div>
-                            <div class="">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Notes
-                                </label>
-                                <div class="flex items-center gap-2">
-                                    <input
-                                        type="text"
-                                        value={notes()}
-                                        onChange={(e) => {
-                                            setNotes(e.currentTarget.value);
-                                        }}
-                                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                                        onFocus={(e) => e.target.select()}
-                                    />
-                                </div>
-                            </div>
-                            <form>
-                                <button
-                                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    onclick={handleSubmit}
-                                >
-                                    <svg
-                                        class="me-1 -ms-1 w-5 h-5"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                            clip-rule="evenodd"
-                                        ></path>
-                                    </svg>
-                                    Add new paycheck
-                                </button>
-                            </form>
-                        </div>
-                    </DialogContent>
-                </Dialog>
+                <PaycheckEntryDialog userId={userId}>
+                    {children}
+                </PaycheckEntryDialog>
             </div>
         </div>
     );
