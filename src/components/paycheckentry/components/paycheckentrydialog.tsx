@@ -74,9 +74,10 @@ export default function PaycheckEntryDialog({
                                 type="date"
                                 value={startDate().toISOString().split("T")[0]}
                                 onChange={(e) => {
-                                    setStartDate(
-                                        new Date(e.currentTarget.value)
+                                    const selectedDate = new Date(
+                                        e.currentTarget.value + "T00:00:00"
                                     );
+                                    setStartDate(new Date(selectedDate));
                                 }}
                                 class="text-base rounded-lg w-full p-2.5 border border-gray-300"
                                 onFocus={(e) => e.target.select()}
@@ -92,7 +93,10 @@ export default function PaycheckEntryDialog({
                                 type="date"
                                 value={endDate().toISOString().split("T")[0]}
                                 onChange={(e) => {
-                                    setEndDate(new Date(e.currentTarget.value));
+                                    const selectedDate = new Date(
+                                        e.currentTarget.value + "T00:00:00"
+                                    );
+                                    setEndDate(new Date(selectedDate));
                                 }}
                                 class="text-base rounded-lg w-full p-2.5 border border-gray-300"
                                 onFocus={(e) => e.target.select()}

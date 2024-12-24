@@ -114,9 +114,11 @@ export default function PaymentDialog({
                                             date().toISOString().split("T")[0]
                                         }
                                         onChange={(e) => {
-                                            setDate(
-                                                new Date(e.currentTarget.value)
+                                            const selectedDate = new Date(
+                                                e.currentTarget.value +
+                                                    "T00:00:00"
                                             );
+                                            setDate(new Date(selectedDate));
                                         }}
                                         class="text-base rounded-lg w-full p-2.5 border border-gray-300"
                                         onFocus={(e) => e.target.select()}
