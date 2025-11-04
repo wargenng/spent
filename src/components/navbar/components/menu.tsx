@@ -57,6 +57,7 @@ export default function Menu({
                             <PaycheckEntry
                                 userId={userId}
                                 hasCards={cards.length > 0}
+                                buttonText="Add Paycheck"
                             >
                                 Add Paycheck
                             </PaycheckEntry>
@@ -74,7 +75,11 @@ export default function Menu({
                     Add Purchase
                 </PaymentEntry>
                 <CardEntry userId={userId}>Add Card</CardEntry>
-                <PaycheckEntry userId={userId} hasCards={cards.length > 0}>
+                <PaycheckEntry
+                    userId={userId}
+                    hasCards={cards.length > 0}
+                    buttonText="Add Paycheck"
+                >
                     Add Paycheck
                 </PaycheckEntry>
             </div>

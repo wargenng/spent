@@ -17,16 +17,17 @@ interface PaycheckEntryHandlerProps {
     userId: string;
     hasCards: boolean;
     children: JSX.Element;
+    buttonText?: string;
 }
 
 export default function PaycheckEntry(props: PaycheckEntryHandlerProps) {
-    const { userId, hasCards } = props;
+    const { userId, hasCards, buttonText } = props;
     const [open, setOpen] = createSignal(false);
 
     return (
         <div>
             {hasCards ? (
-                <PaycheckEntryForm userId={userId}>
+                <PaycheckEntryForm userId={userId} buttonText={buttonText}>
                     {props.children}
                 </PaycheckEntryForm>
             ) : (
