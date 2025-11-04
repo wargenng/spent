@@ -24,7 +24,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import type { Accessor, Setter } from "solid-js";
-import { For } from "solid-js";
+import { createSignal, For } from "solid-js";
 import { Button } from "../ui/button";
 
 interface DateFieldProps {
@@ -38,13 +38,25 @@ export default function DateField({
     setDateField,
     inputtype,
 }: DateFieldProps) {
+    const [drawerOpen, setDrawerOpen] = createSignal(false);
+
     return (
-        <Drawer side="right">
+        <Drawer
+            side="right"
+            open={drawerOpen()}
+            onOpenChange={(isOpen) => setDrawerOpen(isOpen)}
+        >
             <DrawerTrigger class="w-full">
                 <div class="flex flex-col justify-start gap-2 items-start">
                     <label class="text-sm font-medium">{inputtype}</label>
                     <Button variant="outline" class="w-full justify-start">
-                        {datefield().toLocaleDateString()}
+                        {(() => {
+                            const date = datefield();
+                            if (!date || isNaN(date.getTime())) {
+                                return "Select date";
+                            }
+                            return date.toLocaleDateString();
+                        })()}
                     </Button>
                 </div>
             </DrawerTrigger>
@@ -53,11 +65,15 @@ export default function DateField({
                 <DatePicker
                     open
                     onValueChange={(e) => {
-                        const selectedDate = new Date(
-                            e.valueAsString[0] + "T00:00:00"
-                        );
-                        setDateField(selectedDate);
-                        console.log(selectedDate);
+                        if (e.valueAsString && e.valueAsString[0]) {
+                            // Parse the formatted date string (e.g., "November 1, 2025")
+                            const selectedDate = new Date(e.valueAsString[0]);
+                            if (!isNaN(selectedDate.getTime())) {
+                                setDateField(selectedDate);
+                                // Close the drawer after selection
+                                setDrawerOpen(false);
+                            }
+                        }
                     }}
                     class="p-4"
                 >
