@@ -14,7 +14,9 @@ export default function PaycheckEntry(props: PaycheckEntryProps) {
     return (
         <div>
             <div class="block lg:hidden">
-                <PaycheckEntryDrawer userId={userId} buttonText={buttonText} />
+                <PaycheckEntryDrawer userId={userId} buttonText={buttonText}>
+                    {props.children}
+                </PaycheckEntryDrawer>
             </div>
             <div class="hidden lg:block">
                 <PaycheckEntryDialog userId={userId}>
