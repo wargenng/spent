@@ -103,6 +103,15 @@ export default function PaymentDialog({
                                     />
                                 </div>
                             </div>
+                            <Checkbox
+                                class="flex items-center space-x-2"
+                                onChange={(checked: boolean) =>
+                                    setIsIncome(checked)
+                                }
+                            >
+                                <CheckboxControl />
+                                <span class="text-sm font-medium">Income</span>
+                            </Checkbox>
                             <div class="">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Date
@@ -149,15 +158,6 @@ export default function PaymentDialog({
                                 }))}
                                 inputtype="Paycheck"
                             />
-                            <Checkbox
-                                class="flex items-center space-x-2"
-                                onChange={(checked: boolean) =>
-                                    setIsIncome(checked)
-                                }
-                            >
-                                <CheckboxControl />
-                                <span class="text-sm font-medium">Income</span>
-                            </Checkbox>
                             <div class="">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Notes

@@ -87,6 +87,15 @@ export default function PaymentEntry({
                                     />
                                 </div>
                             </div>
+                            <Checkbox
+                                class="flex items-center space-x-2"
+                                onChange={(checked: boolean) =>
+                                    setIsIncome(checked)
+                                }
+                            >
+                                <CheckboxControl />
+                                <span class="text-sm font-medium">Income</span>
+                            </Checkbox>
                             <DateField
                                 datefield={date}
                                 setDateField={setDate}
@@ -119,15 +128,6 @@ export default function PaymentEntry({
                                 }))}
                                 inputtype="Paycheck"
                             />
-                            <Checkbox
-                                class="flex items-center space-x-2"
-                                onChange={(checked: boolean) =>
-                                    setIsIncome(checked)
-                                }
-                            >
-                                <CheckboxControl />
-                                <span class="text-sm font-medium">Income</span>
-                            </Checkbox>
                             <InputField
                                 inputfield={notes}
                                 setInputField={setNotes}
