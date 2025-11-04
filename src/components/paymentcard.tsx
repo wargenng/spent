@@ -1,7 +1,7 @@
-import type { Card, Category, Payment } from "@/types/db";
+import type { Card, Category, Transaction } from "@/types/db";
 
 interface PaymentCardProps {
-    payment: Payment;
+    payment: Transaction;
     card: Card;
     category: Category;
 }

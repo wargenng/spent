@@ -1,4 +1,4 @@
-export type Payment = {
+export type Transaction = {
     id: number;
     userId: string;
     date: Date;

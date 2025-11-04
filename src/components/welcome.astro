@@ -1,6 +1,6 @@
 ---
 import "@/styles/globals.css";
-import type { Paycheck, Payment } from "@/types/db";
+import type { Paycheck, Transaction } from "@/types/db";
 import PaycheckEntry from "./paycheckentry/paycheckentryhandler";
 import PaymentButton from "./paymententry/paymentbutton";
 import { Button } from "./ui/button";
@@ -16,8 +16,8 @@ const currentPaycheck = paychecks.find(
         new Date(paycheck.endDate) >= new Date()
 );
 const total = payments
-    .filter((payment: Payment) => payment.paycheckId === currentPaycheck?.id)
-    .reduce((total: number, payment: Payment) => total + payment.amount, 0);
+    .filter((payment: Transaction) => payment.paycheckId === currentPaycheck?.id)
+    .reduce((total: number, payment: Transaction) => total + payment.amount, 0);
 const formatedTotal =
     (total < 0 ? "" : "+") +
     total.toLocaleString("en-US", {

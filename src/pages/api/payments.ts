@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { db, Payments } from "astro:db";
+import { db, Transactions } from "astro:db";
 
 export const POST: APIRoute = async (ctx) => {
     console.log("POST");
@@ -8,7 +8,7 @@ export const POST: APIRoute = async (ctx) => {
         const body = await ctx.request.json();
 
         console.log(body);
-        await db.insert(Payments).values({
+        await db.insert(Transactions).values({
             ...body,
             date: new Date(body.date),
         });

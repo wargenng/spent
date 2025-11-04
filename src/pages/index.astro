@@ -2,8 +2,12 @@
 import PaymentCard from "@/components/paymentcard";
 import Welcome from "@/components/welcome.astro";
 import "@/styles/globals.css";
-import type { Card, Category, Payment as PaymentType } from "@/types/db";
-import { Categories, db, desc, eq, Payments } from "astro:db";
+import type {
+    Card,
+    Category,
+    Transaction as TransactionType,
+} from "@/types/db";
+import { Categories, db, desc, eq, Transactions } from "astro:db";
 import Layout from "../layouts/Layout.astro";
 import { Cards } from "astro:db";
 import { getUserPaychecks } from "@/service/queries";
@@ -14,9 +18,9 @@ if (!userId) {
 }
 const payments = await db
     .select()
-    .from(Payments)
-    .where(eq(Payments.userId, userId))
-    .orderBy(desc(Payments.date), desc(Payments.id));
+    .from(Transactions)
+    .where(eq(Transactions.userId, userId))
+    .orderBy(desc(Transactions.date), desc(Transactions.id));
 
 const categories = await db.select().from(Categories).all();
 const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
@@ -35,7 +39,7 @@ const paychecks = await getUserPaychecks(userId);
         <div class="w-full flex flex-col gap-4">
             <h2 class="w-full font-semibold text-sm">Transactions</h2>
             {
-                payments.map((payment: PaymentType) => (
+                payments.map((payment) => (
                     <PaymentCard
                         payment={payment}
                         card={

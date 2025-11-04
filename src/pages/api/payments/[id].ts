@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { db, Payments, eq } from "astro:db";
+import { db, Transactions, eq } from "astro:db";
 
 export const DELETE: APIRoute = async (ctx) => {
     console.log(ctx.params.id);
@@ -8,7 +8,7 @@ export const DELETE: APIRoute = async (ctx) => {
         return new Response("Invalid ID", { status: 400 });
     }
 
-    await db.delete(Payments).where(eq(Payments.id, paymentId));
+    await db.delete(Transactions).where(eq(Transactions.id, paymentId));
     return new Response(null, { status: 204 });
 };
 
@@ -20,8 +20,8 @@ export const PUT: APIRoute = async (ctx) => {
 
     const body = await ctx.request.json();
     const payment = await db
-        .update(Payments)
+        .update(Transactions)
         .set(body)
-        .where(eq(Payments.id, paymentId));
+        .where(eq(Transactions.id, paymentId));
     return new Response(JSON.stringify(payment), { status: 200 });
 };
