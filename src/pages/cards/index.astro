@@ -1,32 +1,32 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getUserCards } from "@/service/queries";
+import CardDetail from "@/components/carddetail/carddetail";
+import { Categories, db } from "astro:db";
 
 const userId = String(Astro.locals.auth().userId);
 if (!userId) {
     return;
 }
 const cards = await getUserCards(userId);
+const categories = await db.select().from(Categories).all();
 console.log(cards);
 ---
 
 <Layout title="Card">
-    <div class="w-full gap-4 flex flex-col">
-        <h1 class="text-sm font-semibold">Cards</h1>
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div
+        class="w-full max-w-7xl mx-auto -mx-4 sm:mx-auto px-0 sm:px-6 lg:px-8 py-8"
+    >
+        <div
+            class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full px-4 sm:px-0"
+        >
             {
                 cards.map((card) => (
-                    <div class="flex justify-between">
-                        <div class="w-48 h-28 bg-blue-500 rounded-lg p-4 flex flex-col space-y-2">
-                            <h2 class="text-base font-semibold text-white">
-                                {card.name}
-                            </h2>
-                            <div class="flex justify-between">
-                                <p class="text-white">{card.type}</p>
-                                <p class="text-white">{card.lastFour}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <CardDetail
+                        card={card}
+                        categories={categories}
+                        client:only="solid-js"
+                    />
                 ))
             }
         </div>

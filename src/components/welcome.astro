@@ -35,7 +35,11 @@ const formatedTotal =
         cards.length === 0 ? (
             <div class="flex flex-col gap-4 w-full">
                 <h1 class="m-0 text-5xl font-bold ">No cards added</h1>
-                <CardEntry userId={userId} client:only="solid-js">
+                <CardEntry
+                    userId={userId}
+                    categories={categories}
+                    client:only="solid-js"
+                >
                     <Button>Add card</Button>
                 </CardEntry>
             </div>
@@ -71,7 +75,11 @@ const formatedTotal =
                         paychecks={paychecks}
                         client:only="solid-js"
                     />
-                    <CardEntryButton userId={userId} client:only="solid-js" />
+                    <CardEntryButton
+                        userId={userId}
+                        categories={categories}
+                        client:only="solid-js"
+                    />
                     <PaycheckEntryButton
                         userId={userId}
                         hasCards={cards.length > 0}

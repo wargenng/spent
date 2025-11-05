@@ -14,12 +14,14 @@ interface ComboboxEntryProps {
         name: string;
     }[];
     inputtype: string;
+    defaultValue?: number;
 }
 
 export const ComboboxEntry = ({
     setComboboxEntry,
     combos,
     inputtype,
+    defaultValue,
 }: ComboboxEntryProps) => {
     return (
         <Combobox
@@ -27,6 +29,7 @@ export const ComboboxEntry = ({
             optionValue={(option) => option.id}
             optionTextValue={(option) => option.name}
             optionLabel={(option) => option.name}
+            defaultValue={defaultValue !== undefined ? combos.find((c) => c.id === defaultValue) : undefined}
             onChange={(value) => {
                 setComboboxEntry(value?.id ?? combos[0]?.id ?? 0);
             }}

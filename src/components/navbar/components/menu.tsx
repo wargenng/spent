@@ -53,7 +53,9 @@ export default function Menu({
                             >
                                 Add Purchase
                             </TransactionEntry>
-                            <CardEntry userId={userId}>Add Card</CardEntry>
+                            <CardEntry userId={userId} categories={categories}>
+                                Add Card
+                            </CardEntry>
                             <PaycheckEntry
                                 userId={userId}
                                 hasCards={cards.length > 0}
@@ -74,7 +76,9 @@ export default function Menu({
                 >
                     Add Purchase
                 </TransactionEntry>
-                <CardEntry userId={userId}>Add Card</CardEntry>
+                <CardEntry userId={userId} categories={categories}>
+                    Add Card
+                </CardEntry>
                 <PaycheckEntry
                     userId={userId}
                     hasCards={cards.length > 0}

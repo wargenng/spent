@@ -1,9 +1,16 @@
+import type { Category } from "@/types/db";
 import CardEntry from "../cardentry";
 
-export default function CardEntryButton({ userId }: { userId: string }) {
+export default function CardEntryButton({
+    userId,
+    categories,
+}: {
+    userId: string;
+    categories: Category[];
+}) {
     return (
         <div class="flex flex-col items-center justify-center gap-2">
-            <CardEntry userId={userId}>
+            <CardEntry userId={userId} categories={categories}>
                 <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -1,3 +1,4 @@
+import type { Category } from "@/types/db";
 import { createSignal } from "solid-js";
 import {
     Dialog,
@@ -5,20 +6,32 @@ import {
     DialogHeader,
     DialogTrigger,
 } from "../../ui/dialog";
+import { ComboboxEntry } from "../../common/comboboxentry";
 
 interface CardEntryDialogProps {
     userId: string;
+    categories: Category[];
     children: any;
 }
 
 export default function CardEntryDialog({
     userId,
+    categories,
     children,
 }: CardEntryDialogProps) {
     const [name, setName] = createSignal("");
     const [company, setCompany] = createSignal("");
     const [lastFour, setLastFour] = createSignal("0000");
     const [type, setType] = createSignal("Credit");
+    const [categoryId, setCategoryId] = createSignal(0); // Default to "No Category"
+
+    const sortedCategories = [...categories].sort((a, b) =>
+        a.name.localeCompare(b.name)
+    );
+    const categoryOptions = [
+        { id: 0, name: "No Category" },
+        ...sortedCategories.map((cat) => ({ id: cat.id, name: cat.name })),
+    ];
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -36,6 +49,7 @@ export default function CardEntryDialog({
                 balance: 0,
                 isPrimaryChecking: false,
                 type: type(),
+                categoryId: categoryId() === 0 ? null : categoryId(),
             }),
         });
         window.location.reload();
@@ -107,10 +121,15 @@ export default function CardEntryDialog({
                                     setType(e.currentTarget.value);
                                 }}
                                 class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                                onFocus={(e) => e.target.select()}
-                            />
-                        </div>
+                            onFocus={(e) => e.target.select()}
+                        />
                     </div>
+                </div>
+                    <ComboboxEntry
+                        setComboboxEntry={setCategoryId}
+                        combos={categoryOptions}
+                        inputtype="Category"
+                    />
                     <form>
                         <button
                             class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

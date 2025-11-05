@@ -34,6 +34,7 @@ export type Card = {
     limit: number;
     balance: number;
     isPrimaryChecking: boolean;
+    categoryId: number | null;
     creationDate: Date;
     updatedDate: Date;
 };

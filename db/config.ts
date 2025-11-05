@@ -43,6 +43,10 @@ const Cards = defineTable({
         limit: column.number(),
         balance: column.number(),
         isPrimaryChecking: column.boolean({ default: false }),
+        categoryId: column.number({
+            references: () => Categories.columns.id,
+            optional: true,
+        }),
         creationDate: column.date({ default: new Date() }),
         updatedDate: column.date({ default: new Date() }),
     },

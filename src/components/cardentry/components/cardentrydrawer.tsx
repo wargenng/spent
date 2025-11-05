@@ -1,3 +1,4 @@
+import type { Category } from "@/types/db";
 import { createSignal } from "solid-js";
 import {
     Dialog,
@@ -12,20 +13,32 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from "../../ui/drawer";
+import CommandEntry from "../../common/commandentry";
 
 interface CardEntryDrawerProps {
     userId: string;
+    categories: Category[];
     children: any;
 }
 
 export default function CardEntryDrawer({
     userId,
+    categories,
     children,
 }: CardEntryDrawerProps) {
     const [name, setName] = createSignal("");
     const [company, setCompany] = createSignal("");
     const [lastFour, setLastFour] = createSignal("0000");
     const [type, setType] = createSignal("Credit");
+    const [categoryId, setCategoryId] = createSignal(0); // Default to "No Category"
+
+    const sortedCategories = [...categories].sort((a, b) =>
+        a.name.localeCompare(b.name)
+    );
+    const categoryOptions = [
+        { id: 0, name: "No Category" },
+        ...sortedCategories.map((cat) => ({ id: cat.id, name: cat.name })),
+    ];
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -43,6 +56,7 @@ export default function CardEntryDrawer({
                 balance: 0,
                 isPrimaryChecking: false,
                 type: type(),
+                categoryId: categoryId() === 0 ? null : categoryId(),
             }),
         });
         window.location.reload();
@@ -73,6 +87,12 @@ export default function CardEntryDrawer({
                         inputfield={type}
                         setInputField={setType}
                         inputtype="Type"
+                    />
+                    <CommandEntry
+                        commandentry={categoryId}
+                        setCommandEntry={setCategoryId}
+                        commands={categoryOptions}
+                        inputtype="Category"
                     />
                     <form>
                         <button
