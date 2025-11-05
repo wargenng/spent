@@ -36,6 +36,7 @@ export default function PaymentEntry({
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
     const [isIncome, setIsIncome] = createSignal(false);
+    const [recurring, setRecurring] = createSignal(false);
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -54,6 +55,7 @@ export default function PaymentEntry({
                 cardId: cardId(),
                 notes: notes(),
                 isIncome: isIncome(),
+                recurring: recurring(),
             }),
         });
         window.location.reload();
@@ -64,7 +66,7 @@ export default function PaymentEntry({
             <Drawer side="right">
                 <DrawerTrigger>{children}</DrawerTrigger>
                 <DrawerContent class="h-full">
-                    <DrawerHeader>Add New Purchase</DrawerHeader>
+                    <DrawerHeader>Add New Transaction</DrawerHeader>
                     <div class="grid gap-4 p-4 w-full">
                         <div class="grid gap-4 w-full">
                             <InputField
@@ -87,15 +89,26 @@ export default function PaymentEntry({
                                     />
                                 </div>
                             </div>
-                            <Checkbox
-                                class="flex items-center space-x-2"
-                                onChange={(checked: boolean) =>
-                                    setIsIncome(checked)
-                                }
-                            >
-                                <CheckboxControl />
-                                <span class="text-sm font-medium">Income</span>
-                            </Checkbox>
+                            <div class="flex gap-4">
+                                <Checkbox
+                                    class="flex items-center space-x-2"
+                                    onChange={(checked: boolean) =>
+                                        setIsIncome(checked)
+                                    }
+                                >
+                                    <CheckboxControl />
+                                    <span class="text-sm font-medium">Income</span>
+                                </Checkbox>
+                                <Checkbox
+                                    class="flex items-center space-x-2"
+                                    onChange={(checked: boolean) =>
+                                        setRecurring(checked)
+                                    }
+                                >
+                                    <CheckboxControl />
+                                    <span class="text-sm font-medium">Recurring</span>
+                                </Checkbox>
+                            </div>
                             <DateField
                                 datefield={date}
                                 setDateField={setDate}
@@ -151,7 +164,7 @@ export default function PaymentEntry({
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                Add new purchase
+                                Add new transaction
                             </button>
                         </form>
                     </div>

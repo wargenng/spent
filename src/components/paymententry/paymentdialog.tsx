@@ -33,6 +33,7 @@ export default function PaymentDialog({
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
     const [isIncome, setIsIncome] = createSignal(false);
+    const [recurring, setRecurring] = createSignal(false);
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -51,6 +52,7 @@ export default function PaymentDialog({
                 cardId: cardId(),
                 notes: notes(),
                 isIncome: isIncome(),
+                recurring: recurring(),
             }),
         });
         window.location.reload();
@@ -61,7 +63,7 @@ export default function PaymentDialog({
             <Dialog>
                 <DialogTrigger>{children}</DialogTrigger>
                 <DialogContent>
-                    <DialogHeader>Add New Purchase</DialogHeader>
+                    <DialogHeader>Add New Transaction</DialogHeader>
                     <div class="grid gap-4 p-4 w-full">
                         <div class="grid gap-4 w-full">
                             <div class="">
@@ -103,15 +105,30 @@ export default function PaymentDialog({
                                     />
                                 </div>
                             </div>
-                            <Checkbox
-                                class="flex items-center space-x-2"
-                                onChange={(checked: boolean) =>
-                                    setIsIncome(checked)
-                                }
-                            >
-                                <CheckboxControl />
-                                <span class="text-sm font-medium">Income</span>
-                            </Checkbox>
+                            <div class="flex gap-4">
+                                <Checkbox
+                                    class="flex items-center space-x-2"
+                                    onChange={(checked: boolean) =>
+                                        setIsIncome(checked)
+                                    }
+                                >
+                                    <CheckboxControl />
+                                    <span class="text-sm font-medium">
+                                        Income
+                                    </span>
+                                </Checkbox>
+                                <Checkbox
+                                    class="flex items-center space-x-2"
+                                    onChange={(checked: boolean) =>
+                                        setRecurring(checked)
+                                    }
+                                >
+                                    <CheckboxControl />
+                                    <span class="text-sm font-medium">
+                                        Recurring
+                                    </span>
+                                </Checkbox>
+                            </div>
                             <div class="">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Date
@@ -192,7 +209,7 @@ export default function PaymentDialog({
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                Add new purchase
+                                Add new transaction
                             </button>
                         </form>
                     </div>
