@@ -1,5 +1,5 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import { type Accessor, type Setter } from "solid-js";
+import { type Accessor, type Setter, createEffect } from "solid-js";
 import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
 import Amount from "../common/amount";
 import CommandEntry from "../common/commandentry";
@@ -69,6 +69,18 @@ export default function TransactionFormFields(
     const sortedPaychecks = [...paychecks].sort((a, b) =>
         a.title.localeCompare(b.title)
     );
+
+    createEffect(() => {
+        const selectedCategoryId = categoryId();
+        if (selectedCategoryId) {
+            const matchingCard = cards.find(
+                (card) => card.categoryId === selectedCategoryId
+            );
+            if (matchingCard) {
+                setCardId(matchingCard.id);
+            }
+        }
+    });
 
     return (
         <div class="grid gap-4 w-full">
