@@ -15,6 +15,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import type { Accessor, Setter } from "solid-js";
+import { createSignal } from "solid-js";
 import { Button } from "../ui/button";
 
 interface CommandEntryProps {
@@ -33,8 +34,14 @@ export default function CommandEntry({
     commands,
     inputtype,
 }: CommandEntryProps) {
+    const [drawerOpen, setDrawerOpen] = createSignal(false);
+
     return (
-        <Drawer side="right">
+        <Drawer
+            side="right"
+            open={drawerOpen()}
+            onOpenChange={(isOpen) => setDrawerOpen(isOpen)}
+        >
             <DrawerTrigger class="w-full">
                 <div class="flex flex-col justify-start gap-2 items-start">
                     <label class="text-sm font-medium">{inputtype}</label>
@@ -47,17 +54,18 @@ export default function CommandEntry({
                     </Button>
                 </div>
             </DrawerTrigger>
-            <DrawerContent class="h-full">
+            <DrawerContent class="h-full flex flex-col">
                 <DrawerHeader>Enter {inputtype}</DrawerHeader>
                 <Command
+                    class="flex-1 flex flex-col min-h-0"
                     value={commandentry().toString()}
                     onValueChange={(e) => {
                         setCommandEntry(Number(e));
-                        console.log(e);
+                        setDrawerOpen(false);
                     }}
                 >
                     <CommandInput placeholder="Type a command or search..." />
-                    <CommandList>
+                    <CommandList class="flex-1 max-h-none overflow-y-auto">
                         <CommandEmpty>No results found.</CommandEmpty>
                         <CommandGroup>
                             {commands.map((command) => (

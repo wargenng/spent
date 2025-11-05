@@ -7,7 +7,10 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import TransactionFormFields from "./transactionformfields";
-import { useTransactionFormState, submitTransaction } from "./transactionentrylogic";
+import {
+    useTransactionFormState,
+    submitTransaction,
+} from "./transactionentrylogic";
 
 interface TransactionDialogProps {
     userId: string;
