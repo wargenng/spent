@@ -60,11 +60,15 @@ export default function TransactionFormFields(
         setRecurring,
         isMobile = false,
     } = props;
-    const incomeCategories = categories.filter(
-        (cat) => cat.isIncomeCategory === true
-    );
-    const expenseCategories = categories.filter(
-        (cat) => cat.isIncomeCategory === false
+    const incomeCategories = categories
+        .filter((cat) => cat.isIncomeCategory === true)
+        .sort((a, b) => a.name.localeCompare(b.name));
+    const expenseCategories = categories
+        .filter((cat) => cat.isIncomeCategory === false)
+        .sort((a, b) => a.name.localeCompare(b.name));
+    const sortedCards = [...cards].sort((a, b) => a.name.localeCompare(b.name));
+    const sortedPaychecks = [...paychecks].sort((a, b) =>
+        a.title.localeCompare(b.title)
     );
 
     return (
@@ -165,7 +169,7 @@ export default function TransactionFormFields(
                 <CommandEntry
                     commandentry={cardId}
                     setCommandEntry={setCardId}
-                    commands={cards.map((card) => ({
+                    commands={sortedCards.map((card) => ({
                         id: card.id,
                         name: card.name,
                     }))}
@@ -174,7 +178,7 @@ export default function TransactionFormFields(
             ) : (
                 <ComboboxEntry
                     setComboboxEntry={setCardId}
-                    combos={cards.map((card) => ({
+                    combos={sortedCards.map((card) => ({
                         id: card.id,
                         name: card.name,
                     }))}
@@ -226,7 +230,7 @@ export default function TransactionFormFields(
                 <CommandEntry
                     commandentry={paycheckId}
                     setCommandEntry={setPaycheckId}
-                    commands={paychecks.map((paycheck) => ({
+                    commands={sortedPaychecks.map((paycheck) => ({
                         id: paycheck.id,
                         name: paycheck.title,
                     }))}
@@ -235,7 +239,7 @@ export default function TransactionFormFields(
             ) : (
                 <ComboboxEntry
                     setComboboxEntry={setPaycheckId}
-                    combos={paychecks.map((paycheck) => ({
+                    combos={sortedPaychecks.map((paycheck) => ({
                         id: paycheck.id,
                         name: paycheck.title,
                     }))}
