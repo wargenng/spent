@@ -1,14 +1,16 @@
 ---
 import "@/styles/globals.css";
-import type { Paycheck, Transaction } from "@/types/db";
+import type { Paycheck, Transaction, Card, Category } from "@/types/db";
 import PaycheckEntry from "./paycheckentry/paycheckentryhandler";
 import TransactionButton from "./transactionentry/transactionbutton";
 import { Button } from "./ui/button";
 import CardEntry from "./cardentry/cardentry";
 import CardEntryButton from "./cardentry/components/cardentrybutton";
 import PaycheckEntryButton from "./paycheckentry/components/paycheckentrybutton";
+import TransactionCard from "./transactioncard";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
+const latestTransactions = payments.slice(0, 10);
 
 const currentPaycheck = paychecks.find(
     (paycheck: Paycheck) =>
@@ -16,7 +18,9 @@ const currentPaycheck = paychecks.find(
         new Date(paycheck.endDate) >= new Date()
 );
 const total = payments
-    .filter((payment: Transaction) => payment.paycheckId === currentPaycheck?.id)
+    .filter(
+        (payment: Transaction) => payment.paycheckId === currentPaycheck?.id
+    )
     .reduce((total: number, payment: Transaction) => total + payment.amount, 0);
 const formatedTotal =
     (total < 0 ? "" : "+") +
@@ -88,6 +92,35 @@ const formatedTotal =
                 >
                     <Button>Add paycheck</Button>
                 </PaycheckEntry>
+            </div>
+        )
+    }
+    {
+        latestTransactions.length > 0 && (
+            <div class="flex flex-col gap-4 w-full mt-8">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                    Latest Transactions
+                </h2>
+                <div class="flex flex-col gap-4 w-full">
+                    {latestTransactions.map((payment: Transaction) => {
+                        const card = cards.find(
+                            (c: Card) => c.id === payment.cardId
+                        );
+                        const category = categories.find(
+                            (cat: Category) => cat.id === payment.categoryId
+                        );
+                        if (!card || !category) {
+                            return null;
+                        }
+                        return (
+                            <TransactionCard
+                                payment={payment}
+                                card={card}
+                                category={category}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         )
     }
