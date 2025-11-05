@@ -55,6 +55,15 @@ export default function CardDetailDialog({
         );
     });
 
+    const setCategoryIdWrapper = (value: number | ((prev: number) => number)) => {
+        const id = typeof value === 'function' ? value(categoryId() ?? 0) : value;
+        if (id === 0) {
+            setCategoryId(null);
+        } else {
+            setCategoryId(id);
+        }
+    };
+
     async function handleSave() {
         await fetch("/api/cards", {
             method: "PUT",
@@ -202,7 +211,7 @@ export default function CardDetailDialog({
                         />
                     </div>
                     <ComboboxEntry
-                        setComboboxEntry={(id) => setCategoryId(id === 0 ? null : id)}
+                        setComboboxEntry={setCategoryIdWrapper}
                         combos={categoryOptions}
                         inputtype="Category"
                         defaultValue={categoryId() ?? 0}

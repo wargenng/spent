@@ -1,11 +1,5 @@
 import type { Category } from "@/types/db";
 import { createSignal } from "solid-js";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTrigger,
-} from "../../ui/dialog";
 import InputField from "../../common/inputfield";
 import {
     Drawer,

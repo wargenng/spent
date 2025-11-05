@@ -56,6 +56,18 @@ export default function CardDetailDrawer({
         );
     });
 
+    const setCategoryIdWrapper = (
+        value: number | ((prev: number) => number)
+    ) => {
+        const id =
+            typeof value === "function" ? value(categoryId() ?? 0) : value;
+        if (id === 0) {
+            setCategoryId(null);
+        } else {
+            setCategoryId(id);
+        }
+    };
+
     async function handleSave() {
         await fetch("/api/cards", {
             method: "PUT",
@@ -74,14 +86,6 @@ export default function CardDetailDrawer({
             }),
         });
         window.location.reload();
-    }
-
-    function handleClose() {
-        if (hasChanges()) {
-            setShowUnsavedWarning(true);
-        } else {
-            setIsOpen(false);
-        }
     }
 
     function handleConfirmClose() {
@@ -173,9 +177,7 @@ export default function CardDetailDrawer({
                     />
                     <CommandEntry
                         commandentry={() => categoryId() ?? 0}
-                        setCommandEntry={(id) =>
-                            setCategoryId(id === 0 ? null : id)
-                        }
+                        setCommandEntry={setCategoryIdWrapper}
                         commands={categoryOptions}
                         inputtype="Category"
                     />

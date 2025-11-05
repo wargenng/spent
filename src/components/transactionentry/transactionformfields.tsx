@@ -56,7 +56,6 @@ export default function TransactionFormFields(
         setNotes,
         isIncome,
         setIsIncome,
-        recurring,
         setRecurring,
         isMobile = false,
     } = props;

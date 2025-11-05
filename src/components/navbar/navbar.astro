@@ -1,16 +1,5 @@
 ---
 import { UserButton } from "@clerk/astro/components";
-import Menu from "./components/menu";
-import {
-    getCatagories,
-    getUserCards,
-    getUserPaychecks,
-} from "@/service/queries";
-
-const userId = String(Astro.locals.auth().userId);
-const paychecks = await getUserPaychecks(userId);
-const categories = await getCatagories();
-const cards = await getUserCards(userId);
 ---
 
 <nav
