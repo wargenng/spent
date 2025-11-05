@@ -73,30 +73,6 @@ export default function TransactionFormFields(
 
     return (
         <div class="grid gap-4 w-full">
-            {isMobile ? (
-                <InputField
-                    inputfield={title}
-                    setInputField={setTitle}
-                    inputtype="Title"
-                />
-            ) : (
-                <div class="">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Name of Transaction
-                    </label>
-                    <div class="flex items-center gap-2">
-                        <input
-                            type="text"
-                            value={title()}
-                            onChange={(e) => {
-                                setTitle(e.currentTarget.value);
-                            }}
-                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    </div>
-                </div>
-            )}
             <div class="">
                 <label
                     for="amount"
@@ -139,6 +115,30 @@ export default function TransactionFormFields(
                 </Checkbox>
             </div>
             {isMobile ? (
+                <InputField
+                    inputfield={title}
+                    setInputField={setTitle}
+                    inputtype="Title"
+                />
+            ) : (
+                <div class="">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Name of Transaction
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="text"
+                            value={title()}
+                            onChange={(e) => {
+                                setTitle(e.currentTarget.value);
+                            }}
+                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                            onFocus={(e) => e.target.select()}
+                        />
+                    </div>
+                </div>
+            )}
+            {isMobile ? (
                 <DateField
                     datefield={date}
                     setDateField={setDate}
@@ -164,26 +164,6 @@ export default function TransactionFormFields(
                         />
                     </div>
                 </div>
-            )}
-            {isMobile ? (
-                <CommandEntry
-                    commandentry={cardId}
-                    setCommandEntry={setCardId}
-                    commands={sortedCards.map((card) => ({
-                        id: card.id,
-                        name: card.name,
-                    }))}
-                    inputtype="Card"
-                />
-            ) : (
-                <ComboboxEntry
-                    setComboboxEntry={setCardId}
-                    combos={sortedCards.map((card) => ({
-                        id: card.id,
-                        name: card.name,
-                    }))}
-                    inputtype="Card"
-                />
             )}
             {isIncome() ? (
                 isMobile ? (
@@ -224,6 +204,26 @@ export default function TransactionFormFields(
                         name: category.name,
                     }))}
                     inputtype="Expense Category"
+                />
+            )}
+            {isMobile ? (
+                <CommandEntry
+                    commandentry={cardId}
+                    setCommandEntry={setCardId}
+                    commands={sortedCards.map((card) => ({
+                        id: card.id,
+                        name: card.name,
+                    }))}
+                    inputtype="Card"
+                />
+            ) : (
+                <ComboboxEntry
+                    setComboboxEntry={setCardId}
+                    combos={sortedCards.map((card) => ({
+                        id: card.id,
+                        name: card.name,
+                    }))}
+                    inputtype="Card"
                 />
             )}
             {isMobile ? (
