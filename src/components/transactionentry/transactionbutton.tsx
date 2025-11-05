@@ -1,8 +1,4 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import { Button } from "../ui/button";
-
-import PaymentEntryForm from "./paymententry";
-
 import {
     Dialog,
     DialogContent,
@@ -13,21 +9,23 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { createSignal } from "solid-js";
-import PaymentDialog from "./paymentdialog";
+import { Button } from "../ui/button";
+import TransactionDrawer from "./transactiondrawer";
+import TransactionDialog from "./transactiondialog";
 
-interface PaymentEntryProps {
+interface TransactionButtonProps {
     userId: string;
     paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
 }
 
-export default function PaymentButton({
+export default function TransactionButton({
     userId,
     paychecks,
     categories,
     cards,
-}: PaymentEntryProps) {
+}: TransactionButtonProps) {
     const [open, setOpen] = createSignal(false);
 
     return (
@@ -35,7 +33,7 @@ export default function PaymentButton({
             {cards.length > 0 && paychecks.length > 0 ? (
                 <div class="flex flex-col items-center justify-start gap-2">
                     <div class="block lg:hidden">
-                        <PaymentEntryForm
+                        <TransactionDrawer
                             userId={userId}
                             paychecks={paychecks}
                             categories={categories}
@@ -58,10 +56,10 @@ export default function PaymentButton({
                                     />
                                 </svg>
                             </div>
-                        </PaymentEntryForm>
+                        </TransactionDrawer>
                     </div>
                     <div class="hidden lg:block">
-                        <PaymentDialog
+                        <TransactionDialog
                             userId={userId}
                             paychecks={paychecks}
                             categories={categories}
@@ -84,7 +82,7 @@ export default function PaymentButton({
                                     />
                                 </svg>
                             </div>
-                        </PaymentDialog>
+                        </TransactionDialog>
                     </div>
                     <label class="text-xs">Transaction</label>
                 </div>
@@ -112,11 +110,11 @@ export default function PaymentButton({
                     <DialogContent class="w-5/6">
                         <DialogHeader>
                             <DialogTitle>
-                                Payment Entry Requires Cards and Paychecks
+                                Transaction Entry Requires Cards and Paychecks
                             </DialogTitle>
                             <DialogDescription>
                                 Please add a card and paycheck before entering a
-                                payment.
+                                transaction.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter class="flex gap-2">

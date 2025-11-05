@@ -5,7 +5,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import type { Card, Category, Paycheck } from "@/types/db";
-import PaymentEntry from "../../paymententry/paymententryhandler";
+import TransactionEntry from "../../transactionentry/transactionentryhandler";
 import CardEntry from "@/components/cardentry/cardentry";
 import PaycheckEntry from "@/components/paycheckentry/paycheckentryhandler";
 
@@ -45,14 +45,14 @@ export default function Menu({
                     <DrawerContent class="h-full flex flex-col gap-4">
                         <DrawerHeader>Menu</DrawerHeader>
                         <div class="flex flex-col gap-4 p-4">
-                            <PaymentEntry
+                            <TransactionEntry
                                 userId={userId}
                                 paychecks={paychecks}
                                 categories={categories}
                                 cards={cards}
                             >
                                 Add Purchase
-                            </PaymentEntry>
+                            </TransactionEntry>
                             <CardEntry userId={userId}>Add Card</CardEntry>
                             <PaycheckEntry
                                 userId={userId}
@@ -66,14 +66,14 @@ export default function Menu({
                 </Drawer>
             </div>
             <div class="hidden w-full lg:flex lg:w-auto lg:gap-4">
-                <PaymentEntry
+                <TransactionEntry
                     userId={userId}
                     paychecks={paychecks}
                     categories={categories}
                     cards={cards}
                 >
                     Add Purchase
-                </PaymentEntry>
+                </TransactionEntry>
                 <CardEntry userId={userId}>Add Card</CardEntry>
                 <PaycheckEntry
                     userId={userId}

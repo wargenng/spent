@@ -1,6 +1,5 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import PaymentEntryForm from "./paymententry";
-
+import type { JSX } from "solid-js";
 import {
     Dialog,
     DialogContent,
@@ -12,23 +11,24 @@ import {
 } from "@/components/ui/dialog";
 import { createSignal } from "solid-js";
 import { Button } from "../ui/button";
-import PaymentDialog from "./paymentdialog";
+import TransactionDrawer from "./transactiondrawer";
+import TransactionDialog from "./transactiondialog";
 
-interface PaymentEntryProps {
+interface TransactionEntryProps {
     userId: string;
     paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
-    children: any;
+    children: JSX.Element;
 }
 
-export default function PaymentEntry({
+export default function TransactionEntry({
     userId,
     paychecks,
     categories,
     cards,
     children,
-}: PaymentEntryProps) {
+}: TransactionEntryProps) {
     const [open, setOpen] = createSignal(false);
 
     return (
@@ -36,37 +36,37 @@ export default function PaymentEntry({
             {cards.length > 0 && paychecks.length > 0 ? (
                 <div>
                     <div class="block lg:hidden">
-                        <PaymentEntryForm
+                        <TransactionDrawer
                             userId={userId}
                             paychecks={paychecks}
                             categories={categories}
                             cards={cards}
                         >
                             {children}
-                        </PaymentEntryForm>
+                        </TransactionDrawer>
                     </div>
                     <div class="hidden lg:block">
-                        <PaymentDialog
+                        <TransactionDialog
                             userId={userId}
                             paychecks={paychecks}
                             categories={categories}
                             cards={cards}
                         >
                             {children}
-                        </PaymentDialog>
+                        </TransactionDialog>
                     </div>
                 </div>
             ) : (
                 <Dialog open={open()} onOpenChange={setOpen}>
-                    <DialogTrigger> {children}</DialogTrigger>
+                    <DialogTrigger>{children}</DialogTrigger>
                     <DialogContent class="w-5/6">
                         <DialogHeader>
                             <DialogTitle>
-                                Payment Entry Requires Cards and Paychecks
+                                Transaction Entry Requires Cards and Paychecks
                             </DialogTitle>
                             <DialogDescription>
                                 Please add a card and paycheck before entering a
-                                payment.
+                                transaction.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter class="flex gap-2">

@@ -2,7 +2,7 @@
 import "@/styles/globals.css";
 import type { Paycheck, Transaction } from "@/types/db";
 import PaycheckEntry from "./paycheckentry/paycheckentryhandler";
-import PaymentButton from "./paymententry/paymentbutton";
+import TransactionButton from "./transactionentry/transactionbutton";
 import { Button } from "./ui/button";
 import CardEntry from "./cardentry/cardentry";
 import CardEntryButton from "./cardentry/components/cardentrybutton";
@@ -60,7 +60,7 @@ const formatedTotal =
                 </div>
                 <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
                 <div class="flex gap-4 ">
-                    <PaymentButton
+                    <TransactionButton
                         userId={userId}
                         cards={cards}
                         categories={categories}
