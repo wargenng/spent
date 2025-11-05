@@ -38,7 +38,7 @@ const formatedTotal =
                 <CardEntry
                     userId={userId}
                     categories={categories}
-                    client:only="solid-js"
+                    client:load
                 >
                     <Button>Add card</Button>
                 </CardEntry>
@@ -73,17 +73,17 @@ const formatedTotal =
                         cards={cards}
                         categories={categories}
                         paychecks={paychecks}
-                        client:only="solid-js"
+                        client:load
                     />
                     <CardEntryButton
                         userId={userId}
                         categories={categories}
-                        client:only="solid-js"
+                        client:load
                     />
                     <PaycheckEntryButton
                         userId={userId}
                         hasCards={cards.length > 0}
-                        client:only="solid-js"
+                        client:load
                     />
                 </div>
             </div>
@@ -96,7 +96,7 @@ const formatedTotal =
                     userId={userId}
                     hasCards={cards.length > 0}
                     buttonText="Add paycheck"
-                    client:only="solid-js"
+                    client:load
                 >
                     <Button>Add paycheck</Button>
                 </PaycheckEntry>
