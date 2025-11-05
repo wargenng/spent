@@ -42,6 +42,7 @@ export type Category = {
     id: number;
     userId: string;
     name: string;
+    isIncomeCategory: boolean;
     creationDate: Date;
     updatedDate: Date;
 };

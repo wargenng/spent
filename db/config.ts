@@ -53,6 +53,7 @@ const Categories = defineTable({
         id: column.number({ primaryKey: true }),
         userId: column.text(),
         name: column.text(),
+        isIncomeCategory: column.boolean({ default: false }),
         creationDate: column.date({ default: new Date() }),
         updatedDate: column.date({ default: new Date() }),
     },

@@ -28,8 +28,7 @@ export const ComboboxEntry = ({
             optionTextValue={(option) => option.name}
             optionLabel={(option) => option.name}
             onChange={(value) => {
-                setComboboxEntry(value?.id ?? combos[0].id);
-                console.log(value);
+                setComboboxEntry(value?.id ?? combos[0]?.id ?? 0);
             }}
             itemComponent={(props) => (
                 <ComboboxItem item={props.item}>

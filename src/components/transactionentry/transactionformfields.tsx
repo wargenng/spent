@@ -1,5 +1,5 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import { createSignal, type Accessor, type Setter } from "solid-js";
+import { type Accessor, type Setter } from "solid-js";
 import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
 import Amount from "../common/amount";
 import CommandEntry from "../common/commandentry";
@@ -33,7 +33,9 @@ interface TransactionFormFieldsProps {
     isMobile?: boolean;
 }
 
-export default function TransactionFormFields(props: TransactionFormFieldsProps) {
+export default function TransactionFormFields(
+    props: TransactionFormFieldsProps
+) {
     const {
         paychecks,
         categories,
@@ -58,6 +60,12 @@ export default function TransactionFormFields(props: TransactionFormFieldsProps)
         setRecurring,
         isMobile = false,
     } = props;
+    const incomeCategories = categories.filter(
+        (cat) => cat.isIncomeCategory === true
+    );
+    const expenseCategories = categories.filter(
+        (cat) => cat.isIncomeCategory === false
+    );
 
     return (
         <div class="grid gap-4 w-full">
@@ -173,24 +181,45 @@ export default function TransactionFormFields(props: TransactionFormFieldsProps)
                     inputtype="Card"
                 />
             )}
-            {isMobile ? (
+            {isIncome() ? (
+                isMobile ? (
+                    <CommandEntry
+                        commandentry={categoryId}
+                        setCommandEntry={setCategoryId}
+                        commands={incomeCategories.map((category) => ({
+                            id: category.id,
+                            name: category.name,
+                        }))}
+                        inputtype="Income Category"
+                    />
+                ) : (
+                    <ComboboxEntry
+                        setComboboxEntry={setCategoryId}
+                        combos={incomeCategories.map((category) => ({
+                            id: category.id,
+                            name: category.name,
+                        }))}
+                        inputtype="Income Category"
+                    />
+                )
+            ) : isMobile ? (
                 <CommandEntry
                     commandentry={categoryId}
                     setCommandEntry={setCategoryId}
-                    commands={categories.map((category) => ({
+                    commands={expenseCategories.map((category) => ({
                         id: category.id,
                         name: category.name,
                     }))}
-                    inputtype="Category"
+                    inputtype="Expense Category"
                 />
             ) : (
                 <ComboboxEntry
                     setComboboxEntry={setCategoryId}
-                    combos={categories.map((category) => ({
+                    combos={expenseCategories.map((category) => ({
                         id: category.id,
                         name: category.name,
                     }))}
-                    inputtype="Category"
+                    inputtype="Expense Category"
                 />
             )}
             {isMobile ? (
