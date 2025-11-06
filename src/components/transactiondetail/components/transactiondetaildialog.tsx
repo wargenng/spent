@@ -6,15 +6,11 @@ import {
     DialogTrigger,
 } from "../../ui/dialog";
 import { createSignal, createMemo, Show } from "solid-js";
-import { ComboboxEntry } from "../../common/comboboxentry";
 import { Button } from "../../ui/button";
-import { Checkbox, CheckboxControl } from "../../ui/checkbox";
 import TransactionFormFields from "../../transactionentry/transactionformfields";
 
 interface TransactionDetailDialogProps {
     transaction: Transaction;
-    card: Card;
-    category: Category;
     cards: Card[];
     categories: Category[];
     paychecks: Paycheck[];
@@ -23,8 +19,6 @@ interface TransactionDetailDialogProps {
 
 export default function TransactionDetailDialog({
     transaction,
-    card,
-    category,
     cards,
     categories,
     paychecks,

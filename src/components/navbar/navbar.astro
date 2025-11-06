@@ -1,5 +1,12 @@
 ---
 import { UserButton } from "@clerk/astro/components";
+
+interface Props {
+    backHref?: string;
+    backText?: string;
+}
+
+const { backHref, backText } = Astro.props;
 ---
 
 <nav
@@ -8,8 +15,34 @@ import { UserButton } from "@clerk/astro/components";
     <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >
+        {backHref && backText ? (
+            <a
+                href={backHref}
+                class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors lg:hidden"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                <span class="text-base font-medium">{backText}</span>
+            </a>
+        ) : (
+            <span
+                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                >spent</span
+            >
+        )}
         <span
-            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            class="hidden lg:block self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             >spent</span
         >
         <UserButton />

@@ -10,9 +10,11 @@ import "@fontsource-variable/inter";
 
 interface Props {
     title: string;
+    backHref?: string;
+    backText?: string;
 }
 
-const { title } = Astro.props;
+const { title, backHref, backText } = Astro.props;
 
 import Navbar from "@/components/navbar/navbar.astro";
 import "@/styles/globals.css";
@@ -64,7 +66,11 @@ import Bottomnavbar from "@/components/bottomnavbar/bottomnavbar.astro";
             </div>
         </SignedOut>
         <SignedIn>
-            <Navbar transition:persist />
+            <Navbar
+                backHref={backHref}
+                backText={backText}
+                transition:persist
+            />
             <div
                 class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto p-4 pb-24 lg:pb-0 pt-24"
             >

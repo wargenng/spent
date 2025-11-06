@@ -2,12 +2,10 @@ import { createSignal, onMount, Show } from "solid-js";
 import { Button } from "./ui/button";
 
 interface TotalVisibilityToggleProps {
-    total: number;
     formatedTotal: string;
 }
 
 export default function TotalVisibilityToggle({
-    total,
     formatedTotal,
 }: TotalVisibilityToggleProps) {
     const [isVisible, setIsVisible] = createSignal(false);

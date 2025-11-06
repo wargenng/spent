@@ -6,14 +6,11 @@ import {
     DrawerTrigger,
 } from "../../ui/drawer";
 import { createSignal, createMemo, Show } from "solid-js";
-import CommandEntry from "../../common/commandentry";
 import { Button } from "../../ui/button";
 import TransactionFormFields from "../../transactionentry/transactionformfields";
 
 interface TransactionDetailDrawerProps {
     transaction: Transaction;
-    card: Card;
-    category: Category;
     cards: Card[];
     categories: Category[];
     paychecks: Paycheck[];
@@ -22,8 +19,6 @@ interface TransactionDetailDrawerProps {
 
 export default function TransactionDetailDrawer({
     transaction,
-    card,
-    category,
     cards,
     categories,
     paychecks,

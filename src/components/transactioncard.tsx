@@ -21,8 +21,6 @@ export default function TransactionCard({
     return (
         <TransactionDetail
             transaction={payment}
-            card={card}
-            category={category}
             cards={cards}
             categories={categories}
             paychecks={paychecks}

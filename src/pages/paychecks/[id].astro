@@ -1,5 +1,163 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Categories, db, eq, Transactions } from "astro:db";
+import { Cards, Paychecks } from "astro:db";
+import type { Transaction } from "@/types/db";
+import TransactionCard from "@/components/transactioncard";
+import TotalVisibilityToggle from "@/components/totalvisibilitytoggle";
+import TransactionButton from "@/components/transactionentry/transactionbutton";
+import { getUserPaychecks } from "@/service/queries";
+
+const userId = String(Astro.locals.auth().userId);
+if (!userId) {
+    return;
+}
+
+const paycheckId = Number(Astro.params.id);
+if (isNaN(paycheckId)) {
+    return Astro.redirect("/paychecks");
+}
+
+const paycheck = await db
+    .select()
+    .from(Paychecks)
+    .where(eq(Paychecks.id, paycheckId))
+    .then((result) => result[0]);
+
+if (!paycheck || paycheck.userId !== userId) {
+    return Astro.redirect("/paychecks");
+}
+
+const transactions = await db
+    .select()
+    .from(Transactions)
+    .where(eq(Transactions.paycheckId, paycheckId));
+
+const categories = await db.select().from(Categories).all();
+const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
+const paychecks = await getUserPaychecks(userId);
+
+const total = transactions.reduce(
+    (sum, transaction) => sum + transaction.amount,
+    0
+);
+const formatedTotal =
+    (total < 0 ? "" : "+") +
+    total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
+
+const sortedTransactions = [...transactions].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
 ---
 
-<Layout title="Paycheck" />
+<Layout title={paycheck.title} backHref="/paychecks" backText="Paychecks">
+    <div class="space-y-8 w-full flex items-center justify-center flex-col">
+        <div class="w-full flex flex-col gap-6">
+            <div class="flex justify-between items-center w-full">
+                <div class="flex flex-col gap-2 items-start">
+                    <h1
+                        class="text-3xl font-bold text-gray-900 dark:text-white m-0 text-left"
+                    >
+                        {paycheck.title}
+                    </h1>
+                    <p
+                        class="text-sm text-gray-600 dark:text-gray-400 m-0 text-left"
+                    >
+                        {
+                            new Date(paycheck.startDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                }
+                            )
+                        }{" "}
+                        -{" "}
+                        {
+                            new Date(paycheck.endDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                }
+                            )
+                        }
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <TransactionButton
+                        userId={userId}
+                        cards={cards}
+                        categories={categories}
+                        paychecks={paychecks}
+                        client:load
+                    />
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center w-full">
+                <TotalVisibilityToggle
+                    formatedTotal={formatedTotal}
+                    client:load
+                />
+            </div>
+
+            {
+                sortedTransactions.length > 0 ? (
+                    <div class="flex flex-col gap-4 w-full mt-8">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-left">
+                            Transactions
+                        </h2>
+                        <div class="flex flex-col gap-0 w-full">
+                            {sortedTransactions.map(
+                                (transaction: Transaction, index: number) => {
+                                    const card = cards.find(
+                                        (c) => c.id === transaction.cardId
+                                    );
+                                    const category = categories.find(
+                                        (cat) =>
+                                            cat.id === transaction.categoryId
+                                    );
+                                    if (!card || !category) {
+                                        return null;
+                                    }
+                                    const isLast =
+                                        index === sortedTransactions.length - 1;
+                                    return (
+                                        <div
+                                            class={
+                                                isLast
+                                                    ? ""
+                                                    : "border-b border-gray-400 dark:border-gray-500 pb-4 mb-4"
+                                            }
+                                        >
+                                            <TransactionCard
+                                                payment={transaction}
+                                                card={card}
+                                                category={category}
+                                                cards={cards}
+                                                categories={categories}
+                                                paychecks={paychecks}
+                                                client:load
+                                            />
+                                        </div>
+                                    );
+                                }
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <div class="flex flex-col gap-4 w-full items-center py-12">
+                        <p class="text-gray-500 dark:text-gray-400 text-lg">
+                            No transactions for this paycheck period
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</Layout>
