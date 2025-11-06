@@ -110,29 +110,41 @@ const formatedTotal =
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                     Latest Transactions
                 </h2>
-                <div class="flex flex-col gap-4 w-full">
-                    {latestTransactions.map((payment: Transaction) => {
-                        const card = cards.find(
-                            (c: Card) => c.id === payment.cardId
-                        );
-                        const category = categories.find(
-                            (cat: Category) => cat.id === payment.categoryId
-                        );
-                        if (!card || !category) {
-                            return null;
+                <div class="flex flex-col gap-0 w-full">
+                    {latestTransactions.map(
+                        (payment: Transaction, index: number) => {
+                            const card = cards.find(
+                                (c: Card) => c.id === payment.cardId
+                            );
+                            const category = categories.find(
+                                (cat: Category) => cat.id === payment.categoryId
+                            );
+                            if (!card || !category) {
+                                return null;
+                            }
+                            const isLast =
+                                index === latestTransactions.length - 1;
+                            return (
+                                <div
+                                    class={
+                                        isLast
+                                            ? ""
+                                            : "border-b border-gray-400 dark:border-gray-500 pb-4 mb-4"
+                                    }
+                                >
+                                    <TransactionCard
+                                        payment={payment}
+                                        card={card}
+                                        category={category}
+                                        cards={cards}
+                                        categories={categories}
+                                        paychecks={paychecks}
+                                        client:load
+                                    />
+                                </div>
+                            );
                         }
-                        return (
-                            <TransactionCard
-                                payment={payment}
-                                card={card}
-                                category={category}
-                                cards={cards}
-                                categories={categories}
-                                paychecks={paychecks}
-                                client:load
-                            />
-                        );
-                    })}
+                    )}
                 </div>
             </div>
         )
