@@ -138,17 +138,15 @@ export default function TransactionFormFields(
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Name of Transaction
                     </label>
-                    <div class="flex items-center gap-2">
-                        <input
-                            type="text"
-                            value={title()}
-                            onChange={(e) => {
-                                setTitle(e.currentTarget.value);
-                            }}
-                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    </div>
+                    <input
+                        type="text"
+                        value={title()}
+                        onChange={(e) => {
+                            setTitle(e.currentTarget.value);
+                        }}
+                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                        onFocus={(e) => e.target.select()}
+                    />
                 </div>
             )}
             {isMobile ? (
@@ -162,20 +160,18 @@ export default function TransactionFormFields(
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Date
                     </label>
-                    <div class="flex items-center gap-2">
-                        <input
-                            type="date"
-                            value={date().toISOString().split("T")[0]}
-                            onChange={(e) => {
-                                const selectedDate = new Date(
-                                    e.currentTarget.value + "T00:00:00"
-                                );
-                                setDate(new Date(selectedDate));
-                            }}
-                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    </div>
+                    <input
+                        type="date"
+                        value={date().toISOString().split("T")[0]}
+                        onChange={(e) => {
+                            const selectedDate = new Date(
+                                e.currentTarget.value + "T00:00:00"
+                            );
+                            setDate(new Date(selectedDate));
+                        }}
+                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                        onFocus={(e) => e.target.select()}
+                    />
                 </div>
             )}
             {isIncome() ? (
@@ -274,17 +270,15 @@ export default function TransactionFormFields(
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Notes
                     </label>
-                    <div class="flex items-center gap-2">
-                        <input
-                            type="text"
-                            value={notes()}
-                            onChange={(e) => {
-                                setNotes(e.currentTarget.value);
-                            }}
-                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    </div>
+                    <input
+                        type="text"
+                        value={notes()}
+                        onChange={(e) => {
+                            setNotes(e.currentTarget.value);
+                        }}
+                        class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                        onFocus={(e) => e.target.select()}
+                    />
                 </div>
             )}
         </div>

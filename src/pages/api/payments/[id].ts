@@ -18,10 +18,25 @@ export const PUT: APIRoute = async (ctx) => {
         return new Response("Invalid ID", { status: 400 });
     }
 
-    const body = await ctx.request.json();
-    const payment = await db
-        .update(Transactions)
-        .set(body)
-        .where(eq(Transactions.id, paymentId));
-    return new Response(JSON.stringify(payment), { status: 200 });
+    if (ctx.request.headers.get("Content-Type") === "application/json") {
+        const body = await ctx.request.json();
+        const { date, ...rest } = body;
+        
+        await db
+            .update(Transactions)
+            .set({
+                ...rest,
+                date: new Date(date),
+                updatedDate: new Date(),
+            })
+            .where(eq(Transactions.id, paymentId));
+        
+        return new Response(
+            JSON.stringify({
+                message: "update successful",
+            }),
+            { status: 200 }
+        );
+    }
+    return new Response(null, { status: 400 });
 };
