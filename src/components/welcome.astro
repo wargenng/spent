@@ -8,6 +8,7 @@ import CardEntry from "./cardentry/cardentry";
 import CardEntryButton from "./cardentry/components/cardentrybutton";
 import PaycheckEntryButton from "./paycheckentry/components/paycheckentrybutton";
 import TransactionCard from "./transactioncard";
+import TotalVisibilityToggle from "./totalvisibilitytoggle";
 
 const { userId, payments, paychecks, categories, cards } = Astro.props;
 const latestTransactions = payments.slice(0, 10);
@@ -62,7 +63,11 @@ const formatedTotal =
                         )}
                     </h1>
                 </div>
-                <h1 class="m-0 text-5xl font-bold ">{formatedTotal}</h1>
+                <TotalVisibilityToggle
+                    total={total}
+                    formatedTotal={formatedTotal}
+                    client:load
+                />
                 <div class="flex gap-4 ">
                     <TransactionButton
                         userId={userId}
