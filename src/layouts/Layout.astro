@@ -5,6 +5,7 @@ import {
     SignInButton,
     SignUpButton,
 } from "@clerk/astro/components";
+import { ClientRouter } from "astro:transitions";
 import "@fontsource-variable/inter";
 
 interface Props {
@@ -30,6 +31,7 @@ import Bottomnavbar from "@/components/bottomnavbar/bottomnavbar.astro";
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <ClientRouter />
     </head>
     <body class="w-full h-full">
         <SignedOut>
@@ -62,13 +64,13 @@ import Bottomnavbar from "@/components/bottomnavbar/bottomnavbar.astro";
             </div>
         </SignedOut>
         <SignedIn>
-            <Navbar />
+            <Navbar transition:persist />
             <div
                 class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto p-4 pb-24 lg:pb-0 pt-24"
             >
                 <slot />
             </div>
-            <Bottomnavbar />
+            <Bottomnavbar transition:persist />
         </SignedIn>
     </body>
 </html>
