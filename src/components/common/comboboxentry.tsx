@@ -5,7 +5,8 @@ import {
     ComboboxItem,
     ComboboxTrigger,
 } from "@/components/ui/combobox";
-import { type Setter } from "solid-js";
+import { type Accessor, type Setter } from "solid-js";
+import { createMemo } from "solid-js";
 
 interface ComboboxEntryProps {
     setComboboxEntry: Setter<number>;
@@ -15,6 +16,7 @@ interface ComboboxEntryProps {
     }[];
     inputtype: string;
     defaultValue?: number;
+    value?: Accessor<number>;
 }
 
 export const ComboboxEntry = ({
@@ -22,14 +24,27 @@ export const ComboboxEntry = ({
     combos,
     inputtype,
     defaultValue,
+    value,
 }: ComboboxEntryProps) => {
+    const selectedOption = createMemo(() => {
+        const currentValue = value ? value() : defaultValue;
+        return currentValue !== undefined
+            ? combos.find((c) => c.id === currentValue)
+            : undefined;
+    });
+
     return (
         <Combobox
             options={combos}
             optionValue={(option) => option.id}
             optionTextValue={(option) => option.name}
             optionLabel={(option) => option.name}
-            defaultValue={defaultValue !== undefined ? combos.find((c) => c.id === defaultValue) : undefined}
+            value={value ? selectedOption() : undefined}
+            defaultValue={
+                !value && defaultValue !== undefined
+                    ? combos.find((c) => c.id === defaultValue)
+                    : undefined
+            }
             onChange={(value) => {
                 setComboboxEntry(value?.id ?? combos[0]?.id ?? 0);
             }}

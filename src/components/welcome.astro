@@ -35,11 +35,7 @@ const formatedTotal =
         cards.length === 0 ? (
             <div class="flex flex-col gap-4 w-full">
                 <h1 class="m-0 text-5xl font-bold ">No cards added</h1>
-                <CardEntry
-                    userId={userId}
-                    categories={categories}
-                    client:load
-                >
+                <CardEntry userId={userId} categories={categories} client:load>
                     <Button>Add card</Button>
                 </CardEntry>
             </div>

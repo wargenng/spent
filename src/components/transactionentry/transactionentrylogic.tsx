@@ -29,8 +29,20 @@ export function useTransactionFormState(
 ): TransactionFormState {
     const [amount, setAmount] = createSignal(0);
     const [date, setDate] = createSignal(new Date());
-    const [cardId, setCardId] = createSignal(cards[0]?.id ?? 0);
-    const [categoryId, setCategoryId] = createSignal(categories[0]?.id ?? 0);
+
+    const expenseCategories = categories.filter(
+        (cat) => cat.isIncomeCategory === false
+    );
+    const defaultCategoryId =
+        expenseCategories[0]?.id ?? categories[0]?.id ?? 0;
+
+    const matchingCard = cards.find(
+        (card) => card.categoryId === defaultCategoryId
+    );
+    const defaultCardId = matchingCard?.id ?? cards[0]?.id ?? 0;
+    const [cardId, setCardId] = createSignal(defaultCardId);
+
+    const [categoryId, setCategoryId] = createSignal(defaultCategoryId);
     const [paycheckId, setPaycheckId] = createSignal(paychecks[0]?.id ?? 0);
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");

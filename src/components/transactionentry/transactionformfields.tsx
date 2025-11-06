@@ -72,11 +72,13 @@ export default function TransactionFormFields(
 
     createEffect(() => {
         const selectedCategoryId = categoryId();
-        if (selectedCategoryId) {
+        const currentCardId = cardId();
+
+        if (selectedCategoryId && cards.length > 0) {
             const matchingCard = cards.find(
                 (card) => card.categoryId === selectedCategoryId
             );
-            if (matchingCard) {
+            if (matchingCard && matchingCard.id !== currentCardId) {
                 setCardId(matchingCard.id);
             }
         }
@@ -195,6 +197,7 @@ export default function TransactionFormFields(
                             name: category.name,
                         }))}
                         inputtype="Income Category"
+                        defaultValue={categoryId()}
                     />
                 )
             ) : isMobile ? (
@@ -215,6 +218,7 @@ export default function TransactionFormFields(
                         name: category.name,
                     }))}
                     inputtype="Expense Category"
+                    defaultValue={categoryId()}
                 />
             )}
             {isMobile ? (
@@ -235,6 +239,7 @@ export default function TransactionFormFields(
                         name: card.name,
                     }))}
                     inputtype="Card"
+                    value={cardId}
                 />
             )}
             {isMobile ? (
@@ -255,6 +260,7 @@ export default function TransactionFormFields(
                         name: paycheck.title,
                     }))}
                     inputtype="Paycheck"
+                    defaultValue={paycheckId()}
                 />
             )}
             {isMobile ? (
