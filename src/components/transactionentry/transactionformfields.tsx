@@ -1,5 +1,10 @@
 import type { Card, Category, Paycheck } from "@/types/db";
-import { type Accessor, type Setter, createEffect } from "solid-js";
+import {
+    type Accessor,
+    type Setter,
+    createEffect,
+    createSignal,
+} from "solid-js";
 import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
 import Amount from "../common/amount";
 import CommandEntry from "../common/commandentry";
@@ -70,19 +75,49 @@ export default function TransactionFormFields(
         a.title.localeCompare(b.title)
     );
 
+    const [previousCategoryId, setPreviousCategoryId] = createSignal<
+        number | undefined
+    >(undefined);
+    const [userManuallyChangedCard, setUserManuallyChangedCard] =
+        createSignal(false);
+
     createEffect(() => {
         const selectedCategoryId = categoryId();
+        const prevCategoryId = previousCategoryId();
         const currentCardId = cardId();
 
-        if (selectedCategoryId && cards.length > 0) {
+        if (
+            selectedCategoryId &&
+            cards.length > 0 &&
+            prevCategoryId !== undefined &&
+            selectedCategoryId !== prevCategoryId
+        ) {
             const matchingCard = cards.find(
                 (card) => card.categoryId === selectedCategoryId
             );
-            if (matchingCard && matchingCard.id !== currentCardId) {
+            const currentCard = cards.find((card) => card.id === currentCardId);
+
+            if (
+                matchingCard &&
+                (!userManuallyChangedCard() ||
+                    currentCard?.categoryId !== selectedCategoryId)
+            ) {
                 setCardId(matchingCard.id);
+                setUserManuallyChangedCard(false);
             }
         }
+
+        setPreviousCategoryId(selectedCategoryId);
     });
+
+    const handleCardChange: Setter<number> = (value) => {
+        setUserManuallyChangedCard(true);
+        if (typeof value === "function") {
+            setCardId(value);
+        } else {
+            setCardId(value);
+        }
+    };
 
     return (
         <div class="grid gap-4 w-full">
@@ -220,7 +255,7 @@ export default function TransactionFormFields(
             {isMobile ? (
                 <CommandEntry
                     commandentry={cardId}
-                    setCommandEntry={setCardId}
+                    setCommandEntry={handleCardChange}
                     commands={sortedCards.map((card) => ({
                         id: card.id,
                         name: card.name,
@@ -229,7 +264,7 @@ export default function TransactionFormFields(
                 />
             ) : (
                 <ComboboxEntry
-                    setComboboxEntry={setCardId}
+                    setComboboxEntry={handleCardChange}
                     combos={sortedCards.map((card) => ({
                         id: card.id,
                         name: card.name,
