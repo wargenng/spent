@@ -88,18 +88,29 @@ const formatedTotal =
                 </div>
             </div>
         ) : (
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-6 w-full">
                 <h1 class="m-0 text-5xl font-bold ">
                     No paycheck for this cycle
                 </h1>
-                <PaycheckEntry
-                    userId={userId}
-                    hasCards={cards.length > 0}
-                    buttonText="Add paycheck"
-                    client:load
-                >
-                    <Button>Add paycheck</Button>
-                </PaycheckEntry>
+                <div class="flex gap-4 ">
+                    <TransactionButton
+                        userId={userId}
+                        cards={cards}
+                        categories={categories}
+                        paychecks={paychecks}
+                        client:load
+                    />
+                    <CardEntryButton
+                        userId={userId}
+                        categories={categories}
+                        client:load
+                    />
+                    <PaycheckEntryButton
+                        userId={userId}
+                        hasCards={cards.length > 0}
+                        client:load
+                    />
+                </div>
             </div>
         )
     }
