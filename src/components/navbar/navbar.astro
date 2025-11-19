@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { backHref, backText } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <nav
@@ -37,7 +38,7 @@ const { backHref, backText } = Astro.props;
             </a>
         ) : (
             <span
-                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                class="lg:hidden self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
                 >spent</span
             >
         )}
@@ -45,6 +46,38 @@ const { backHref, backText } = Astro.props;
             class="hidden lg:block self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             >spent</span
         >
+        <nav class="hidden lg:flex items-center gap-6">
+            <a
+                href="/"
+                class={`text-sm font-medium transition-colors ${
+                    currentPath === "/"
+                        ? "text-gray-900 dark:text-white font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                }`}
+            >
+                Home
+            </a>
+            <a
+                href="/paychecks"
+                class={`text-sm font-medium transition-colors ${
+                    currentPath.startsWith("/paychecks")
+                        ? "text-gray-900 dark:text-white font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                }`}
+            >
+                Paychecks
+            </a>
+            <a
+                href="/cards"
+                class={`text-sm font-medium transition-colors ${
+                    currentPath.startsWith("/cards")
+                        ? "text-gray-900 dark:text-white font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                }`}
+            >
+                Cards
+            </a>
+        </nav>
         <UserButton />
     </div>
 </nav>
