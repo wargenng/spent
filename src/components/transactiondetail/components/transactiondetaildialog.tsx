@@ -37,6 +37,7 @@ export default function TransactionDetailDialog({
     );
     const [isOpen, setIsOpen] = createSignal(false);
     const [showUnsavedWarning, setShowUnsavedWarning] = createSignal(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = createSignal(false);
 
     const hasChanges = createMemo(() => {
         return (
@@ -70,6 +71,13 @@ export default function TransactionDetailDialog({
                 recurring: recurring(),
                 updatedDate: new Date().toISOString(),
             }),
+        });
+        window.location.reload();
+    }
+
+    async function handleDelete() {
+        await fetch(`/api/payments/${transaction.id}`, {
+            method: "DELETE",
         });
         window.location.reload();
     }
@@ -129,6 +137,32 @@ export default function TransactionDetailDialog({
                         </div>
                     </div>
                 </Show>
+                <Show when={showDeleteConfirmation()}>
+                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md">
+                            <h3 class="text-lg font-semibold mb-4">
+                                Delete Transaction
+                            </h3>
+                            <p class="mb-4">
+                                Are you sure you want to delete this transaction? This action cannot be undone.
+                            </p>
+                            <div class="flex gap-4 justify-end">
+                                <Button
+                                    variant="outline"
+                                    onclick={() => setShowDeleteConfirmation(false)}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant="destructive"
+                                    onclick={handleDelete}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Show>
                 <div class="p-4 grid gap-4">
                     <TransactionFormFields
                         userId={""}
@@ -155,9 +189,17 @@ export default function TransactionDetailDialog({
                         setRecurring={setRecurring}
                         isMobile={false}
                     />
-                    <Button onclick={handleSave} disabled={!hasChanges()}>
-                        Save Changes
-                    </Button>
+                    <div class="flex gap-4">
+                        <Button onclick={handleSave} disabled={!hasChanges()} class="flex-1">
+                            Save Changes
+                        </Button>
+                        <Button 
+                            variant="destructive" 
+                            onclick={() => setShowDeleteConfirmation(true)}
+                        >
+                            Delete
+                        </Button>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>
