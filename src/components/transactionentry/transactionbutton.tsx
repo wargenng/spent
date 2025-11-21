@@ -18,6 +18,7 @@ interface TransactionButtonProps {
     paychecks: Paycheck[];
     categories: Category[];
     cards: Card[];
+    defaultPaycheckId?: number;
 }
 
 export default function TransactionButton({
@@ -25,6 +26,7 @@ export default function TransactionButton({
     paychecks,
     categories,
     cards,
+    defaultPaycheckId,
 }: TransactionButtonProps) {
     const [open, setOpen] = createSignal(false);
 
@@ -38,6 +40,7 @@ export default function TransactionButton({
                             paychecks={paychecks}
                             categories={categories}
                             cards={cards}
+                            defaultPaycheckId={defaultPaycheckId}
                         >
                             <div class="w-12 h-12 rounded-full bg-green-800 flex items-center justify-center">
                                 <svg
@@ -64,6 +67,7 @@ export default function TransactionButton({
                             paychecks={paychecks}
                             categories={categories}
                             cards={cards}
+                            defaultPaycheckId={defaultPaycheckId}
                         >
                             <div class="w-12 h-12 rounded-full bg-green-800 flex items-center justify-center">
                                 <svg

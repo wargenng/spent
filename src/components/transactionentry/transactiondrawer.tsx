@@ -15,6 +15,7 @@ interface TransactionDrawerProps {
     categories: Category[];
     cards: Card[];
     children: JSX.Element;
+    defaultPaycheckId?: number;
 }
 
 export default function TransactionDrawer({
@@ -23,8 +24,9 @@ export default function TransactionDrawer({
     categories,
     cards,
     children,
+    defaultPaycheckId,
 }: TransactionDrawerProps) {
-    const formState = useTransactionFormState(cards, categories, paychecks);
+    const formState = useTransactionFormState(cards, categories, paychecks, defaultPaycheckId);
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -43,6 +45,7 @@ export default function TransactionDrawer({
                         categories={categories}
                         cards={cards}
                         isMobile={true}
+                        hidePaycheckSelector={defaultPaycheckId !== undefined}
                         {...formState}
                     />
                     <form>

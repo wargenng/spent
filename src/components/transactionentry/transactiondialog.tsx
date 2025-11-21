@@ -18,6 +18,7 @@ interface TransactionDialogProps {
     categories: Category[];
     cards: Card[];
     children: JSX.Element;
+    defaultPaycheckId?: number;
 }
 
 export default function TransactionDialog({
@@ -26,8 +27,9 @@ export default function TransactionDialog({
     categories,
     cards,
     children,
+    defaultPaycheckId,
 }: TransactionDialogProps) {
-    const formState = useTransactionFormState(cards, categories, paychecks);
+    const formState = useTransactionFormState(cards, categories, paychecks, defaultPaycheckId);
 
     async function handleSubmit(e: Event) {
         e.preventDefault();
@@ -46,6 +48,7 @@ export default function TransactionDialog({
                         categories={categories}
                         cards={cards}
                         isMobile={false}
+                        hidePaycheckSelector={defaultPaycheckId !== undefined}
                         {...formState}
                     />
                     <form>

@@ -36,6 +36,7 @@ interface TransactionFormFieldsProps {
     recurring: Accessor<boolean>;
     setRecurring: Setter<boolean>;
     isMobile?: boolean;
+    hidePaycheckSelector?: boolean;
 }
 
 export default function TransactionFormFields(
@@ -63,6 +64,7 @@ export default function TransactionFormFields(
         setIsIncome,
         setRecurring,
         isMobile = false,
+        hidePaycheckSelector = false,
     } = props;
     const incomeCategories = categories
         .filter((cat) => cat.isIncomeCategory === true)
@@ -273,27 +275,28 @@ export default function TransactionFormFields(
                     value={cardId}
                 />
             )}
-            {isMobile ? (
-                <CommandEntry
-                    commandentry={paycheckId}
-                    setCommandEntry={setPaycheckId}
-                    commands={sortedPaychecks.map((paycheck) => ({
-                        id: paycheck.id,
-                        name: paycheck.title,
-                    }))}
-                    inputtype="Paycheck"
-                />
-            ) : (
-                <ComboboxEntry
-                    setComboboxEntry={setPaycheckId}
-                    combos={sortedPaychecks.map((paycheck) => ({
-                        id: paycheck.id,
-                        name: paycheck.title,
-                    }))}
-                    inputtype="Paycheck"
-                    defaultValue={paycheckId()}
-                />
-            )}
+            {!hidePaycheckSelector &&
+                (isMobile ? (
+                    <CommandEntry
+                        commandentry={paycheckId}
+                        setCommandEntry={setPaycheckId}
+                        commands={sortedPaychecks.map((paycheck) => ({
+                            id: paycheck.id,
+                            name: paycheck.title,
+                        }))}
+                        inputtype="Paycheck"
+                    />
+                ) : (
+                    <ComboboxEntry
+                        setComboboxEntry={setPaycheckId}
+                        combos={sortedPaychecks.map((paycheck) => ({
+                            id: paycheck.id,
+                            name: paycheck.title,
+                        }))}
+                        inputtype="Paycheck"
+                        defaultValue={paycheckId()}
+                    />
+                ))}
             {isMobile ? (
                 <InputField
                     inputfield={notes}

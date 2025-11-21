@@ -25,7 +25,8 @@ export interface TransactionFormState {
 export function useTransactionFormState(
     cards: Card[],
     categories: Category[],
-    paychecks: Paycheck[]
+    paychecks: Paycheck[],
+    defaultPaycheckId?: number
 ): TransactionFormState {
     const [amount, setAmount] = createSignal(0);
     const [date, setDate] = createSignal(new Date());
@@ -43,7 +44,8 @@ export function useTransactionFormState(
     const [cardId, setCardId] = createSignal(defaultCardId);
 
     const [categoryId, setCategoryId] = createSignal(defaultCategoryId);
-    const [paycheckId, setPaycheckId] = createSignal(paychecks[0]?.id ?? 0);
+    const initialPaycheckId = defaultPaycheckId ?? paychecks[0]?.id ?? 0;
+    const [paycheckId, setPaycheckId] = createSignal(initialPaycheckId);
     const [title, setTitle] = createSignal("");
     const [notes, setNotes] = createSignal("");
     const [isIncome, setIsIncome] = createSignal(false);
