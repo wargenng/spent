@@ -130,39 +130,32 @@ export default function TransactionFormFields(
                 >
                     Amount
                 </label>
-                <div class="flex items-center gap-2">
-                    $
-                    {isMobile ? (
-                        <Amount amount={amount} setAmount={setAmount} />
-                    ) : (
-                        <input
-                            type="number"
-                            inputMode="decimal"
-                            value={amount()}
-                            onChange={(e) => {
-                                setAmount(Number(e.currentTarget.value));
-                            }}
-                            class="text-base rounded-lg w-full p-2.5 border border-gray-300"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    )}
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 flex-1">
+                        $
+                        {isMobile ? (
+                            <Amount amount={amount} setAmount={setAmount} />
+                        ) : (
+                            <input
+                                type="number"
+                                inputMode="decimal"
+                                value={amount()}
+                                onChange={(e) => {
+                                    setAmount(Number(e.currentTarget.value));
+                                }}
+                                class="text-base rounded-lg w-full p-2.5 border border-gray-300"
+                                onFocus={(e) => e.target.select()}
+                            />
+                        )}
+                    </div>
+                    <Checkbox
+                        class="flex items-center space-x-2"
+                        onChange={(checked: boolean) => setIsIncome(checked)}
+                    >
+                        <CheckboxControl />
+                        <span class="text-sm font-medium">Income</span>
+                    </Checkbox>
                 </div>
-            </div>
-            <div class="flex gap-4">
-                <Checkbox
-                    class="flex items-center space-x-2"
-                    onChange={(checked: boolean) => setIsIncome(checked)}
-                >
-                    <CheckboxControl />
-                    <span class="text-sm font-medium">Income</span>
-                </Checkbox>
-                <Checkbox
-                    class="flex items-center space-x-2"
-                    onChange={(checked: boolean) => setRecurring(checked)}
-                >
-                    <CheckboxControl />
-                    <span class="text-sm font-medium">Recurring</span>
-                </Checkbox>
             </div>
             {isMobile ? (
                 <InputField

@@ -58,7 +58,9 @@ type TransactionWithDetails = Transaction & { card: Card; category: Category };
 const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
     .map((transaction) => {
         const card = cards.find((c) => c.id === transaction.cardId);
-        const category = categories.find((cat) => cat.id === transaction.categoryId);
+        const category = categories.find(
+            (cat) => cat.id === transaction.categoryId
+        );
         if (!card || !category) {
             return null;
         }
@@ -68,7 +70,9 @@ const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
             category,
         };
     })
-    .filter((transaction): transaction is TransactionWithDetails => Boolean(transaction));
+    .filter((transaction): transaction is TransactionWithDetails =>
+        Boolean(transaction)
+    );
 ---
 
 <Layout title={paycheck.title} backHref="/paychecks" backText="Paychecks">
@@ -144,7 +148,8 @@ const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
                             {transactionsWithDetails.map(
                                 (transactionWithDetails, index) => {
                                     const isLast =
-                                        index === transactionsWithDetails.length - 1;
+                                        index ===
+                                        transactionsWithDetails.length - 1;
                                     return (
                                         <div
                                             class={
@@ -155,8 +160,12 @@ const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
                                         >
                                             <TransactionCard
                                                 payment={transactionWithDetails}
-                                                card={transactionWithDetails.card}
-                                                category={transactionWithDetails.category}
+                                                card={
+                                                    transactionWithDetails.card
+                                                }
+                                                category={
+                                                    transactionWithDetails.category
+                                                }
                                                 cards={cards}
                                                 categories={categories}
                                                 paychecks={paychecks}
