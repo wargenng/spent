@@ -14,7 +14,10 @@ interface TransactionDetailDialogProps {
     cards: Card[];
     categories: Category[];
     paychecks: Paycheck[];
-    children: any;
+    children?: any;
+    triggerClass?: string;
+    open?: () => boolean;
+    onOpenChange?: (open: boolean) => void;
 }
 
 export default function TransactionDetailDialog({
@@ -23,6 +26,9 @@ export default function TransactionDetailDialog({
     categories,
     paychecks,
     children,
+    triggerClass = "w-full block min-w-0",
+    open: externalOpen,
+    onOpenChange: externalOnOpenChange,
 }: TransactionDetailDialogProps) {
     const [title, setTitle] = createSignal(transaction.title);
     const [amount, setAmount] = createSignal(Math.abs(transaction.amount));
@@ -35,7 +41,9 @@ export default function TransactionDetailDialog({
     const [recurring, setRecurring] = createSignal(
         (transaction as any).recurring || false
     );
-    const [isOpen, setIsOpen] = createSignal(false);
+    const [internalOpen, setInternalOpen] = createSignal(false);
+    const isOpen = externalOpen || (() => internalOpen());
+    const setIsOpen = externalOnOpenChange || setInternalOpen;
     const [showUnsavedWarning, setShowUnsavedWarning] = createSignal(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = createSignal(false);
 
@@ -96,18 +104,24 @@ export default function TransactionDetailDialog({
         setIsOpen(false);
     }
 
+    const handleOpenChange = (open: boolean) => {
+        if (!open && hasChanges()) {
+            setShowUnsavedWarning(true);
+        } else {
+            setIsOpen(open);
+        }
+    };
+
     return (
         <Dialog
             open={isOpen()}
-            onOpenChange={(open) => {
-                if (!open && hasChanges()) {
-                    setShowUnsavedWarning(true);
-                } else {
-                    setIsOpen(open);
-                }
-            }}
+            onOpenChange={handleOpenChange}
         >
-            <DialogTrigger class="w-full block min-w-0">{children}</DialogTrigger>
+            {externalOpen ? (
+                children
+            ) : (
+                <DialogTrigger class={triggerClass}>{children}</DialogTrigger>
+            )}
             <DialogContent>
                 <DialogHeader>Edit Transaction</DialogHeader>
                 <Show when={showUnsavedWarning()}>

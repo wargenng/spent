@@ -2,8 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import { Categories, db, eq, Transactions } from "astro:db";
 import { Cards, Paychecks } from "astro:db";
-import type { Transaction } from "@/types/db";
+import type { Card, Category, Transaction } from "@/types/db";
 import TransactionCard from "@/components/transactioncard";
+import TransactionTable from "@/components/transactiontable/transactiontable";
 import TotalVisibilityToggle from "@/components/totalvisibilitytoggle";
 import TransactionButton from "@/components/transactionentry/transactionbutton";
 import { getUserPaychecks } from "@/service/queries";
@@ -51,6 +52,23 @@ const formatedTotal =
 const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
+
+type TransactionWithDetails = Transaction & { card: Card; category: Category };
+
+const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
+    .map((transaction) => {
+        const card = cards.find((c) => c.id === transaction.cardId);
+        const category = categories.find((cat) => cat.id === transaction.categoryId);
+        if (!card || !category) {
+            return null;
+        }
+        return {
+            ...transaction,
+            card,
+            category,
+        };
+    })
+    .filter((transaction): transaction is TransactionWithDetails => Boolean(transaction));
 ---
 
 <Layout title={paycheck.title} backHref="/paychecks" backText="Paychecks">
@@ -112,21 +130,20 @@ const sortedTransactions = [...transactions].sort(
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-left">
                             Transactions
                         </h2>
-                        <div class="flex flex-col gap-0 w-full">
-                            {sortedTransactions.map(
-                                (transaction: Transaction, index: number) => {
-                                    const card = cards.find(
-                                        (c) => c.id === transaction.cardId
-                                    );
-                                    const category = categories.find(
-                                        (cat) =>
-                                            cat.id === transaction.categoryId
-                                    );
-                                    if (!card || !category) {
-                                        return null;
-                                    }
+                        <div class="hidden w-full lg:block">
+                            <TransactionTable
+                                transactions={transactionsWithDetails}
+                                categories={categories}
+                                cards={cards}
+                                paychecks={paychecks}
+                                client:load
+                            />
+                        </div>
+                        <div class="flex flex-col gap-0 w-full lg:hidden">
+                            {transactionsWithDetails.map(
+                                (transactionWithDetails, index) => {
                                     const isLast =
-                                        index === sortedTransactions.length - 1;
+                                        index === transactionsWithDetails.length - 1;
                                     return (
                                         <div
                                             class={
@@ -136,9 +153,9 @@ const sortedTransactions = [...transactions].sort(
                                             }
                                         >
                                             <TransactionCard
-                                                payment={transaction}
-                                                card={card}
-                                                category={category}
+                                                payment={transactionWithDetails}
+                                                card={transactionWithDetails.card}
+                                                category={transactionWithDetails.category}
                                                 cards={cards}
                                                 categories={categories}
                                                 paychecks={paychecks}
