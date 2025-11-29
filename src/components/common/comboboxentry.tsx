@@ -5,7 +5,7 @@ import {
     ComboboxItem,
     ComboboxTrigger,
 } from "@/components/ui/combobox";
-import { type Accessor, type Setter } from "solid-js";
+import { type Accessor, type Setter, Show } from "solid-js";
 import { createMemo } from "solid-js";
 
 interface ComboboxEntryProps {
@@ -56,9 +56,11 @@ export const ComboboxEntry = ({
             modal={false}
             preventScroll={false}
         >
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                {inputtype}
-            </label>
+            <Show when={inputtype}>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {inputtype}
+                </label>
+            </Show>
             <ComboboxTrigger>
                 <ComboboxInput />
             </ComboboxTrigger>
