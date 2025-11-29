@@ -1,13 +1,15 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, onMount, Show, type Accessor } from "solid-js";
 import { Button } from "./ui/button";
 
 interface TotalVisibilityToggleProps {
-    formatedTotal: string;
+    formatedTotal: string | Accessor<string>;
 }
 
 export default function TotalVisibilityToggle({
     formatedTotal,
 }: TotalVisibilityToggleProps) {
+    const getFormattedTotal = () =>
+        typeof formatedTotal === "function" ? formatedTotal() : formatedTotal;
     const [isVisible, setIsVisible] = createSignal(false);
 
     onMount(() => {
@@ -26,7 +28,7 @@ export default function TotalVisibilityToggle({
     return (
         <div class="flex items-center justify-between w-full">
             <Show when={isVisible()}>
-                <h1 class="m-0 text-5xl font-bold">{formatedTotal}</h1>
+                <h1 class="m-0 text-5xl font-bold">{getFormattedTotal()}</h1>
             </Show>
             <Show when={!isVisible()}>
                 <h1 class="m-0 text-5xl font-bold">••••••</h1>

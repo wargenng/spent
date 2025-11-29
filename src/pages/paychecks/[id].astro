@@ -4,8 +4,7 @@ import { Categories, db, eq, Transactions } from "astro:db";
 import { Cards, Paychecks } from "astro:db";
 import type { Card, Category, Transaction } from "@/types/db";
 import TransactionCard from "@/components/transactioncard";
-import TransactionTable from "@/components/transactiontable/transactiontable";
-import TotalVisibilityToggle from "@/components/totalvisibilitytoggle";
+import PaycheckDetailWrapper from "@/components/transactiontable/paycheckdetailwrapper";
 import TransactionButton from "@/components/transactionentry/transactionbutton";
 import { getUserPaychecks } from "@/service/queries";
 
@@ -122,30 +121,18 @@ const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
                 </div>
             </div>
 
-            <div class="flex justify-between items-center w-full">
-                <TotalVisibilityToggle
-                    formatedTotal={formatedTotal}
-                    client:load
-                />
-            </div>
-
             {
                 sortedTransactions.length > 0 ? (
-                    <div class="flex flex-col gap-4 w-full mt-8">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-left">
-                            Transactions
-                        </h2>
-                        <div class="hidden w-full lg:block">
-                            <TransactionTable
-                                transactions={transactionsWithDetails}
-                                categories={categories}
-                                cards={cards}
-                                paychecks={paychecks}
-                                userId={userId}
-                                defaultPaycheckId={paycheckId}
-                                client:load
-                            />
-                        </div>
+                    <>
+                        <PaycheckDetailWrapper
+                            initialTransactions={transactionsWithDetails}
+                            categories={categories}
+                            cards={cards}
+                            paychecks={paychecks}
+                            userId={userId}
+                            defaultPaycheckId={paycheckId}
+                            client:load
+                        />
                         <div class="flex flex-col gap-0 w-full lg:hidden">
                             {transactionsWithDetails.map(
                                 (transactionWithDetails, index) => {
@@ -178,7 +165,7 @@ const transactionsWithDetails: TransactionWithDetails[] = sortedTransactions
                                 }
                             )}
                         </div>
-                    </div>
+                    </>
                 ) : (
                     <div class="flex flex-col gap-4 w-full items-center py-12">
                         <p class="text-gray-500 dark:text-gray-400 text-lg">

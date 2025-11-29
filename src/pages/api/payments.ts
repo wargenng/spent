@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { db, Transactions } from "astro:db";
+import { db, Transactions, eq } from "astro:db";
+import { Categories, Cards } from "astro:db";
 
 export const POST: APIRoute = async (ctx) => {
     console.log("POST");
@@ -8,17 +9,37 @@ export const POST: APIRoute = async (ctx) => {
         const body = await ctx.request.json();
 
         console.log(body);
-        await db.insert(Transactions).values({
-            ...body,
-            date: new Date(body.date),
-        });
+        const [inserted] = await db
+            .insert(Transactions)
+            .values({
+                ...body,
+                date: new Date(body.date),
+            })
+            .returning();
+
+        // Fetch the related card and category to return complete transaction
+        const [card] = await db
+            .select()
+            .from(Cards)
+            .where(eq(Cards.id, inserted.cardId))
+            .limit(1);
+        const [category] = await db
+            .select()
+            .from(Categories)
+            .where(eq(Categories.id, inserted.categoryId))
+            .limit(1);
 
         return new Response(
             JSON.stringify({
-                message: "upload successful",
+                transaction: inserted,
+                card,
+                category,
             }),
             {
                 status: 200,
+                headers: {
+                    "Content-Type": "application/json",
+                },
             }
         );
     }

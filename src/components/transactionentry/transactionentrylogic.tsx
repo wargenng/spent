@@ -75,9 +75,10 @@ export function useTransactionFormState(
 
 export async function submitTransaction(
     userId: string,
-    state: TransactionFormState
-): Promise<void> {
-    await fetch("/api/payments", {
+    state: TransactionFormState,
+    skipReload?: boolean
+): Promise<{ transaction: any; card: any; category: any } | null> {
+    const response = await fetch("/api/payments", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -95,5 +96,17 @@ export async function submitTransaction(
             recurring: state.recurring(),
         }),
     });
+
+    if (!response.ok) {
+        return null;
+    }
+
+    const data = await response.json();
+
+    if (skipReload) {
+        return data;
+    }
+
     window.location.reload();
+    return null;
 }

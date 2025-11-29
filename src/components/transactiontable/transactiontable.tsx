@@ -5,7 +5,7 @@ import {
     getCoreRowModel,
     getSortedRowModel,
 } from "@tanstack/solid-table";
-import { For, Show, createMemo, createSignal } from "solid-js";
+import { For, Show, createMemo, createSignal, type Accessor } from "solid-js";
 import type { Card, Category, Paycheck } from "@/types/db";
 import { Badge } from "../ui/badge";
 import TransactionDetailDialog from "../transactiondetail/components/transactiondetaildialog";
@@ -29,16 +29,21 @@ import { useTableFilters } from "./usetablefilters";
 import TableHeaderButton from "./tableheaderbutton";
 
 interface TransactionTableProps {
-    transactions: TransactionWithDetails[];
+    transactions: TransactionWithDetails[] | Accessor<TransactionWithDetails[]>;
     categories: Category[];
     cards: Card[];
     paychecks: Paycheck[];
     userId: string;
     defaultPaycheckId?: number;
+    onTransactionAdded?: (transaction: TransactionWithDetails) => void;
 }
 
 export default function TransactionTable(props: TransactionTableProps) {
-    const data = createMemo(() => props.transactions);
+    const data = createMemo(() =>
+        typeof props.transactions === "function"
+            ? props.transactions()
+            : props.transactions
+    );
     const [sorting, setSorting] = createSignal<SortingState>([]);
     const [selectedTransaction, setSelectedTransaction] =
         createSignal<TransactionWithDetails | null>(null);
@@ -111,7 +116,22 @@ export default function TransactionTable(props: TransactionTableProps) {
         if (!formState.title() || formState.amount() === 0) {
             return;
         }
-        await submitTransaction(props.userId, formState);
+        const result = await submitTransaction(
+            props.userId,
+            formState,
+            !!props.onTransactionAdded
+        );
+
+        if (result && props.onTransactionAdded) {
+            // Create TransactionWithDetails from the API response
+            const newTransaction: TransactionWithDetails = {
+                ...result.transaction,
+                card: result.card,
+                category: result.category,
+            };
+            props.onTransactionAdded(newTransaction);
+        }
+
         setIsAddingNew(false);
         // Reset form
         formState.setTitle("");
