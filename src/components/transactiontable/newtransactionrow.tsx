@@ -46,51 +46,8 @@ export default function NewTransactionRow(props: NewTransactionRowProps) {
 
     return (
         <TableRow class="bg-muted/30">
-            <TableCell class="w-[100px]">
-                <div class="flex gap-1">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        class="h-7 w-7 p-0"
-                        onClick={props.onSave}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M20 6L9 17l-5-5" />
-                        </svg>
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        class="h-7 w-7 p-0"
-                        onClick={props.onCancel}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M18 6L6 18" />
-                            <path d="M6 6l12 12" />
-                        </svg>
-                    </Button>
-                </div>
-            </TableCell>
+            <TableCell class="w-[40px]"> </TableCell>
+
             <TableCell class="w-[100px]">
                 <input
                     type="date"
@@ -170,6 +127,51 @@ export default function NewTransactionRow(props: NewTransactionRowProps) {
                     inputtype=""
                     value={props.formState.cardId}
                 />
+            </TableCell>
+            <TableCell class="w-[100px]">
+                <div class="flex gap-1">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        class="h-7 w-7 p-0"
+                        onClick={props.onSave}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M20 6L9 17l-5-5" />
+                        </svg>
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        class="h-7 w-7 p-0"
+                        onClick={props.onCancel}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M18 6L6 18" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </Button>
+                </div>
             </TableCell>
         </TableRow>
     );
