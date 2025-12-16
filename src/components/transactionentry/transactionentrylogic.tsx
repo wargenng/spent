@@ -22,6 +22,20 @@ export interface TransactionFormState {
     setRecurring: Setter<boolean>;
 }
 
+function getLastUsedDate(): Date {
+    if (typeof window === "undefined") {
+        return new Date();
+    }
+    const lastDate = localStorage.getItem("lastTransactionDate");
+    if (lastDate) {
+        const parsedDate = new Date(lastDate);
+        if (!isNaN(parsedDate.getTime())) {
+            return parsedDate;
+        }
+    }
+    return new Date();
+}
+
 export function useTransactionFormState(
     cards: Card[],
     categories: Category[],
@@ -29,7 +43,7 @@ export function useTransactionFormState(
     defaultPaycheckId?: number
 ): TransactionFormState {
     const [amount, setAmount] = createSignal(0);
-    const [date, setDate] = createSignal(new Date());
+    const [date, setDate] = createSignal(getLastUsedDate());
 
     const expenseCategories = categories.filter(
         (cat) => cat.isIncomeCategory === false
@@ -102,6 +116,14 @@ export async function submitTransaction(
     }
 
     const data = await response.json();
+
+    // Save the date to localStorage for next time
+    if (typeof window !== "undefined") {
+        localStorage.setItem(
+            "lastTransactionDate",
+            state.date().toISOString()
+        );
+    }
 
     if (skipReload) {
         return data;

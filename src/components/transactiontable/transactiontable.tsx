@@ -136,17 +136,24 @@ export default function TransactionTable(props: TransactionTableProps) {
         // Reset form
         formState.setTitle("");
         formState.setAmount(0);
-        formState.setDate(new Date());
+        // Reload date from localStorage (it was just saved by submitTransaction)
+        const lastDate = localStorage.getItem("lastTransactionDate");
+        if (lastDate) {
+            const parsedDate = new Date(lastDate);
+            if (!isNaN(parsedDate.getTime())) {
+                formState.setDate(parsedDate);
+            }
+        }
         formState.setNotes("");
         formState.setIsIncome(false);
     };
 
     const handleCancelNewTransaction = () => {
         setIsAddingNew(false);
-        // Reset form
+        // Reset form but keep the date
         formState.setTitle("");
         formState.setAmount(0);
-        formState.setDate(new Date());
+        // Date stays as is (will use last used date on next open)
         formState.setNotes("");
         formState.setIsIncome(false);
         // Reset category to default
