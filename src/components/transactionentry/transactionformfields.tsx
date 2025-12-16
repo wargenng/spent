@@ -62,7 +62,6 @@ export default function TransactionFormFields(
         setNotes,
         isIncome,
         setIsIncome,
-        setRecurring,
         isMobile = false,
         hidePaycheckSelector = false,
     } = props;

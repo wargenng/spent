@@ -119,10 +119,7 @@ export async function submitTransaction(
 
     // Save the date to localStorage for next time
     if (typeof window !== "undefined") {
-        localStorage.setItem(
-            "lastTransactionDate",
-            state.date().toISOString()
-        );
+        localStorage.setItem("lastTransactionDate", state.date().toISOString());
     }
 
     if (skipReload) {

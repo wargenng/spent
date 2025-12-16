@@ -51,6 +51,15 @@ export default function PaycheckDetailWrapper(
         });
     };
 
+    const handleTransactionsDeleted = (ids: number[]) => {
+        setTransactions((prev) => prev.filter((t) => !ids.includes(t.id)));
+    };
+
+    const handleTransactionsMoved = (ids: number[]) => {
+        // Moving transactions removes them from the current paycheck view
+        setTransactions((prev) => prev.filter((t) => !ids.includes(t.id)));
+    };
+
     return (
         <>
             <div class="flex justify-between items-center w-full">
@@ -69,6 +78,8 @@ export default function PaycheckDetailWrapper(
                         userId={props.userId}
                         defaultPaycheckId={props.defaultPaycheckId}
                         onTransactionAdded={handleTransactionAdded}
+                        onTransactionsDeleted={handleTransactionsDeleted}
+                        onTransactionsMoved={handleTransactionsMoved}
                     />
                 </div>
             </div>

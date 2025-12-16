@@ -37,17 +37,6 @@ const categories = await db.select().from(Categories).all();
 const cards = await db.select().from(Cards).where(eq(Cards.userId, userId));
 const paychecks = await getUserPaychecks(userId);
 
-const total = transactions.reduce(
-    (sum, transaction) => sum + transaction.amount,
-    0
-);
-const formatedTotal =
-    (total < 0 ? "" : "+") +
-    total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-    });
-
 const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );

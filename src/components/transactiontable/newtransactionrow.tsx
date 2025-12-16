@@ -1,5 +1,5 @@
-import { For, Show, createEffect, createMemo } from "solid-js";
-import type { Card, Category, Paycheck } from "@/types/db";
+import { createEffect, createMemo } from "solid-js";
+import type { Card, Category } from "@/types/db";
 import { Button } from "../ui/button";
 import { TableCell, TableRow } from "../ui/table";
 import { ComboboxEntry } from "../common/comboboxentry";
@@ -39,10 +39,7 @@ export default function NewTransactionRow(props: NewTransactionRowProps) {
         );
 
         // If current category doesn't match income type, reset to first of appropriate type
-        if (
-            currentCategory &&
-            currentCategory.isIncomeCategory !== isIncome
-        ) {
+        if (currentCategory && currentCategory.isIncomeCategory !== isIncome) {
             props.formState.setCategoryId(categories[0]?.id ?? 0);
         }
     });
@@ -177,6 +174,3 @@ export default function NewTransactionRow(props: NewTransactionRowProps) {
         </TableRow>
     );
 }
-
-
-

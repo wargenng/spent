@@ -8,6 +8,7 @@ import {
 import { For, Show, createMemo, createSignal, type Accessor } from "solid-js";
 import type { Card, Category, Paycheck } from "@/types/db";
 import { Badge } from "../ui/badge";
+import { Checkbox, CheckboxControl } from "../ui/checkbox";
 import TransactionDetailDialog from "../transactiondetail/components/transactiondetaildialog";
 import {
     Table,
@@ -27,6 +28,7 @@ import NewTransactionRow from "./newtransactionrow";
 import TableSearchBar from "./tablesearchbar";
 import { useTableFilters } from "./usetablefilters";
 import TableHeaderButton from "./tableheaderbutton";
+import BulkActionsToolbar from "./bulkactionstoolbar";
 
 interface TransactionTableProps {
     transactions: TransactionWithDetails[] | Accessor<TransactionWithDetails[]>;
@@ -36,6 +38,8 @@ interface TransactionTableProps {
     userId: string;
     defaultPaycheckId?: number;
     onTransactionAdded?: (transaction: TransactionWithDetails) => void;
+    onTransactionsDeleted?: (ids: number[]) => void;
+    onTransactionsMoved?: (ids: number[]) => void;
 }
 
 export default function TransactionTable(props: TransactionTableProps) {
@@ -49,6 +53,38 @@ export default function TransactionTable(props: TransactionTableProps) {
         createSignal<TransactionWithDetails | null>(null);
     const [isDialogOpen, setIsDialogOpen] = createSignal(false);
     const [isAddingNew, setIsAddingNew] = createSignal(false);
+    const [selectedIds, setSelectedIds] = createSignal<Set<number>>(new Set());
+
+    // Selection helpers
+    const isSelected = (id: number) => selectedIds().has(id);
+    const toggleSelection = (id: number, e: Event) => {
+        e.stopPropagation();
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
+    };
+    const selectAll = () => {
+        const allIds = filteredData().map((t) => t.id);
+        setSelectedIds(new Set(allIds));
+    };
+    const clearSelection = () => {
+        setSelectedIds(new Set<number>());
+    };
+    const isAllSelected = () => {
+        const filtered = filteredData();
+        return filtered.length > 0 && selectedIds().size === filtered.length;
+    };
+    const isSomeSelected = () => {
+        return (
+            selectedIds().size > 0 && selectedIds().size < filteredData().length
+        );
+    };
 
     // Form state for new transaction
     const formState = useTransactionFormState(
@@ -173,6 +209,65 @@ export default function TransactionTable(props: TransactionTableProps) {
         }
     };
 
+    // Get target paycheck start date for date adjustment
+    const getPaycheckStartDate = (paycheckId: number) => {
+        const paycheck = props.paychecks.find((p) => p.id === paycheckId);
+        return paycheck?.startDate;
+    };
+
+    // Bulk action handlers
+    const handleBulkDelete = async () => {
+        const ids = Array.from(selectedIds());
+        const response = await fetch("/api/payments/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "delete",
+                transactionIds: ids,
+            }),
+        });
+        if (response.ok) {
+            props.onTransactionsDeleted?.(ids);
+            clearSelection();
+        }
+    };
+
+    const handleBulkMove = async (targetPaycheckId: number) => {
+        const ids = Array.from(selectedIds());
+        const response = await fetch("/api/payments/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "move",
+                transactionIds: ids,
+                targetPaycheckId,
+            }),
+        });
+        if (response.ok) {
+            props.onTransactionsMoved?.(ids);
+            clearSelection();
+        }
+    };
+
+    const handleBulkCopy = async (targetPaycheckId: number) => {
+        const ids = Array.from(selectedIds());
+        const targetStartDate = getPaycheckStartDate(targetPaycheckId);
+        const response = await fetch("/api/payments/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "copy",
+                transactionIds: ids,
+                targetPaycheckId,
+                targetPaycheckStartDate: targetStartDate,
+            }),
+        });
+        if (response.ok) {
+            // Copied transactions go to another paycheck, so just clear selection
+            clearSelection();
+        }
+    };
+
     return (
         <div class="w-full space-y-3">
             <TableSearchBar
@@ -181,16 +276,36 @@ export default function TransactionTable(props: TransactionTableProps) {
                 hasActiveFilters={hasActiveFilters()}
                 onClearFilters={clearAllFilters}
             />
+            <BulkActionsToolbar
+                selectedCount={selectedIds().size}
+                paychecks={props.paychecks}
+                currentPaycheckId={props.defaultPaycheckId}
+                onDelete={handleBulkDelete}
+                onMove={handleBulkMove}
+                onCopy={handleBulkCopy}
+                onClearSelection={clearSelection}
+            />
             <div class="rounded-md border">
                 <Table>
                     <TableHeader>
                         <For each={table.getHeaderGroups()}>
                             {(headerGroup) => (
                                 <TableRow>
-                                    <TableHeaderButton
-                                        isAddingNew={isAddingNew()}
-                                        onToggle={handleToggleAddNew}
-                                    />
+                                    <TableHead class="w-[40px]">
+                                        <Checkbox
+                                            checked={isAllSelected()}
+                                            indeterminate={isSomeSelected()}
+                                            onChange={(checked: boolean) => {
+                                                if (checked) {
+                                                    selectAll();
+                                                } else {
+                                                    clearSelection();
+                                                }
+                                            }}
+                                        >
+                                            <CheckboxControl />
+                                        </Checkbox>
+                                    </TableHead>
                                     <For each={headerGroup.headers}>
                                         {(header) => (
                                             <TableHead>
@@ -204,6 +319,10 @@ export default function TransactionTable(props: TransactionTableProps) {
                                             </TableHead>
                                         )}
                                     </For>
+                                    <TableHeaderButton
+                                        isAddingNew={isAddingNew()}
+                                        onToggle={handleToggleAddNew}
+                                    />
                                 </TableRow>
                             )}
                         </For>
@@ -224,7 +343,7 @@ export default function TransactionTable(props: TransactionTableProps) {
                                 <TableRow>
                                     <TableCell
                                         colSpan={
-                                            table.getAllColumns().length + 1
+                                            table.getAllColumns().length + 2
                                         }
                                         class="h-24 text-center"
                                     >
@@ -236,7 +355,11 @@ export default function TransactionTable(props: TransactionTableProps) {
                             <For each={table.getRowModel().rows}>
                                 {(row) => (
                                     <TableRow
-                                        class="cursor-pointer hover:bg-muted/50"
+                                        class={`cursor-pointer hover:bg-muted/50 ${
+                                            isSelected(row.original.id)
+                                                ? "bg-muted/30"
+                                                : ""
+                                        }`}
                                         onClick={() => {
                                             setSelectedTransaction(
                                                 row.original
@@ -244,8 +367,21 @@ export default function TransactionTable(props: TransactionTableProps) {
                                             setIsDialogOpen(true);
                                         }}
                                     >
-                                        <TableCell class="w-[50px]">
-                                            {" "}
+                                        <TableCell class="w-[40px]">
+                                            <Checkbox
+                                                checked={isSelected(
+                                                    row.original.id
+                                                )}
+                                                onChange={() => {}}
+                                                onClick={(e: Event) =>
+                                                    toggleSelection(
+                                                        row.original.id,
+                                                        e
+                                                    )
+                                                }
+                                            >
+                                                <CheckboxControl />
+                                            </Checkbox>
                                         </TableCell>
                                         <For each={row.getVisibleCells()}>
                                             {(cell) => (
@@ -258,6 +394,9 @@ export default function TransactionTable(props: TransactionTableProps) {
                                                 </TableCell>
                                             )}
                                         </For>
+                                        <TableCell class="w-[100px]">
+                                            {" "}
+                                        </TableCell>
                                     </TableRow>
                                 )}
                             </For>
